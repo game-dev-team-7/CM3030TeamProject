@@ -25745,6 +25745,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7576516869966983543}
+  - component: {fileID: 2067677396811945391}
   m_Layer: 0
   m_Name: buffT-Shirt
   m_TagString: Untagged
@@ -25773,6 +25774,20 @@ Transform:
   - {fileID: 9072936290880558287}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2067677396811945391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  minimapIcon: {fileID: 21300000, guid: 6096a23198ffc3e438f602a1a4f27626, type: 3}
 --- !u!1 &7347699005730406099
 GameObject:
   m_ObjectHideFlags: 0

@@ -367,6 +367,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: offRoadPatch02
       objectReference: {fileID: 0}
+    - target: {fileID: 6036696781997429920, guid: 3e1770115730ace44be02b40fcc13d5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7615132137659350060, guid: 3e1770115730ace44be02b40fcc13d5b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -915,6 +920,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: offRoadPatch01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036696781997429920, guid: 3e1770115730ace44be02b40fcc13d5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1490,6 +1500,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: offRoadPatch04
       objectReference: {fileID: 0}
+    - target: {fileID: 6036696781997429920, guid: 3e1770115730ace44be02b40fcc13d5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1885,6 +1900,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: offRoadPatch03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036696781997429920, guid: 3e1770115730ace44be02b40fcc13d5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
