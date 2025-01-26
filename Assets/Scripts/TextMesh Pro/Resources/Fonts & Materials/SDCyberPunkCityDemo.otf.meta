@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 9fc5be2c7af594fe088488cb915fb9a8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - SDCyberPunkCityDemo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 193259f3e66f14c7fb3ae7afdafd4e52, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 0
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
