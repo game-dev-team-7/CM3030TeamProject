@@ -11,4 +11,5 @@ public class MinimapIcon : MonoBehaviour
 
     // Reference to the RectTransform specifically for the icon itself (useful for scaling/rotation)
     public RectTransform IconRectTransform;
+
 }

@@ -32009,8 +32009,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrierPrefab: {fileID: 2746882837168224318, guid: 4cdc0466463773141809d78cb115bc10,
     type: 3}
-  spawnInterval: 10
-  numberOfRoadblocks: 20
+  spawnInterval: 5
+  numberOfRoadblocks: 15
 --- !u!4 &1581617974
 Transform:
   m_ObjectHideFlags: 0
@@ -36054,7 +36054,7 @@ MonoBehaviour:
   contentRectTransform: {fileID: 1144100468}
   minimapIconPrefab: {fileID: 5844549433415927625, guid: 8eb031508a4e28543ab94d17535fe373,
     type: 3}
-  generalIconScale: 1
+  generalIconScale: 1.4
   customerIconScale: 1.8
 --- !u!1001 &1857949902
 PrefabInstance:

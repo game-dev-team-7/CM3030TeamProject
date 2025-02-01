@@ -18,12 +18,21 @@ public class MinimapController : MonoBehaviour
     [SerializeField]
     MinimapIcon minimapIconPrefab;
 
+    [SerializeField]
+    float generalIconScale = 1f;
+
+    [SerializeField]
+    float customerIconScale = 1f;
+
     Matrix4x4 transformationMatrix;
 
     private MinimapIcon followIcon;
     private Vector2 scrollViewDefaultSize;
     private Vector2 scrollViewDefaultPosition;
-    Dictionary<MinimapWorldObject, MinimapIcon> miniMapWorldObjectsLookup = new Dictionary<MinimapWorldObject, MinimapIcon>();
+    private Dictionary<MinimapWorldObject, MinimapIcon> miniMapWorldObjectsLookup = new Dictionary<MinimapWorldObject, MinimapIcon>();
+    
+    // Public getter to access the lookup dictionary
+    public Dictionary<MinimapWorldObject, MinimapIcon> MiniMapWorldObjectsLookup => miniMapWorldObjectsLookup;
 
     // Called when the script instance is being loaded
     private void Awake()
@@ -98,23 +107,71 @@ public class MinimapController : MonoBehaviour
 
     // Updates the positions, rotations, and scales of all minimap icons
     private void UpdateMiniMapIcons()
-    {
-        // Scale icons inversely to the map scale to maintain consistent size
-        float iconScale = 1 / contentRectTransform.transform.localScale.x;
+    {   
+
+
+        float fixedDistance = 80f; // Distance from player where CustomerLocation icons should appear
+
+        // Find the player's world position
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) return; // Exit if no player is found
+        Vector2 playerMapPosition = WorldPositionToMapPosition(player.transform.position);
 
         foreach (var kvp in miniMapWorldObjectsLookup)
         {
             var miniMapWorldObject = kvp.Key;
             var miniMapIcon = kvp.Value;
 
-            // Convert the world object's position to map space
-            var mapPosition = WorldPositionToMapPosition(miniMapWorldObject.transform.position);
+            // Convert world position to minimap position
+            Vector2 objectMapPosition = WorldPositionToMapPosition(miniMapWorldObject.transform.position);
 
-            // Update the icon's position, rotation, and scale
-            miniMapIcon.RectTransform.anchoredPosition = mapPosition;
-            var rotation = miniMapWorldObject.transform.rotation.eulerAngles;
-            miniMapIcon.IconRectTransform.localRotation = Quaternion.AngleAxis(-rotation.y, Vector3.forward);
-            miniMapIcon.IconRectTransform.localScale = Vector3.one * iconScale;
+            // Distance beteen player and object
+            float distancePlayerToObject = Vector2.Distance(playerMapPosition, objectMapPosition);
+
+            if (miniMapWorldObject.tag == "CustomerLocation" && distancePlayerToObject > fixedDistance)
+            {
+        
+                // Calculate direction from player to object
+                Vector2 direction = (objectMapPosition - playerMapPosition).normalized;
+        
+                // Adjust position based on tag
+                Vector2 adjustedPosition = objectMapPosition;
+                adjustedPosition = playerMapPosition + direction * fixedDistance;
+
+                // Update the icon's minimap position
+                miniMapIcon.RectTransform.anchoredPosition = adjustedPosition;
+
+                // Rotate icon to point toward object
+                miniMapIcon.IconRectTransform.localRotation = Quaternion.FromToRotation(Vector2.up, -direction);
+
+
+            }
+            else
+            {
+                // Update the icon's position, rotation, and scale
+                miniMapIcon.RectTransform.anchoredPosition = objectMapPosition;
+                var rotation = miniMapWorldObject.transform.rotation.eulerAngles;
+                miniMapIcon.IconRectTransform.localRotation = Quaternion.AngleAxis(-rotation.y, Vector3.forward);
+             
+            }
+
+            // Scale the icon
+            if (miniMapWorldObject.tag == "CustomerLocation")
+            {
+                // Scale icons inversely to the map scale to maintain consistent size
+                float iconScale = customerIconScale / contentRectTransform.transform.localScale.x;            
+                miniMapIcon.IconRectTransform.localScale = Vector3.one * iconScale;
+
+            }
+            else
+            {
+                // Scale icons inversely to the map scale to maintain consistent size
+                float iconScale = generalIconScale / contentRectTransform.transform.localScale.x;
+                miniMapIcon.IconRectTransform.localScale = Vector3.one * iconScale;
+            }
+
+            Debug.Log("[MinimapController]Obj tag: " + miniMapWorldObject.tag);
+
         }
     }
 
