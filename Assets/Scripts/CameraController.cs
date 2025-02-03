@@ -2,30 +2,49 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform player;  // Reference to the player
-    public float distance = 5.0f;  // Distance behind the player
-    public float height = 2.0f;  // Height above the player
-    public float followSpeed = 5.0f;  // Speed at which the camera follows
+    public Transform target;
 
-    private Vector3 offset;  // Offset between camera and player
+    public float rotationSpeed = 3f;
 
-    void Start()
+    [Header("Default Position")] public float defaultDistance = 67.4f;
+    public float defaultHeight = 83.1f;
+    public float defaultHorizontalAngle = 0f;
+    public float defaultVerticalAngle = 7f;
+
+    private float currentHorizontal;
+    private float currentVertical;
+    private Vector3 offset;
+    private Vector3 velocity;
+
+    private void Start()
     {
-        // Calculate the initial offset
-        offset = new Vector3(0, height, -distance);
+        currentHorizontal = defaultHorizontalAngle;
+        currentVertical = defaultVerticalAngle;
+        offset = new Vector3(0, defaultHeight, -defaultDistance);
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        if (player == null) return;
+        if (target == null) return;
 
-        // Calculate the target position
-        Vector3 targetPosition = player.position + offset;
+        // Smoothly follow the player's position
+        transform.position = Vector3.SmoothDamp(
+            transform.position,
+            target.position,
+            ref velocity,
+            0.1f // Adjust smooth time
+        );
 
-        // Smoothly move the camera towards the target position
-        transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+        // Handle camera rotation input
+        if (Input.GetMouseButton(1)) // Right mouse button held
+        {
+            currentHorizontal += Input.GetAxis("Mouse X") * rotationSpeed;
+            currentVertical -= Input.GetAxis("Mouse Y") * rotationSpeed;
+        }
 
-        // Make the camera look at the player
-        transform.LookAt(player.position + Vector3.up * height / 2.0f);
+        // Apply rotations
+        var rotation = Quaternion.Euler(currentVertical, currentHorizontal, 0);
+        Camera.main.transform.localPosition = rotation * offset;
+        Camera.main.transform.LookAt(target.position + Vector3.up * (defaultHeight * 0.5f));
     }
 }

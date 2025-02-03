@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private Vector3 currentDirection;
-
+    private Camera mainCamera;
+    private Transform cameraPivot;
 
     /// <summary>
     /// Called once at the start of the game.
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevent rigidbody from changing rotation
+        mainCamera = Camera.main;
+        cameraPivot = mainCamera.transform.parent;
     }
 
     /// <summary>
@@ -49,7 +52,23 @@ public class PlayerController : MonoBehaviour
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
-        currentDirection = new Vector3(horizontal, 0, vertical).normalized;
+
+        Debug.Log($"Input: Horizontal = {horizontal}, Vertical = {vertical}");
+        
+        Debug.Log($"Camera Pivot Rotation: {cameraPivot.rotation.eulerAngles}");
+        var cameraForward = cameraPivot.forward;
+        var cameraRight = cameraPivot.right;
+
+        Debug.Log($"Camera Forward: {cameraForward}, Right: {cameraRight}");
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        currentDirection = (cameraForward * vertical + cameraRight * horizontal).normalized;
+
+        Debug.Log($"Current Direction: {currentDirection}");
     }
 
     /// <summary>
