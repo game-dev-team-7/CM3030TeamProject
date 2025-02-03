@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class DaylightCycle : MonoBehaviour
 {
-    Vector3 rot = Vector3.zero;
+    private Vector3 rot = Vector3.zero;
 
-    //this value will control the rotational speed of the directional light(6 degrees per second)
-    float degpersec = 6;
+    // Total rotation from sunrise to sunset (typically 180 degrees)
+    private static float totalRotation = 180.0f;
+
+    // Time for complete rotation in seconds (10 minutes = 600 seconds)
+    private static float totalTime = 600.0f;
+
+    // Calculate degrees per second
+    private static float degpersec = totalRotation / totalTime;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //calculates the actual speed by multiplying the degrees amount per Delta t
         rot.x = degpersec * Time.deltaTime;
