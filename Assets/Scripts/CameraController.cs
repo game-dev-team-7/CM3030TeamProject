@@ -16,6 +16,12 @@ public class CameraController : MonoBehaviour
     private Vector3 offset;
     private Vector3 velocity;
 
+    /// <summary>
+    /// Initializes the camera controller.
+    /// 
+    /// Sets the current horizontal and vertical angles to their default values.
+    /// Also sets the camera's offset based on the default distance, height, and angles.
+    /// </summary>
     private void Start()
     {
         currentHorizontal = defaultHorizontalAngle;
@@ -23,6 +29,19 @@ public class CameraController : MonoBehaviour
         offset = new Vector3(0, defaultHeight, -defaultDistance);
     }
 
+    /// <summary>
+    /// Smoothly follows the target's position and handles camera rotation input.
+    /// 
+    /// If the target is null, this function does nothing.
+    /// 
+    /// Smoothly follows the target's position using SmoothDamp.
+    /// 
+    /// Handles camera rotation input by listening for the right mouse button being
+    /// held down. When the right mouse button is held down, the camera rotates
+    /// according to the mouse's horizontal and vertical input.
+    /// 
+    /// Applies the calculated rotations to the camera.
+    /// </summary>
     private void LateUpdate()
     {
         if (target == null) return;
