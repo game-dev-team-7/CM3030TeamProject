@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6283234705139790104}
-  - component: {fileID: 6211707516544610971}
   m_Layer: 0
-  m_Name: CustomerLocation
+  m_Name: customerLocation
   m_TagString: CustomerLocation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,20 +32,6 @@ Transform:
   - {fileID: 6210663769579131735}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6211707516544610971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095552690065339043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 0
-  minimapIcon: {fileID: 21300000, guid: bc8f05f5ab4d36047a548ea05a643017, type: 3}
 --- !u!1001 &5889033445066831036
 PrefabInstance:
   m_ObjectHideFlags: 0
