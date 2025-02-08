@@ -170,7 +170,6 @@ public class MinimapController : MonoBehaviour
                 miniMapIcon.IconRectTransform.localScale = Vector3.one * iconScale;
             }
 
-            Debug.Log("[MinimapController]Obj tag: " + miniMapWorldObject.tag);
 
         }
     }

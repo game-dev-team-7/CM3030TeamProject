@@ -11,7 +11,7 @@ public class CustomerLocationTimer : MonoBehaviour
         if (timerText == null)
         {
             Debug.LogError("TimerText (TextMeshProUGUI) is not assigned to CustomerLocationTimer!");
-            return;
+            enabled = false; // Disable the script to prevent unnecessary Update() calls
         }
     }
 
@@ -20,12 +20,7 @@ public class CustomerLocationTimer : MonoBehaviour
         if (countdownTime > 0)
         {
             countdownTime -= Time.deltaTime;
-            timerText.text = Mathf.Ceil(countdownTime).ToString(); // Display as whole number
-        }
-        else
-        {
-            timerText.text = "0"; // Ensure it doesn't go negative
-            //Destroy(gameObject); // Optionally destroy the script/game object when time runs out
+            timerText.text = Mathf.Ceil(Mathf.Max(0, countdownTime)).ToString(); // Prevent negative values
         }
     }
 }

@@ -1,4 +1,3 @@
-// WeatherTintController.cs
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -7,6 +6,7 @@ public class WeatherTintController : MonoBehaviour
 {
     public Image tintImage; // Assign in Inspector
     public float transitionDuration = 1f; // Duration for tint transitions
+    public AnimationCurve transitionCurve = AnimationCurve.Linear(0, 0, 1, 1); // Default linear
 
     private Coroutine currentTransition;
 
@@ -19,7 +19,7 @@ public class WeatherTintController : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes the screen tint to the specified color smoothly over transitionDuration.
+    /// Changes the screen tint to the specified color smoothly over transitionDuration using transitionCurve.
     /// </summary>
     /// <param name="newColor">The target color for the tint.</param>
     public void ChangeTint(Color newColor)
@@ -38,7 +38,9 @@ public class WeatherTintController : MonoBehaviour
 
         while (elapsed < transitionDuration)
         {
-            tintImage.color = Color.Lerp(initialColor, targetColor, elapsed / transitionDuration);
+            float t = elapsed / transitionDuration;
+            float curveValue = transitionCurve.Evaluate(t);
+            tintImage.color = Color.Lerp(initialColor, targetColor, curveValue);
             elapsed += Time.deltaTime;
             yield return null;
         }

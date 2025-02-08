@@ -97,10 +97,10 @@ public class WeatherManager : MonoBehaviour
         switch (CurrentWeather)
         {
             case WeatherType.Mild:
-                tintController.ChangeTint(new Color(0, 1, 1, 0.2f)); // Light Cyan
+                tintController.ChangeTint(new Color(0, 1, 1, 0.1f)); // Light Cyan
                 break;
             case WeatherType.Normal:
-                tintController.ChangeTint(new Color(0, 0, 1, 0.2f)); // Light Blue
+                tintController.ChangeTint(new Color(0, 0, 1, 0.1f)); // Light Blue
                 break;
             case WeatherType.Heatwave:
                 tintController.ChangeTint(new Color(1, 0, 0, 0.3f)); // Light Red

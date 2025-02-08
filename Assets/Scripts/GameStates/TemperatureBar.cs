@@ -1,4 +1,3 @@
-// TemperatureBar.cs
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,35 +5,27 @@ using TMPro;
 public class TemperatureBar : MonoBehaviour
 {
     [Header("UI Components")]
-    public Image fillImage; // The fill Image (TempBar_Fill)
-    public TextMeshProUGUI statusText; // The status Text (TempBar_StatusText)
+    public RectTransform coldFill;  // Left Side (Expands as it gets colder)
+    public RectTransform normalFill; // Middle (Safe Zone)
+    public RectTransform hotFill;   // Right Side (Expands as it gets hotter)
+    public TextMeshProUGUI statusText;
 
-    [Header("Color Settings")]
-    public Color coldColor = new Color(0f, 0.5f, 1f, 0.5f); // Blueish
-    public Color normalColor = new Color(1f, 1f, 0f, 0.5f); // Yellow
-    public Color hotColor = new Color(1f, 0f, 0f, 0.5f); // Red
-
-    [Header("Temperature Thresholds")]
-    public float coldThreshold = -50f;
-    public float hotThreshold = 50f;
-
-    [Header("Status Text")]
-    public string coldStatus = "Cold";
-    public string normalStatus = "Normal";
-    public string hotStatus = "Hot";
+    [Header("Temperature Settings")]
+    public float minTemperature = -100f;
+    public float maxTemperature = 100f;
+    private float neutralRange = 20f; // Defines the "safe zone"
 
     private PlayerTemperature playerTemp;
+    private float barWidth = 400f; // The total width of the bar
 
     void Start()
     {
-        // Find the PlayerTemperature component
         playerTemp = FindObjectOfType<PlayerTemperature>();
         if (playerTemp == null)
         {
-            Debug.LogError("PlayerTemperature component not found in the scene.");
+            Debug.LogError("PlayerTemperature component not found!");
+            return;
         }
-
-        // Initialize UI
         UpdateTemperatureBar();
     }
 
@@ -48,34 +39,59 @@ public class TemperatureBar : MonoBehaviour
 
     void UpdateTemperatureBar()
     {
-        // Normalize temperature to 0-1 for the fill amount
-        float normalizedTemp = Mathf.InverseLerp(playerTemp.minTemperature, playerTemp.maxTemperature, playerTemp.bodyTemperature);
-        fillImage.fillAmount = normalizedTemp;
+        float temperature = playerTemp.bodyTemperature;
 
-        // Determine the current status
-        string currentStatus;
-        Color currentColor;
+        // Calculate proportions based on temperature
+        float coldRatio = Mathf.Clamp01(Mathf.InverseLerp(0, minTemperature, temperature));
+        float hotRatio = Mathf.Clamp01(Mathf.InverseLerp(0, maxTemperature, temperature));
+        float normalRatio = 1f - (coldRatio + hotRatio);
 
-        if (playerTemp.bodyTemperature <= coldThreshold)
+        // Set width of UI elements
+        coldFill.sizeDelta = new Vector2(barWidth * coldRatio, coldFill.sizeDelta.y);
+        hotFill.sizeDelta = new Vector2(barWidth * hotRatio, hotFill.sizeDelta.y);
+        normalFill.sizeDelta = new Vector2(barWidth * normalRatio, normalFill.sizeDelta.y);
+
+        // Update Status Text
+        UpdateStatusText(temperature);
+    }
+
+    void UpdateStatusText(float temperature)
+    {
+        if (statusText == null)
         {
-            currentStatus = coldStatus;
-            currentColor = coldColor;
+            Debug.LogError("Status Text is not assigned!");
+            return;
         }
-        else if (playerTemp.bodyTemperature >= hotThreshold)
+
+        statusText.gameObject.SetActive(true); // Force text to stay visible
+        statusText.transform.SetAsLastSibling(); // Move text on top
+
+        if (temperature <= minTemperature * 0.5f)
         {
-            currentStatus = hotStatus;
-            currentColor = hotColor;
+            statusText.text = "❄️ FREEZING!";
+            statusText.color = Color.cyan;
+        }
+        else if (temperature <= -neutralRange)
+        {
+            statusText.text = "COLD";
+            statusText.color = Color.Lerp(Color.green, Color.cyan, 0.5f);
+        }
+        else if (temperature >= maxTemperature * 0.5f)
+        {
+            statusText.text = "🔥 OVERHEATED!";
+            statusText.color = Color.red;
+        }
+        else if (temperature >= neutralRange)
+        {
+            statusText.text = "HOT";
+            statusText.color = Color.Lerp(Color.green, Color.red, 0.5f);
         }
         else
         {
-            currentStatus = normalStatus;
-            currentColor = normalColor;
+            statusText.text = "✅ NORMAL";
+            statusText.color = Color.green;
+            statusText.transform.SetAsLastSibling(); // Force it to be on top
         }
 
-        // Update fill color smoothly
-        fillImage.color = Color.Lerp(fillImage.color, currentColor, Time.deltaTime * 5f);
-
-        // Update status text
-        statusText.text = currentStatus;
     }
 }
