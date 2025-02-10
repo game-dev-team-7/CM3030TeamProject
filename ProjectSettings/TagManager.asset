@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CustomerLocation
   - BarrierPosition
+  - Customer
+  - CustomerTimer
+  - Score
   layers:
   - Default
   - TransparentFX

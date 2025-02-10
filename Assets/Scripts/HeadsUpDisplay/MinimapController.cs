@@ -128,7 +128,7 @@ public class MinimapController : MonoBehaviour
             // Distance beteen player and object
             float distancePlayerToObject = Vector2.Distance(playerMapPosition, objectMapPosition);
 
-            if (miniMapWorldObject.tag == "CustomerLocation" && distancePlayerToObject > fixedDistance)
+            if (miniMapWorldObject.tag == "Customer" && distancePlayerToObject > fixedDistance)
             {
         
                 // Calculate direction from player to object
@@ -156,7 +156,7 @@ public class MinimapController : MonoBehaviour
             }
 
             // Scale the icon
-            if (miniMapWorldObject.tag == "CustomerLocation")
+            if (miniMapWorldObject.tag == "Customer")
             {
                 // Scale icons inversely to the map scale to maintain consistent size
                 float iconScale = customerIconScale / contentRectTransform.transform.localScale.x;            
