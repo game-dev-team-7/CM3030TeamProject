@@ -98,6 +98,12 @@ public class CustomerManager : MonoBehaviour
 
     private void FailDelivery()
     {
+        if (streakText != null)
+        {
+            streakText.text = "Ops! Task Failed!";
+            Invoke(nameof(ResetStreakText), 1.5f);
+        }
+
         Debug.Log("Timer expired! Respawning customer.");
         SpawnCustomer();
     }
