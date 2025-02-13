@@ -17,6 +17,12 @@ public class MinimapController : MonoBehaviour
 
     [SerializeField]
     MinimapIcon minimapIconPrefab;
+    
+    [SerializeField]
+    Transform cameraPivot;
+
+    [SerializeField]
+    RectTransform cameraDirectionLight;
 
     [SerializeField]
     float generalIconScale = 1f;
@@ -117,6 +123,23 @@ public class MinimapController : MonoBehaviour
         if (player == null) return; // Exit if no player is found
         Vector2 playerMapPosition = WorldPositionToMapPosition(player.transform.position);
 
+        // Update cameraDirectionLight's position and rotation
+        if (cameraDirectionLight != null && cameraPivot != null)
+        {
+            RectTransform cameraDirectionRect = cameraDirectionLight.GetComponent<RectTransform>();
+            if (cameraDirectionRect != null)
+            {
+                // Set the position to the player's minimap position
+                cameraDirectionRect.anchoredPosition = playerMapPosition;
+
+                // Get Y-axis rotation from cameraPivot
+                float cameraPivotYRotation = cameraPivot.transform.eulerAngles.y;
+
+                // Apply rotation (negate it to match minimap's 2D Z-axis)
+                cameraDirectionRect.localRotation = Quaternion.Euler(0, 0, -cameraPivotYRotation);
+            }
+        }
+
         foreach (var kvp in miniMapWorldObjectsLookup)
         {
             var miniMapWorldObject = kvp.Key;
@@ -131,10 +154,10 @@ public class MinimapController : MonoBehaviour
             if (miniMapWorldObject.tag == "Customer" && distancePlayerToObject > customerIconFromPlayer)
             {
         
-                // Calculate direction from player to object
+                // Calculate player to object direction
                 Vector2 direction = (objectMapPosition - playerMapPosition).normalized;
         
-                // Adjust position based on tag
+                // Adjust minimap distance from player to customer
                 Vector2 adjustedPosition = objectMapPosition;
                 adjustedPosition = playerMapPosition + direction * customerIconFromPlayer;
 
