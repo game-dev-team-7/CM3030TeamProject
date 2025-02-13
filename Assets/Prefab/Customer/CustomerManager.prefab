@@ -46,5 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customerPrefab: {fileID: 3766581729704874700, guid: 39db933893cee4704b4909cc641c7e8e,
     type: 3}
+  streets: {fileID: 0}
   countdownTime: 30
   scoreIncrement: 10

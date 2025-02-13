@@ -1,48 +1,42 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] private GameObject customerPrefab; // Prefab to spawn
-    [SerializeField] private float countdownTime = 30f; // Timer duration
-    [SerializeField] private int scoreIncrement = 10; // Points per interaction
-
-    private GameObject[] customerLocations; // Array of possible spawn locations
     private GameObject currentCustomer; // Reference to the current customer
+
+    [SerializeField] private GameObject streets; // Streets object
+    private List<Renderer> tarmacRenderers = new(); // Tarmac is the smallest unit of streets with Mesh Renderer
+
+    private float countdownTime = 120f; // Timer duration
     private float currentCountdown; // Timer
-    private TextMeshProUGUI scoreText; // Reference to the Score UI
     private TextMeshProUGUI timerText; //Reference the Timer UI
+
+    private int scoreIncrement = 10; // Points per interaction
+    private TextMeshProUGUI scoreText; // Reference to the Score UI
     private int playerScore = 0;
 
     private void Start()
     {
-        customerLocations = GameObject.FindGameObjectsWithTag("CustomerLocation");
+        if (streets != null)
+            tarmacRenderers.AddRange(streets.GetComponentsInChildren<Renderer>());
+        else
+            Debug.LogError("Streets object not assigned!");
 
-        if (customerLocations.Length == 0)
-        {
-            Debug.LogError("No objects found with tag 'CustomerLocation'.");
-            return;
-        }
 
-        GameObject scoreObject = GameObject.FindGameObjectWithTag("Score");
+        var scoreObject = GameObject.FindGameObjectWithTag("Score");
         if (scoreObject != null)
-        {
             scoreText = scoreObject.GetComponent<TextMeshProUGUI>();
-        }
         else
-        {
             Debug.LogError("No UI object found with tag 'Score'.");
-        }
 
-        GameObject timerObject = GameObject.FindGameObjectWithTag("CustomerTimer");
+        var timerObject = GameObject.FindGameObjectWithTag("CustomerTimer");
         if (timerObject != null)
-        {
             timerText = timerObject.GetComponent<TextMeshProUGUI>();
-        }
         else
-        {
             Debug.LogError("No UI object found with tag 'CustomerTimer'.");
-        }
 
         SpawnCustomer(); // Spawn first customer
     }
@@ -62,16 +56,26 @@ public class CustomerManager : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        ResetTimer();
-        
-        if (customerLocations.Length == 0 || customerPrefab == null) return;
+        if (tarmacRenderers.Count == 0 || customerPrefab == null) return;
 
-        Transform newLocation = customerLocations[Random.Range(0, customerLocations.Length)].transform;
+        ResetTimer();
 
         if (currentCustomer != null) Destroy(currentCustomer);
 
-        currentCustomer = Instantiate(customerPrefab, newLocation.position, Quaternion.identity);
+        var chosenTarmacRenderer = tarmacRenderers[Random.Range(0, tarmacRenderers.Count)];
+        var spawnPosition = GetRandomPointInBounds(chosenTarmacRenderer.bounds);
+        spawnPosition.y = chosenTarmacRenderer.bounds.max.y + 7.8f; // Slightly above the surface
 
+        currentCustomer = Instantiate(customerPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    private Vector3 GetRandomPointInBounds(Bounds bounds)
+    {
+        return new Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            bounds.center.y,
+            Random.Range(bounds.min.z, bounds.max.z)
+        );
     }
 
     private void ResetTimer()
@@ -91,10 +95,7 @@ public class CustomerManager : MonoBehaviour
     {
         playerScore += scoreIncrement;
 
-        if (scoreText != null)
-        {
-            scoreText.text = playerScore.ToString();
-        }
+        if (scoreText != null) scoreText.text = playerScore.ToString();
 
         Debug.Log("Player interacted! Score: " + playerScore);
         SpawnCustomer();
