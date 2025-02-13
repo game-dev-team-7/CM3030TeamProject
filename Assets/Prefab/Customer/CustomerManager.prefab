@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649e26720d198934b83f37d599a8b3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   customerPrefab: {fileID: 3766581729704874700, guid: 39db933893cee4704b4909cc641c7e8e,
     type: 3}
   streets: {fileID: 0}
-  countdownTime: 30
-  scoreIncrement: 10

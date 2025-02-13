@@ -1,17 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class CustomerManager : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
+
     [SerializeField] private GameObject customerPrefab; // Prefab to spawn
     private GameObject currentCustomer; // Reference to the current customer
+    private float heightAboveTarmac = 7.8f;
 
     [SerializeField] private GameObject streets; // Streets object
-    private List<Renderer> tarmacRenderers = new(); // Tarmac is the smallest unit of streets with Mesh Renderer
+    private List<Renderer> tarmacRenderers = new(); // Tarmac is the street unit with Mesh Renderer
 
-    private float countdownTime = 120f; // Timer duration
-    private float currentCountdown; // Timer
+    private float expirationTime; // How long can the customer last
+    private float baseTimePerUnitDistance = 0.05f;
+    private float timer; // Timer for the current customer
     private TextMeshProUGUI timerText; //Reference the Timer UI
 
     private int scoreIncrement = 10; // Points per interaction
@@ -43,10 +48,10 @@ public class CustomerManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentCountdown > 0)
+        if (timer > 0)
         {
-            currentCountdown -= Time.deltaTime;
-            timerText.text = Mathf.CeilToInt(currentCountdown).ToString();
+            timer -= Time.deltaTime;
+            timerText.text = Mathf.CeilToInt(timer).ToString();
         }
         else
         {
@@ -58,15 +63,15 @@ public class CustomerManager : MonoBehaviour
     {
         if (tarmacRenderers.Count == 0 || customerPrefab == null) return;
 
-        ResetTimer();
-
         if (currentCustomer != null) Destroy(currentCustomer);
 
         var chosenTarmacRenderer = tarmacRenderers[Random.Range(0, tarmacRenderers.Count)];
         var spawnPosition = GetRandomPointInBounds(chosenTarmacRenderer.bounds);
-        spawnPosition.y = chosenTarmacRenderer.bounds.max.y + 7.8f; // Slightly above the surface
+        spawnPosition.y = chosenTarmacRenderer.bounds.max.y + heightAboveTarmac; // Slightly above the surface
 
         currentCustomer = Instantiate(customerPrefab, spawnPosition, Quaternion.identity);
+
+        ResetTimer();
     }
 
     private Vector3 GetRandomPointInBounds(Bounds bounds)
@@ -80,8 +85,10 @@ public class CustomerManager : MonoBehaviour
 
     private void ResetTimer()
     {
-        currentCountdown = countdownTime;
-        timerText.text = Mathf.CeilToInt(currentCountdown).ToString();
+        expirationTime = Vector3.Distance(currentCustomer.transform.position, player.transform.position) *
+                         baseTimePerUnitDistance;
+        timer = expirationTime;
+        timerText.text = Mathf.CeilToInt(timer).ToString();
     }
 
     private void HandleTimerExpiry()

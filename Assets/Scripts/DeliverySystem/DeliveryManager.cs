@@ -56,15 +56,13 @@ namespace DeliverySystem
             score += streak; // 1 point base + streak bonus
             Destroy(currentTask.gameObject);
             StartNewDeliveryCycle();
-            UIManager.instance.UpdateUI();
         }
 
         public void FailDelivery()
-        {   
+        {
             streak = 0;
             Destroy(currentTask.gameObject);
             StartNewDeliveryCycle();
-            UIManager.instance.UpdateUI();
         }
     }
 }
