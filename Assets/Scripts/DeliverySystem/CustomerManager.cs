@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -9,19 +8,20 @@ public class CustomerManager : MonoBehaviour
 
     [SerializeField] private GameObject customerPrefab; // Prefab to spawn
     private GameObject currentCustomer; // Reference to the current customer
-    private float heightAboveTarmac = 7.8f;
+    private readonly float heightAboveTarmac = 7.8f;
 
     [SerializeField] private GameObject streets; // Streets object
-    private List<Renderer> tarmacRenderers = new(); // Tarmac is the street unit with Mesh Renderer
+    private readonly List<Renderer> tarmacRenderers = new(); // Tarmac is the street unit with Mesh Renderer
 
-    private float expirationTime; // How long can the customer last
-    private float baseTimePerUnitDistance = 0.05f;
+    private readonly float baseTimePerUnitDistance = 0.04f;
     private float timer; // Timer for the current customer
     private TextMeshProUGUI timerText; //Reference the Timer UI
 
-    private int scoreIncrement = 10; // Points per interaction
+    private int score;
+    private int streak;
     private TextMeshProUGUI scoreText; // Reference to the Score UI
-    private int playerScore = 0;
+    private TextMeshProUGUI streakText; // Reference to the Streak UI
+
 
     private void Start()
     {
@@ -30,6 +30,11 @@ public class CustomerManager : MonoBehaviour
         else
             Debug.LogError("Streets object not assigned!");
 
+        var timerObject = GameObject.FindGameObjectWithTag("CustomerTimer");
+        if (timerObject != null)
+            timerText = timerObject.GetComponent<TextMeshProUGUI>();
+        else
+            Debug.LogError("No UI object found with tag 'CustomerTimer'.");
 
         var scoreObject = GameObject.FindGameObjectWithTag("Score");
         if (scoreObject != null)
@@ -37,11 +42,11 @@ public class CustomerManager : MonoBehaviour
         else
             Debug.LogError("No UI object found with tag 'Score'.");
 
-        var timerObject = GameObject.FindGameObjectWithTag("CustomerTimer");
-        if (timerObject != null)
-            timerText = timerObject.GetComponent<TextMeshProUGUI>();
+        var streakObject = GameObject.FindGameObjectWithTag("Streak");
+        if (streakObject != null)
+            streakText = streakObject.GetComponent<TextMeshProUGUI>();
         else
-            Debug.LogError("No UI object found with tag 'CustomerTimer'.");
+            Debug.LogError("No UI object found with tag 'Streak'.");
 
         SpawnCustomer(); // Spawn first customer
     }
@@ -55,7 +60,7 @@ public class CustomerManager : MonoBehaviour
         }
         else
         {
-            HandleTimerExpiry();
+            FailDelivery();
         }
     }
 
@@ -85,26 +90,39 @@ public class CustomerManager : MonoBehaviour
 
     private void ResetTimer()
     {
-        expirationTime = Vector3.Distance(currentCustomer.transform.position, player.transform.position) *
-                         baseTimePerUnitDistance;
+        var expirationTime = Vector3.Distance(currentCustomer.transform.position, player.transform.position) *
+                             baseTimePerUnitDistance;
         timer = expirationTime;
         timerText.text = Mathf.CeilToInt(timer).ToString();
     }
 
-    private void HandleTimerExpiry()
+    private void FailDelivery()
     {
         Debug.Log("Timer expired! Respawning customer.");
         SpawnCustomer();
     }
 
     // Handle result of Player-Customer collision
-    public void HandlePlayerInteraction()
+    public void CompleteDelivery()
     {
-        playerScore += scoreIncrement;
+        streak++;
 
-        if (scoreText != null) scoreText.text = playerScore.ToString();
+        if (streakText != null)
+        {
+            streakText.text = "+" + streak;
+            Invoke(nameof(ResetStreakText), 1.5f);
+        }
 
-        Debug.Log("Player interacted! Score: " + playerScore);
+        score += streak;
+
+        if (scoreText != null) scoreText.text = score.ToString();
+
+        Debug.Log("Player interacted! Score: " + score);
         SpawnCustomer();
+    }
+
+    private void ResetStreakText()
+    {
+        streakText.text = "";
     }
 }

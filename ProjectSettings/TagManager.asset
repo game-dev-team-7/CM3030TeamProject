@@ -9,6 +9,7 @@ TagManager:
   - Customer
   - CustomerTimer
   - Score
+  - Streak
   layers:
   - Default
   - TransparentFX
