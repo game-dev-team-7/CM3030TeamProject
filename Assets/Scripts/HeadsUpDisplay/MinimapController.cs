@@ -24,6 +24,9 @@ public class MinimapController : MonoBehaviour
     [SerializeField]
     float customerIconScale = 1f;
 
+    [SerializeField]
+    float customerIconFromPlayer = 95f; // Distance from player where CustomerLocation icons should appear
+
     Matrix4x4 transformationMatrix;
 
     private MinimapIcon followIcon;
@@ -109,9 +112,6 @@ public class MinimapController : MonoBehaviour
     private void UpdateMiniMapIcons()
     {   
 
-
-        float fixedDistance = 80f; // Distance from player where CustomerLocation icons should appear
-
         // Find the player's world position
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return; // Exit if no player is found
@@ -128,7 +128,7 @@ public class MinimapController : MonoBehaviour
             // Distance beteen player and object
             float distancePlayerToObject = Vector2.Distance(playerMapPosition, objectMapPosition);
 
-            if (miniMapWorldObject.tag == "Customer" && distancePlayerToObject > fixedDistance)
+            if (miniMapWorldObject.tag == "Customer" && distancePlayerToObject > customerIconFromPlayer)
             {
         
                 // Calculate direction from player to object
@@ -136,7 +136,7 @@ public class MinimapController : MonoBehaviour
         
                 // Adjust position based on tag
                 Vector2 adjustedPosition = objectMapPosition;
-                adjustedPosition = playerMapPosition + direction * fixedDistance;
+                adjustedPosition = playerMapPosition + direction * customerIconFromPlayer;
 
                 // Update the icon's minimap position
                 miniMapIcon.RectTransform.anchoredPosition = adjustedPosition;

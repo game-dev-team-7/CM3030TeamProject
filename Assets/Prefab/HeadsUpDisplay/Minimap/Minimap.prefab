@@ -360,7 +360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806926641630622552}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 202.23578, y: -17.709106, z: -139.4987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -386,7 +386,8 @@ MonoBehaviour:
   minimapIconPrefab: {fileID: 5844549433415927625, guid: 8eb031508a4e28543ab94d17535fe373,
     type: 3}
   generalIconScale: 1
-  customerIconScale: 1.8
+  customerIconScale: 4.5
+  customerIconFromPlayer: 95
 --- !u!1 &4321893602011561423
 GameObject:
   m_ObjectHideFlags: 0
