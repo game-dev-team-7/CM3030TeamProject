@@ -87,13 +87,14 @@ GameObject:
   - component: {fileID: 8882022208175614755}
   - component: {fileID: 7806922436012316310}
   - component: {fileID: 6550999769738433241}
+  - component: {fileID: 8329584980711483382}
   m_Layer: 5
   m_Name: BodyTemperature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6175167917174326088
 RectTransform:
   m_ObjectHideFlags: 0
@@ -101,9 +102,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6480172660409663969}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6903444577075039614}
@@ -182,6 +183,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8329584980711483382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480172660409663969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdc9a4f45507db47aa8b357e94f0c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emoticonFreeze: {fileID: 4713601098733072326}
+  emoticonSneeze: {fileID: 2259247643998038518}
+  emoticonNormal: {fileID: 1444196763049392215}
+  emoticonMelt: {fileID: 1565638029556751555}
+  emoticonOverheat: {fileID: 6716028519674374126}
 --- !u!1001 &3925295102148457288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -268,7 +286,7 @@ PrefabInstance:
     - target: {fileID: 2576956630938759051, guid: 94ccb4027a5486c469c58839f665475d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 636.53
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 2576956630938759051, guid: 94ccb4027a5486c469c58839f665475d,
         type: 3}
@@ -318,6 +336,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EmoticonFreeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 34368101788143982, guid: bf401e9c686608649a21f1a9bf23b1c6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 475306177120414011, guid: bf401e9c686608649a21f1a9bf23b1c6,
         type: 3}
@@ -397,7 +420,7 @@ PrefabInstance:
     - target: {fileID: 475306177120414011, guid: bf401e9c686608649a21f1a9bf23b1c6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 233.97
+      value: -224
       objectReference: {fileID: 0}
     - target: {fileID: 475306177120414011, guid: bf401e9c686608649a21f1a9bf23b1c6,
         type: 3}
@@ -521,7 +544,7 @@ PrefabInstance:
     - target: {fileID: 6905283669270620081, guid: 8ac9b252f9ea7184e99b59103138e8d9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -20.495996
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6905283669270620081, guid: 8ac9b252f9ea7184e99b59103138e8d9,
         type: 3}
@@ -645,7 +668,7 @@ PrefabInstance:
     - target: {fileID: 5889484456725293498, guid: 76b73a6c355f6f9469b65e458ab57b78,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 388.64
+      value: -112
       objectReference: {fileID: 0}
     - target: {fileID: 5889484456725293498, guid: 76b73a6c355f6f9469b65e458ab57b78,
         type: 3}
@@ -764,7 +787,7 @@ PrefabInstance:
     - target: {fileID: 406245373681239816, guid: ab75bd77076a87a448f89ca83c4ddd67,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 759.6
+      value: 224
       objectReference: {fileID: 0}
     - target: {fileID: 406245373681239816, guid: ab75bd77076a87a448f89ca83c4ddd67,
         type: 3}
