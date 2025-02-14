@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class CameraControllerV2 : MonoBehaviour
 {
-    [Header("Target to follow")]
-    public Transform target;
-    
+    [Header("Target to follow")] public Transform target;
 
-    [Header("Camera settings")]
-    public float rotationSpeed = 3f;
-    public float camDistance = 67.4f;
-    public float camHeight = 83.1f;
+
+    [Header("Camera settings")] public float rotationSpeed = 3f;
+    public float camDistance = 60f;
+    public float camHeight = 20f;
     public float camHorizontalAngle = 0f;
-    public float camVerticalAngle = 7f;
+    public float camVerticalAngle = 0f;
 
     private float currentHorizontal;
     private float currentVertical;
@@ -43,7 +41,7 @@ public class CameraControllerV2 : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * 5f);
 
         // Apply rotations
-        Quaternion rotation = Quaternion.Euler(currentVertical, currentHorizontal, 0);
+        var rotation = Quaternion.Euler(currentVertical, currentHorizontal, 0);
         transform.position = target.position + rotation * offset;
         transform.LookAt(target.position + Vector3.up * (camHeight * 0.5f));
     }
