@@ -46,7 +46,7 @@ public class PickupManager : MonoBehaviour
         SpawnPickup("Lemonade", lemonadePrefab);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         // Check for expired pickups
         foreach (var pickup in new Dictionary<string, GameObject>(activePickups))
