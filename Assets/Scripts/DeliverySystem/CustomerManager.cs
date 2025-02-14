@@ -100,7 +100,7 @@ public class CustomerManager : MonoBehaviour
     {
         if (streakText != null)
         {
-            streakText.text = "Ops! Task Failed!";
+            streakText.text = "Task Failed";
             Invoke(nameof(ResetStreakText), 1.5f);
         }
 
