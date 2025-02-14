@@ -113,6 +113,8 @@ public class CustomerManager : MonoBehaviour
 
     private void FailDelivery()
     {
+        streak = 0;
+
         if (streakText != null)
         {
             streakText.text = "Task Failed";

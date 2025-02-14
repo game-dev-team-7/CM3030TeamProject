@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class PickupManager : MonoBehaviour
 {
+    private GameObject player;
+    private float minTemp;
+    private float maxTemp;
+
     [SerializeField] private GameObject tShirtPrefab;
     [SerializeField] private GameObject coatPrefab;
     [SerializeField] private GameObject hotChocolatePrefab;
     [SerializeField] private GameObject lemonadePrefab;
+
+    [SerializeField] private GameObject emergencyKitPrefab;
+    private bool emergencyKitSpawned = false;
 
     private readonly List<GameObject> plazas = new();
     private readonly List<Renderer> tarmacRenderers = new();
@@ -17,6 +24,11 @@ public class PickupManager : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) Debug.LogError("Player object not found");
+        maxTemp = player.GetComponent<PlayerTemperature>().maxTemperature;
+        minTemp = player.GetComponent<PlayerTemperature>().minTemperature;
+
         // spawn should be slightly above the ground
         var ground = GameObject.FindGameObjectWithTag("Ground");
         var groundRenderer = ground.GetComponent<Renderer>();
@@ -24,7 +36,6 @@ public class PickupManager : MonoBehaviour
 
         // Get all game objects with tag "plaza" and add them to plazas list
         plazas.AddRange(GameObject.FindGameObjectsWithTag("Plaza"));
-
         // Get all renderers from plaza objects
         plazas.ForEach(plaza => tarmacRenderers.AddRange(plaza.GetComponentsInChildren<Renderer>()));
 
@@ -54,6 +65,25 @@ public class PickupManager : MonoBehaviour
                     SpawnPickup(pickup.Key, GetPrefabForType(pickup.Key));
                 }
             }
+
+        var temp = player.GetComponent<PlayerTemperature>().bodyTemperature;
+
+        if ((temp < minTemp * 0.95f || temp > maxTemp * 0.95f) && !emergencyKitSpawned)
+        {
+            SpawnEmergencyKit();
+            emergencyKitSpawned = true;
+        }
+    }
+
+    private void SpawnEmergencyKit()
+    {
+        // var playerPosition = player.transform.position;
+        // var spawnPosition = playerPosition + player.transform.forward * 400f; // Spawn 2 units in front of the player
+        // spawnPosition.y = spawnYPosition;
+        //
+        // Instantiate(emergencyKitPrefab, spawnPosition, Quaternion.identity);
+        // Debug.Log("Player has died due to extreme temperature!");
+        // Debug.Log("Emergency Kit spawned!");
     }
 
     private void SpawnPickup(string type, GameObject prefab)
