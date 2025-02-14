@@ -10,6 +10,9 @@ TagManager:
   - CustomerTimer
   - Score
   - Streak
+  - Plaza
+  - Ground
+  - Streets
   layers:
   - Default
   - TransparentFX

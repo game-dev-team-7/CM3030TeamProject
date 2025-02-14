@@ -803,6 +803,8 @@ GameObject:
   - component: {fileID: 5813214751542562618}
   - component: {fileID: 2349379454667176706}
   - component: {fileID: 1485257971323445172}
+  - component: {fileID: -6547218215822328733}
+  - component: {fileID: -3093529924777767970}
   m_Layer: 0
   m_Name: emergencyKit
   m_TagString: Untagged
@@ -881,6 +883,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.033801, y: 1, z: 1}
   m_Center: {x: -0.002794087, y: 0, z: 0}
+--- !u!114 &-6547218215822328733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6231642376103329385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b1676ff8d4429bb6faf1b2f7ab5f61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3093529924777767970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6231642376103329385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  minimapIcon: {fileID: 0}
 --- !u!1 &6411237963287576940
 GameObject:
   m_ObjectHideFlags: 0

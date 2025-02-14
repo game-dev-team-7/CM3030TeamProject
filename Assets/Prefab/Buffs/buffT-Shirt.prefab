@@ -25677,6 +25677,7 @@ GameObject:
   - component: {fileID: 2067677396811945391}
   - component: {fileID: 1566917215798370358}
   - component: {fileID: 4442241248326143575}
+  - component: {fileID: -6679190368007485888}
   m_Layer: 0
   m_Name: buffT-Shirt
   m_TagString: Untagged
@@ -25767,6 +25768,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.1605225, y: 12.622824, z: 6.0773935}
   m_Center: {x: -0.7525635, y: 5.811412, z: -0.531602}
+--- !u!114 &-6679190368007485888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3543283058840d19d9e3f7b29e34178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7347699005730406099
 GameObject:
   m_ObjectHideFlags: 0

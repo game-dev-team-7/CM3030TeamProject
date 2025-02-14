@@ -4,13 +4,13 @@ using TMPro;
 
 public class CustomerManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    private GameObject player;
 
     [SerializeField] private GameObject customerPrefab; // Prefab to spawn
     private GameObject currentCustomer; // Reference to the current customer
-    private readonly float heightAboveTarmac = 7.8f;
+    private float spawnYPosition;
 
-    [SerializeField] private GameObject streets; // Streets object
+    private GameObject streets; // Streets object
     private readonly List<Renderer> tarmacRenderers = new(); // Tarmac is the street unit with Mesh Renderer
 
     private readonly float baseTimePerUnitDistance = 0.04f;
@@ -25,10 +25,25 @@ public class CustomerManager : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) Debug.LogError("Player object not found");
+
+        streets = GameObject.FindGameObjectWithTag("Streets");
         if (streets != null)
             tarmacRenderers.AddRange(streets.GetComponentsInChildren<Renderer>());
         else
-            Debug.LogError("Streets object not assigned!");
+            Debug.LogError("Streets object not found");
+
+        var ground = GameObject.FindGameObjectWithTag("Ground");
+        if (ground != null)
+        {
+            var groundRenderer = ground.GetComponent<Renderer>();
+            spawnYPosition = groundRenderer.bounds.max.y + 9.8f;
+        }
+        else
+        {
+            Debug.LogError("Ground object not found");
+        }
 
         var timerObject = GameObject.FindGameObjectWithTag("CustomerTimer");
         if (timerObject != null)
@@ -72,7 +87,7 @@ public class CustomerManager : MonoBehaviour
 
         var chosenTarmacRenderer = tarmacRenderers[Random.Range(0, tarmacRenderers.Count)];
         var spawnPosition = GetRandomPointInBounds(chosenTarmacRenderer.bounds);
-        spawnPosition.y = chosenTarmacRenderer.bounds.max.y + heightAboveTarmac; // Slightly above the surface
+        spawnPosition.y = spawnYPosition;
 
         currentCustomer = Instantiate(customerPrefab, spawnPosition, Quaternion.identity);
 
@@ -83,7 +98,7 @@ public class CustomerManager : MonoBehaviour
     {
         return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
-            bounds.center.y,
+            0,
             Random.Range(bounds.min.z, bounds.max.z)
         );
     }

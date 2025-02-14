@@ -14321,6 +14321,7 @@ GameObject:
   - component: {fileID: 7792033480975037926}
   - component: {fileID: 8541519260688171217}
   - component: {fileID: 4677465132364599793}
+  - component: {fileID: -5080108811126493140}
   m_Layer: 0
   m_Name: buffHotChoc
   m_TagString: Untagged
@@ -14411,6 +14412,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.1144257, y: 12.730692, z: 6.0299025}
   m_Center: {x: -0.7741318, y: 5.865346, z: -0.5057807}
+--- !u!114 &-5080108811126493140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de135c54b1b64fb9b971c889a8510915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7036388171913764635
 GameObject:
   m_ObjectHideFlags: 0
