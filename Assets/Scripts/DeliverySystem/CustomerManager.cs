@@ -1,69 +1,58 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class CustomerManager : MonoBehaviour
 {
+    [SerializeField] private GameObject customerPrefab;
+    [SerializeField] private float spawnHeightOffset = 2f;
+    [SerializeField] private float baseTimePerUnitDistance = 0.04f;
+
     private GameObject player;
-
-    [SerializeField] private GameObject customerPrefab; // Prefab to spawn
-    private GameObject currentCustomer; // Reference to the current customer
+    private GameObject currentCustomer;
     private float spawnYPosition;
+    private float timer;
 
-    private GameObject streets; // Streets object
-    private readonly List<Renderer> tarmacRenderers = new(); // Tarmac is the street unit with Mesh Renderer
+    private readonly List<Renderer> tarmacRenderers = new();
+    private ScoreManager scoreManager;
+    private UIManager uiManager;
 
-    private readonly float baseTimePerUnitDistance = 0.04f;
-    private float timer; // Timer for the current customer
-    private TextMeshProUGUI timerText; //Reference the Timer UI
+    private void Awake()
+    {
+        scoreManager = GetComponent<ScoreManager>();
+        uiManager = GetComponent<UIManager>();
 
-    private int score;
-    private int streak;
-    private TextMeshProUGUI scoreText; // Reference to the Score UI
-    private TextMeshProUGUI streakText; // Reference to the Streak UI
+        if (!TryInitialize()) enabled = false;
+    }
 
-
-    private void Start()
+    private bool TryInitialize()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null) Debug.LogError("Player object not found");
+        if (player == null)
+        {
+            Debug.LogError("Player object not found");
+            return false;
+        }
 
-        streets = GameObject.FindGameObjectWithTag("Streets");
-        if (streets != null)
-            tarmacRenderers.AddRange(streets.GetComponentsInChildren<Renderer>());
-        else
-            Debug.LogError("Streets object not found");
+        InitializeSpawnArea();
+        return true;
+    }
+
+    private void InitializeSpawnArea()
+    {
+        var streets = GameObject.FindGameObjectWithTag("Streets");
+        if (streets != null) tarmacRenderers.AddRange(streets.GetComponentsInChildren<Renderer>());
 
         var ground = GameObject.FindGameObjectWithTag("Ground");
         if (ground != null)
         {
             var groundRenderer = ground.GetComponent<Renderer>();
-            spawnYPosition = groundRenderer.bounds.max.y + 9.8f;
+            spawnYPosition = groundRenderer.bounds.max.y + spawnHeightOffset;
         }
-        else
-        {
-            Debug.LogError("Ground object not found");
-        }
+    }
 
-        var timerObject = GameObject.FindGameObjectWithTag("CustomerTimer");
-        if (timerObject != null)
-            timerText = timerObject.GetComponent<TextMeshProUGUI>();
-        else
-            Debug.LogError("No UI object found with tag 'CustomerTimer'.");
-
-        var scoreObject = GameObject.FindGameObjectWithTag("Score");
-        if (scoreObject != null)
-            scoreText = scoreObject.GetComponent<TextMeshProUGUI>();
-        else
-            Debug.LogError("No UI object found with tag 'Score'.");
-
-        var streakObject = GameObject.FindGameObjectWithTag("Streak");
-        if (streakObject != null)
-            streakText = streakObject.GetComponent<TextMeshProUGUI>();
-        else
-            Debug.LogError("No UI object found with tag 'Streak'.");
-
-        SpawnCustomer(); // Spawn first customer
+    private void Start()
+    {
+        SpawnCustomer();
     }
 
     private void Update()
@@ -71,7 +60,7 @@ public class CustomerManager : MonoBehaviour
         if (timer > 0)
         {
             timer -= Time.deltaTime;
-            timerText.text = Mathf.CeilToInt(timer).ToString();
+            uiManager.UpdateTimer(Mathf.CeilToInt(timer));
         }
         else
         {
@@ -85,13 +74,18 @@ public class CustomerManager : MonoBehaviour
 
         if (currentCustomer != null) Destroy(currentCustomer);
 
-        var chosenTarmacRenderer = tarmacRenderers[Random.Range(0, tarmacRenderers.Count)];
-        var spawnPosition = GetRandomPointInBounds(chosenTarmacRenderer.bounds);
-        spawnPosition.y = spawnYPosition;
-
+        var spawnPosition = GetSpawnPosition();
         currentCustomer = Instantiate(customerPrefab, spawnPosition, Quaternion.identity);
 
         ResetTimer();
+    }
+
+    private Vector3 GetSpawnPosition()
+    {
+        var chosenTarmacRenderer = tarmacRenderers[Random.Range(0, tarmacRenderers.Count)];
+        var position = GetRandomPointInBounds(chosenTarmacRenderer.bounds);
+        position.y = spawnYPosition;
+        return position;
     }
 
     private Vector3 GetRandomPointInBounds(Bounds bounds)
@@ -105,47 +99,28 @@ public class CustomerManager : MonoBehaviour
 
     private void ResetTimer()
     {
-        var expirationTime = Vector3.Distance(currentCustomer.transform.position, player.transform.position) *
-                             baseTimePerUnitDistance;
-        timer = expirationTime;
-        timerText.text = Mathf.CeilToInt(timer).ToString();
+        timer = CalculateDeliveryTime();
+        uiManager.UpdateTimer(Mathf.CeilToInt(timer));
+    }
+
+    private float CalculateDeliveryTime()
+    {
+        return Vector3.Distance(currentCustomer.transform.position, player.transform.position) *
+               baseTimePerUnitDistance;
     }
 
     private void FailDelivery()
     {
-        streak = 0;
-
-        if (streakText != null)
-        {
-            streakText.text = "Task Failed";
-            Invoke(nameof(ResetStreakText), 1.5f);
-        }
-
-        Debug.Log("Timer expired! Respawning customer.");
+        scoreManager.ResetStreak();
+        uiManager.ShowFailureMessage();
         SpawnCustomer();
     }
 
-    // Handle result of Player-Customer collision
     public void CompleteDelivery()
     {
-        streak++;
-
-        if (streakText != null)
-        {
-            streakText.text = "+" + streak;
-            Invoke(nameof(ResetStreakText), 1.5f);
-        }
-
-        score += streak;
-
-        if (scoreText != null) scoreText.text = score.ToString();
-
-        Debug.Log("Player interacted! Score: " + score);
+        scoreManager.IncrementScore();
+        uiManager.ShowSuccessMessage(scoreManager.CurrentStreak);
+        uiManager.UpdateScore(scoreManager.CurrentScore);
         SpawnCustomer();
-    }
-
-    private void ResetStreakText()
-    {
-        streakText.text = "";
     }
 }

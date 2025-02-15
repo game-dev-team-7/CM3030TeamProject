@@ -89,13 +89,12 @@ public class PickupManager : MonoBehaviour
 
     private void SpawnEmergencyKit()
     {
-        // var playerPosition = player.transform.position;
-        // var spawnPosition = playerPosition + player.transform.forward * 400f; // Spawn 2 units in front of the player
-        // spawnPosition.y = spawnYPosition;
-        //
-        // Instantiate(emergencyKitPrefab, spawnPosition, Quaternion.identity);
-        // Debug.Log("Player has died due to extreme temperature!");
-        // Debug.Log("Emergency Kit spawned!");
+        var playerPosition = player.transform.position;
+        var spawnPosition = playerPosition + player.transform.forward * 60f; // Spawn in front of the player
+        spawnPosition.y = spawnYPosition;
+
+        Instantiate(emergencyKitPrefab, spawnPosition, Quaternion.identity);
+        Debug.Log("Emergency Kit spawned!");
     }
 
     private void SpawnPickup(string type, GameObject prefab)
