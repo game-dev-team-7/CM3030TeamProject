@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PickupManager : MonoBehaviour
@@ -15,7 +16,6 @@ public class PickupManager : MonoBehaviour
     [SerializeField] private GameObject emergencyKitPrefab;
     private bool emergencyKitSpawned = false;
 
-    private readonly List<GameObject> plazas = new();
     private readonly List<Renderer> tarmacRenderers = new();
     private float spawnYPosition;
 
@@ -31,13 +31,25 @@ public class PickupManager : MonoBehaviour
 
         // spawn should be slightly above the ground
         var ground = GameObject.FindGameObjectWithTag("Ground");
-        var groundRenderer = ground.GetComponent<Renderer>();
-        spawnYPosition = groundRenderer.bounds.max.y + 2f;
+        if (ground != null)
+        {
+            var groundRenderer = ground.GetComponent<Renderer>();
+            spawnYPosition = groundRenderer.bounds.max.y + 2f;
+        }
+        else
+        {
+            Debug.LogError("Ground object not found");
+        }
 
-        // Get all game objects with tag "plaza" and add them to plazas list
-        plazas.AddRange(GameObject.FindGameObjectsWithTag("Plaza"));
-        // Get all renderers from plaza objects
-        plazas.ForEach(plaza => tarmacRenderers.AddRange(plaza.GetComponentsInChildren<Renderer>()));
+        // Determine where to spawn the pickups
+        var innerBlocks = GameObject.FindGameObjectWithTag("InnerBlocks");
+        if (innerBlocks != null)
+            // Find all renderers from child objects with the "Plaza" tag within innerBlocks
+            tarmacRenderers.AddRange(innerBlocks.GetComponentsInChildren<Transform>()
+                .Where(t => t.CompareTag("Plaza"))
+                .SelectMany(t => t.GetComponentsInChildren<Renderer>()));
+        else
+            Debug.LogError("InnerBlocks object not found");
 
         // Spawn initial pickups
         SpawnPickup("TShirt", tShirtPrefab);
@@ -46,7 +58,7 @@ public class PickupManager : MonoBehaviour
         SpawnPickup("Lemonade", lemonadePrefab);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         // Check for expired pickups
         foreach (var pickup in new Dictionary<string, GameObject>(activePickups))

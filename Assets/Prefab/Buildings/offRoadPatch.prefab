@@ -9879,7 +9879,7 @@ GameObject:
   - component: {fileID: 1911332465948933723}
   m_Layer: 0
   m_Name: offRoadPatch
-  m_TagString: Plaza
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10337,6 +10337,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: offRoad (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4597074670088101918, guid: a90dfa3064806d44c9e045801d2104b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plaza
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10359,7 +10364,7 @@ PrefabInstance:
     - target: {fileID: 1847179811103875828, guid: 9946ade108e56854a892bb7b7e272b0e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.62
+      value: 0.98
       objectReference: {fileID: 0}
     - target: {fileID: 1847179811103875828, guid: 9946ade108e56854a892bb7b7e272b0e,
         type: 3}
@@ -10369,7 +10374,7 @@ PrefabInstance:
     - target: {fileID: 1847179811103875828, guid: 9946ade108e56854a892bb7b7e272b0e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.27
+      value: 3.64
       objectReference: {fileID: 0}
     - target: {fileID: 1847179811103875828, guid: 9946ade108e56854a892bb7b7e272b0e,
         type: 3}
@@ -10484,6 +10489,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: offRoad (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597074670088101918, guid: a90dfa3064806d44c9e045801d2104b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plaza
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1191,7 +1191,7 @@ PrefabInstance:
     - target: {fileID: 6036696781997429920, guid: 3e1770115730ace44be02b40fcc13d5b,
         type: 3}
       propertyPath: m_TagString
-      value: Plaza
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1285,7 +1285,7 @@ PrefabInstance:
     - target: {fileID: 6036696781997429920, guid: 3e1770115730ace44be02b40fcc13d5b,
         type: 3}
       propertyPath: m_TagString
-      value: Plaza
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7615132137659350060, guid: 3e1770115730ace44be02b40fcc13d5b,
         type: 3}
