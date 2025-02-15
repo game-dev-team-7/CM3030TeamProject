@@ -14156,7 +14156,7 @@ MonoBehaviour:
   followObject: 0
   alwaysShow: 1
   minimapDistanceFromPlayer: 85
-  minimapIcon: {fileID: 21300000, guid: 6096a23198ffc3e438f602a1a4f27626, type: 3}
+  minimapIcon: {fileID: 21300000, guid: bec8145df9f900e42ae76e10adaa8f74, type: 3}
 --- !u!114 &-6679190368007485888
 MonoBehaviour:
   m_ObjectHideFlags: 0
