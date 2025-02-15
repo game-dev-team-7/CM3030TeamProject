@@ -7,105 +7,59 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float spawnHeightOffset = 2f;
     [SerializeField] private float baseTimePerUnitDistance = 0.04f;
 
-    private GameObject player;
-    private GameObject currentCustomer;
-    private float spawnYPosition;
-    private float timer;
-
-    private readonly List<Renderer> tarmacRenderers = new();
+    private CustomerSpawner spawner;
+    private DeliveryTimer deliveryTimer;
     private ScoreManager scoreManager;
     private UIManager uiManager;
+    private GameObject player;
 
     private void Awake()
     {
+        if (!TryInitialize())
+        {
+            enabled = false;
+            return;
+        }
+
+        spawner = new CustomerSpawner(customerPrefab, spawnHeightOffset);
+        deliveryTimer = new DeliveryTimer();
+
         scoreManager = GetComponent<ScoreManager>();
         uiManager = GetComponent<UIManager>();
-
-        if (!TryInitialize()) enabled = false;
     }
 
     private bool TryInitialize()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
-        {
-            Debug.LogError("Player object not found");
-            return false;
-        }
-
-        InitializeSpawnArea();
-        return true;
-    }
-
-    private void InitializeSpawnArea()
-    {
-        var streets = GameObject.FindGameObjectWithTag("Streets");
-        if (streets != null) tarmacRenderers.AddRange(streets.GetComponentsInChildren<Renderer>());
-
-        var ground = GameObject.FindGameObjectWithTag("Ground");
-        if (ground != null)
-        {
-            var groundRenderer = ground.GetComponent<Renderer>();
-            spawnYPosition = groundRenderer.bounds.max.y + spawnHeightOffset;
-        }
+        return player != null;
     }
 
     private void Start()
     {
-        SpawnCustomer();
+        StartNewDelivery();
     }
 
     private void Update()
     {
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-            uiManager.UpdateTimer(Mathf.CeilToInt(timer));
-        }
-        else
-        {
-            FailDelivery();
-        }
+        if (!enabled) return;
+
+        deliveryTimer.UpdateTimer();
+        uiManager.UpdateTimer(Mathf.CeilToInt(deliveryTimer.RemainingTime));
+
+        if (deliveryTimer.IsTimeExpired()) FailDelivery();
     }
 
-    private void SpawnCustomer()
+    private void StartNewDelivery()
     {
-        if (tarmacRenderers.Count == 0 || customerPrefab == null) return;
-
-        if (currentCustomer != null) Destroy(currentCustomer);
-
-        var spawnPosition = GetSpawnPosition();
-        currentCustomer = Instantiate(customerPrefab, spawnPosition, Quaternion.identity);
-
-        ResetTimer();
-    }
-
-    private Vector3 GetSpawnPosition()
-    {
-        var chosenTarmacRenderer = tarmacRenderers[Random.Range(0, tarmacRenderers.Count)];
-        var position = GetRandomPointInBounds(chosenTarmacRenderer.bounds);
-        position.y = spawnYPosition;
-        return position;
-    }
-
-    private Vector3 GetRandomPointInBounds(Bounds bounds)
-    {
-        return new Vector3(
-            Random.Range(bounds.min.x, bounds.max.x),
-            0,
-            Random.Range(bounds.min.z, bounds.max.z)
-        );
-    }
-
-    private void ResetTimer()
-    {
-        timer = CalculateDeliveryTime();
-        uiManager.UpdateTimer(Mathf.CeilToInt(timer));
+        spawner.SpawnCustomer();
+        var deliveryTime = CalculateDeliveryTime();
+        deliveryTimer.StartTimer(deliveryTime);
+        uiManager.UpdateTimer(Mathf.CeilToInt(deliveryTime));
     }
 
     private float CalculateDeliveryTime()
     {
-        return Vector3.Distance(currentCustomer.transform.position, player.transform.position) *
+        return Vector3.Distance(spawner.GetCurrentCustomerPosition(), player.transform.position) *
                baseTimePerUnitDistance;
     }
 
@@ -113,7 +67,7 @@ public class CustomerManager : MonoBehaviour
     {
         scoreManager.ResetStreak();
         uiManager.ShowFailureMessage();
-        SpawnCustomer();
+        StartNewDelivery();
     }
 
     public void CompleteDelivery()
@@ -121,6 +75,6 @@ public class CustomerManager : MonoBehaviour
         scoreManager.IncrementScore();
         uiManager.ShowSuccessMessage(scoreManager.CurrentStreak);
         uiManager.UpdateScore(scoreManager.CurrentScore);
-        SpawnCustomer();
+        StartNewDelivery();
     }
 }

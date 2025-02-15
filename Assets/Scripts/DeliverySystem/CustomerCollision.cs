@@ -6,20 +6,14 @@ public class CustomerCollision : MonoBehaviour
 
     private void Start()
     {
-        customerManager = FindObjectOfType<CustomerManager>(); // Finds the CustomerManager in the scene
-
+        customerManager = FindObjectOfType<CustomerManager>();
         if (customerManager == null) Debug.LogError("CustomerManager not found in the scene!");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger detected with: " + other.gameObject.name);
-
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player reached the Customer!");
-
-            if (customerManager != null) customerManager.CompleteDelivery(); // Call method in CustomerManager
-        }
+        if (!other.CompareTag("Player")) return;
+        
+        customerManager?.CompleteDelivery();
     }
 }
