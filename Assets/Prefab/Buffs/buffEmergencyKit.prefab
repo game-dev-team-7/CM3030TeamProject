@@ -908,6 +908,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 85
   minimapIcon: {fileID: 0}
 --- !u!1 &6411237963287576940
 GameObject:

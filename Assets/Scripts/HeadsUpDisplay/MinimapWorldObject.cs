@@ -6,6 +6,12 @@ public class MinimapWorldObject : MonoBehaviour
     private bool followObject = false; // Determines if this object is followed by the minimap camera.
 
     [SerializeField]
+    public bool alwaysShow = false; // Determines if this object is always shown on minimap
+
+    [SerializeField]
+    public float minimapDistanceFromPlayer = 90f; // Distance from player where object should always show
+
+    [SerializeField]
     private Sprite minimapIcon; // The icon representing this object on the minimap.
 
     // Public getter for the minimap icon.
@@ -22,4 +28,6 @@ public class MinimapWorldObject : MonoBehaviour
         // Removes this object from the MinimapController when it is destroyed.
         MinimapController.Instance.RemoveMinimapWorldObject(this);
     }
+
+
 }

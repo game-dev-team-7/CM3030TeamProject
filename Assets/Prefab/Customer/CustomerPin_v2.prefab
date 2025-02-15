@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 95
   minimapIcon: {fileID: 21300000, guid: bc8f05f5ab4d36047a548ea05a643017, type: 3}
 --- !u!114 &5835123306423384028
 MonoBehaviour:

@@ -11816,9 +11816,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7576516869966983543}
-  - component: {fileID: 237298623895358955}
   - component: {fileID: 6913242933296351124}
   - component: {fileID: 6556283360406803414}
+  - component: {fileID: 237298623895358955}
   - component: {fileID: 8994653374694487407}
   m_Layer: 0
   m_Name: buffCoat
@@ -11844,20 +11844,6 @@ Transform:
   - {fileID: 7342172447869029663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &237298623895358955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6782053876297219265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 0
-  minimapIcon: {fileID: 21300000, guid: ffa07342fd6f2f24b828e18059c290ff, type: 3}
 --- !u!54 &6913242933296351124
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11906,6 +11892,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.3167725, y: 11.639572, z: 6.1592183}
   m_Center: {x: -0.13978577, y: 5.319786, z: -0.2487328}
+--- !u!114 &237298623895358955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 85
+  minimapIcon: {fileID: 21300000, guid: ffa07342fd6f2f24b828e18059c290ff, type: 3}
 --- !u!114 &8994653374694487407
 MonoBehaviour:
   m_ObjectHideFlags: 0
