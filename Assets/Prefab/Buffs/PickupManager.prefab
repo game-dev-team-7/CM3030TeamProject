@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8685329116373557258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5028523280266076584}
+  - component: {fileID: 4782590417235151124}
+  m_Layer: 0
+  m_Name: PickupManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5028523280266076584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8685329116373557258}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4782590417235151124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8685329116373557258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64f956140db54603a6040fe744aa768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tShirtPrefab: {fileID: 6782053876297219265, guid: 1c22021eb64ba40499779bcd00304a34,
+    type: 3}
+  coatPrefab: {fileID: 6782053876297219265, guid: 404e64617be37264aa0d945f0969298f,
+    type: 3}
+  hotChocolatePrefab: {fileID: 6782053876297219265, guid: 2444d5ab62fcbdd43a18fedf6ae04bab,
+    type: 3}
+  lemonadePrefab: {fileID: 6782053876297219265, guid: 469506790d168214e9fb3546ab056d6d,
+    type: 3}
+  emergencyKitPrefab: {fileID: 6231642376103329385, guid: 02e2881d7be608e429cefc4539ba5597,
+    type: 3}
+  expirationTime: 30
+  emergencyKitDistance: 60
+  spawnHeight: 2
