@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: electicBlueMat
+  m_Name: keppel
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -79,6 +79,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.21176472, g: 0.9215687, b: 0.9490197, a: 1}
-    - _EmissionColor: {r: 0.031118587, g: 0.70080733, b: 0.7490196, a: 1}
+    - _Color: {r: 0.098039225, g: 0.7725491, b: 0.6862745, a: 1}
+    - _EmissionColor: {r: 0.009721218, g: 0.5583406, b: 0.42869055, a: 1}
   m_BuildTextureStacks: []
