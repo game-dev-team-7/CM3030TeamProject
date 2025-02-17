@@ -37,7 +37,7 @@ public class CameraControllerV2 : MonoBehaviour
     {
         if (target == null) return;
 
-        // Smooth follow using Lerp instead of SmoothDamp
+        // Smooth follow using Lerp
         transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * 5f);
 
         // Apply rotations
