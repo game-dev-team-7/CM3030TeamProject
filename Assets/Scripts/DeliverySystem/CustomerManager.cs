@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -43,8 +43,10 @@ public class CustomerManager : MonoBehaviour
     {
         if (!enabled) return;
 
+        if (GameObject.FindGameObjectWithTag("Customer") == null) return;
+
         deliveryTimer.UpdateTimer();
-        uiManager.UpdateTimer(Mathf.CeilToInt(deliveryTimer.RemainingTime));
+        uiManager.UpdateTimer(deliveryTimer.RemainingTime);
 
         if (deliveryTimer.IsTimeExpired()) FailDelivery();
     }
@@ -54,7 +56,7 @@ public class CustomerManager : MonoBehaviour
         spawner.SpawnCustomer();
         var deliveryTime = CalculateDeliveryTime();
         deliveryTimer.StartTimer(deliveryTime);
-        uiManager.UpdateTimer(Mathf.CeilToInt(deliveryTime));
+        uiManager.UpdateTimer(deliveryTime);
     }
 
     private float CalculateDeliveryTime()
@@ -65,16 +67,26 @@ public class CustomerManager : MonoBehaviour
 
     private void FailDelivery()
     {
+        spawner.DestroyCurrentCustomer();
         scoreManager.ResetStreak();
         uiManager.ShowFailureMessage();
-        StartNewDelivery();
+        uiManager.ResetTimer();
+        StartCoroutine(StartNewDeliveryWithDelay());
     }
 
     public void CompleteDelivery()
     {
+        spawner.DestroyCurrentCustomer();
         scoreManager.IncrementScore();
         uiManager.ShowSuccessMessage(scoreManager.CurrentStreak);
         uiManager.UpdateScore(scoreManager.CurrentScore);
+        uiManager.ResetTimer();
+        StartCoroutine(StartNewDeliveryWithDelay());
+    }
+
+    private IEnumerator StartNewDeliveryWithDelay()
+    {
+        yield return new WaitForSeconds(2f);
         StartNewDelivery();
     }
 }
