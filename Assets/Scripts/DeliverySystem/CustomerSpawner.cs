@@ -34,6 +34,8 @@ public class CustomerSpawner
     {
         if (tarmacRenderers.Count == 0 || customerPrefab == null) return;
 
+        DestroyCurrentCustomer();
+
         var spawnPosition = GetSpawnPosition();
         currentCustomer = Object.Instantiate(customerPrefab, spawnPosition, Quaternion.identity);
     }
