@@ -43,7 +43,7 @@ public class PickupManager : MonoBehaviour
     private void SpawnInitialPickups()
     {
         SpawnPickup("TShirt", tShirtPrefab);
-        SpawnPickup("Coat", coatPrefab);
+        SpawnPickup("WinterCoat", coatPrefab);
         SpawnPickup("HotChocolate", hotChocolatePrefab);
         SpawnPickup("Lemonade", lemonadePrefab);
     }
@@ -114,7 +114,7 @@ public class PickupManager : MonoBehaviour
         return type switch
         {
             "TShirt" => tShirtPrefab,
-            "Coat" => coatPrefab,
+            "WinterCoat" => coatPrefab,
             "HotChocolate" => hotChocolatePrefab,
             "Lemonade" => lemonadePrefab,
             _ => null

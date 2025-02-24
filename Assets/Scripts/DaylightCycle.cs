@@ -14,7 +14,7 @@ public class DaylightCycle : MonoBehaviour
     private static float degpersec = totalRotation / totalTime;
 
     // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
         //calculates the actual speed by multiplying the degrees amount per Delta t
         rot.x = degpersec * Time.deltaTime;
