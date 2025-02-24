@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -43,6 +43,8 @@ public class CustomerManager : MonoBehaviour
     {
         if (!enabled) return;
 
+        if (GameObject.FindGameObjectWithTag("Customer") == null) return;
+
         deliveryTimer.UpdateTimer();
         uiManager.UpdateTimer(deliveryTimer.RemainingTime);
 
@@ -65,16 +67,26 @@ public class CustomerManager : MonoBehaviour
 
     private void FailDelivery()
     {
+        spawner.DestroyCurrentCustomer();
         scoreManager.ResetStreak();
         uiManager.ShowFailureMessage();
-        StartNewDelivery();
+        uiManager.ResetTimer();
+        StartCoroutine(StartNewDeliveryWithDelay());
     }
 
     public void CompleteDelivery()
     {
+        spawner.DestroyCurrentCustomer();
         scoreManager.IncrementScore();
         uiManager.ShowSuccessMessage(scoreManager.CurrentStreak);
         uiManager.UpdateScore(scoreManager.CurrentScore);
+        uiManager.ResetTimer();
+        StartCoroutine(StartNewDeliveryWithDelay());
+    }
+
+    private IEnumerator StartNewDeliveryWithDelay()
+    {
+        yield return new WaitForSeconds(2f);
         StartNewDelivery();
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -25,10 +24,15 @@ public class UIManager : MonoBehaviour
         if (timerText != null)
         {
             if (seconds > 5)
-                timerText.text = Mathf.FloorToInt(seconds).ToString();
+                timerText.text = "Timer: " + Mathf.FloorToInt(seconds);
             else
-                timerText.text = seconds.ToString("F1");
+                timerText.text = "Timer: " + seconds.ToString("F1");
         }
+    }
+
+    public void ResetTimer()
+    {
+        if (timerText != null) timerText.text = "";
     }
 
     public void UpdateScore(int score)
