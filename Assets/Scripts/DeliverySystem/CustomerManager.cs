@@ -44,7 +44,7 @@ public class CustomerManager : MonoBehaviour
         if (!enabled) return;
 
         deliveryTimer.UpdateTimer();
-        uiManager.UpdateTimer(Mathf.CeilToInt(deliveryTimer.RemainingTime));
+        uiManager.UpdateTimer(deliveryTimer.RemainingTime);
 
         if (deliveryTimer.IsTimeExpired()) FailDelivery();
     }
@@ -54,7 +54,7 @@ public class CustomerManager : MonoBehaviour
         spawner.SpawnCustomer();
         var deliveryTime = CalculateDeliveryTime();
         deliveryTimer.StartTimer(deliveryTime);
-        uiManager.UpdateTimer(Mathf.CeilToInt(deliveryTime));
+        uiManager.UpdateTimer(deliveryTime);
     }
 
     private float CalculateDeliveryTime()

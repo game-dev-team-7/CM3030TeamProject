@@ -1,0 +1,574 @@
+commit e9844dd44df6f1c7084b48d8f2de3b6cb4c48484
+Author:     Ludo-sys21 <ludovico.angelini@gmail.com>
+AuthorDate: Mon Feb 17 16:48:50 2025 +0100
+Commit:     Ludo-sys21 <ludovico.angelini@gmail.com>
+CommitDate: Mon Feb 17 16:48:50 2025 +0100
+
+    Snow Effects + General fixes
+    
+    Added Snow particle systems, both local and global, can be worked upon.
+    Fixed some building collision boxes.
+    Minor comment edits.
+
+commit e57e08aabbfc93541082a2d4894c108f3000da47
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sun Feb 16 03:05:23 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sun Feb 16 03:05:23 2025 +0000
+
+    Fog Effect added to Level_01_CyPk
+
+commit f2d73455d52c296b500e5c7b282b1f2bd6fde4f0
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sun Feb 16 02:31:18 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sun Feb 16 02:31:18 2025 +0000
+
+    Added missing materials to CyPkMaterials folder
+
+commit d10dcab2102f282b2b90b0f6e6d866aa47b2d6c7
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sun Feb 16 02:23:42 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sun Feb 16 02:23:42 2025 +0000
+
+    Added box colliders to CyPk blocks
+
+commit 17584e31fbe90b87118603641d28a564d1b38e53
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sun Feb 16 02:08:08 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sun Feb 16 02:08:08 2025 +0000
+
+    Added Colour To Buildings
+    
+    NOTE: Changes are in Level_01_CyPk scene
+    - Colours added to buildings (Original files untouched)
+
+commit ace767ff65526529e9178c8bbaa8fc1ab5680677
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Feb 15 18:28:52 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Feb 15 18:28:52 2025 +0000
+
+    Created prefabs for all objects in Level_1
+    
+    - Saved main objects on Level_01 as prefabs
+    - Created folders for Camera, Lighting
+    - Change UI to HUD
+    - Saved audio main objects as prefabs in SoundEffects folder
+    - Saved weather main objects as prefabs in Weather folder
+    - Moved RoatTiles, Blocks, Building Elements, Buildings to Environment folder
+    NOTE: EventSystem not saved as prefab atm.
+
+commit e7a88f799e4fada539ee4f786f047e0857de93c9
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Feb 15 18:02:50 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Feb 15 18:02:50 2025 +0000
+
+    Added new icons for buffs
+    
+    - red and blue icons created to reflect color changes in the 3d prefabs
+    - icon created for emergency kit
+
+commit e15ed7939e5d406586e1073ff1a978ebbd5c3abf
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Feb 15 17:02:44 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Feb 15 17:02:44 2025 +0000
+
+    -Added bool for ayways show on the map.
+    
+    MinimapWorldObject:
+    - alwaysShow bool for always showing on the minimap
+    - minimapDistanceFromPlayer :  distance  from the player that alwaysShow is activated
+    Minimap Controller
+    -  minor adjustments to apply MinimapWorldObject changes.
+
+commit 0c80852b2d63471a15a9643b7a661a73740a64f8
+Merge: 8ab09db 6de2a06
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sun Feb 16 00:05:35 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sun Feb 16 00:05:35 2025 +0800
+
+    Merge branch 'main' of github.com:game-dev-team-7/CM3030TeamProject
+
+commit 8ab09db2815ef5d129607f2e10c2fb9af2936ee7
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sun Feb 16 00:04:48 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sun Feb 16 00:04:48 2025 +0800
+
+    Refactored pickup manager code for readability
+
+commit 6de2a06be1a11fb1cb703491cf742ef979bf0efe
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Feb 15 15:53:53 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Feb 15 15:53:53 2025 +0000
+
+    Change buff colors and emissions
+    
+    - Changed t-shirt and  lemonade cyan.
+    - Changed coat and hot chock to red.
+    - Added emission effect to buffs
+    - Added roatation to body of buffs.
+
+commit 8d5190aafd6984188736d0adf520044a0f2aa044
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sat Feb 15 23:41:57 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sat Feb 15 23:41:57 2025 +0800
+
+    refactored the costumer manager code for readability
+
+commit f60c3206bfc0c865662aa9e3ef46cd1ab7fe5fdb
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sat Feb 15 23:22:29 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sat Feb 15 23:22:29 2025 +0800
+
+    Refactored customer manager
+
+commit b732dccdaddbb920847cee7aa7622931f9d78887
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sat Feb 15 22:49:55 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sat Feb 15 22:49:55 2025 +0800
+
+    Adjusted main menu font
+
+commit 8d0095e4b31f5f15b60cd92123097c95b61af16a
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sat Feb 15 22:49:29 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sat Feb 15 22:49:29 2025 +0800
+
+    Changed Plaza tag, added InnerBlocks tag, now supplies will only appear on empty plaza ground in inner blocks
+
+commit 4bf45f9906c77ae1e73d83b60d4d25090987124d
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Sat Feb 15 22:45:38 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Sat Feb 15 22:45:38 2025 +0800
+
+    Changed the pivot of buff prefabs, now the pivot is on the bottom
+
+commit d688e7d918cc1dc3383e017e24b8b29c0aedba0c
+Author:     Ludo-sys21 <ludovico.angelini@gmail.com>
+AuthorDate: Fri Feb 14 15:36:08 2025 +0100
+Commit:     Ludo-sys21 <ludovico.angelini@gmail.com>
+CommitDate: Fri Feb 14 15:36:08 2025 +0100
+
+    Camera quickfix
+    
+    Changed Pickup manager Update to LateUpdate.
+
+commit 26ac8ee8ceab7b01551151f4a7503881d3b40058
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 21:18:57 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 21:18:57 2025 +0800
+
+    attached emergency kit prefab to its script
+
+commit 4f8c4e2d4614814cd19b54a36e0439e7837caa1f
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 21:16:04 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 21:16:04 2025 +0800
+
+    add emergency kit and bug fixes
+
+commit 704f9424f39df8102ae23df9f32938f6e5b9efa6
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 20:20:27 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 20:20:27 2025 +0800
+
+    Pickups now spawn randomly on plaza
+
+commit 1926c2743875e7b6d6e22d236a12d8b5cd54fd3f
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 18:02:03 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 18:02:03 2025 +0800
+
+    Slightly adjusted the UI text
+
+commit 769b12f460e7d196ed2e328f8ec0182f5734b4ff
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 17:00:56 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 17:00:56 2025 +0800
+
+    adjusted camera angle so the character is closer to the center of the screen and won't be blocked by any UI
+
+commit 172233ddf304725e423da81a53173dd7c0ad2131
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Fri Feb 14 01:01:04 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Fri Feb 14 01:01:04 2025 +0000
+
+    HUD elements graphics improvements
+    
+    - Added glow effects
+    - added texture effects
+    - changed to cyberpunk-style colours
+
+commit d1027a042568dbc676b3e96944610c8e7f19b586
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Thu Feb 13 22:05:11 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Thu Feb 13 22:05:11 2025 +0000
+
+    Added Emergency Kit
+    
+    - Created Emergency Kit
+    - Added Particle effects
+    - Added Light effects
+
+commit 1c1e6dc0e4794fdd9e63d4740f2ba59173f8f9ec
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Thu Feb 13 20:40:56 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Thu Feb 13 20:40:56 2025 +0000
+
+    Camera direction light added to minimap
+    
+    - Torchlight sprite added to minimap to show the direction the camera is pointing to.
+    -Minimap prefab and MinimapController.cs adjusted for the change.
+
+commit ed52ff84abcd80623d2c3c944814ce3bd37bd8a8
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Thu Feb 13 19:14:53 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Thu Feb 13 19:14:53 2025 +0000
+
+    Added  CyPk glow effect to customer pin, fixed minor bug
+    
+    - Glow effect added to customer pin (cyan tint)
+    - Fixed bug where customer pin would not show centered on the location.
+
+commit 2cf4cfbd6da90e3f0bf0000787e130888682854e
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 01:56:21 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 01:56:21 2025 +0800
+
+    minor improvement of streak text
+
+commit 9f766afc4a3a2f0c1c119022f78a51175271c9eb
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 01:51:07 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 01:51:07 2025 +0800
+
+    Streak bonus now working (both script and primitive UI)
+
+commit 909ceb60aeaa3b5b821d6424ed53b9faa12bd781
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 01:34:36 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 01:34:36 2025 +0800
+
+    Streak bonus now working (both script and primitive UI)
+    
+    Streak bonus: +1x per consecutive delivery. For example, completing the first consecutive task is +1 score, the second is +2 score, the third is +3 score. Miss one task and the streak returns to 0.
+
+commit c346f06ea21e301bf07f1f4d5d303c687c05a095
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Fri Feb 14 00:35:57 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Fri Feb 14 00:35:57 2025 +0800
+
+    Task expiration time now based on distance
+
+commit b03b33789ef92c8c37f72b2119d59a00fc582de0
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Thu Feb 13 23:06:13 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Thu Feb 13 23:06:13 2025 +0800
+
+    Customer will spawn randomly (only on street of course) now
+
+commit 82084b2cfa1005b337204a05862aef8c7ad70a58
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Thu Feb 13 17:20:09 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Thu Feb 13 17:20:09 2025 +0800
+
+    Target Marker now made 3D
+    
+    the marker is now a bit high from the ground. will fix that in next commit when I change spawn location from hard coded locations to random spot on road.
+
+commit aab42209218447d4382226e23c538cca2138c8bd
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Thu Feb 13 01:43:50 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Thu Feb 13 01:43:50 2025 +0000
+
+    Buffs added thorughout game
+    
+    - Added buffs at every block (A1, A1_Reversed, A2, A2_Reversed)
+    - Added Rigidbody and Collider(As Trigger) to every buff
+    - Fixed bug with missing script for moving cone.
+
+commit 9e48a8dbdbbe8a36ba72540374234b32fe98ff6d
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Wed Feb 12 23:30:48 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Wed Feb 12 23:30:48 2025 +0000
+
+    Temperature Bar - Reacting to body temperature
+    
+    - Created script TemperatureBarManager
+    - Temperature bar now active
+    - Temperature bar prefabs moved to HeadsUpDisplay/TemperatureBar
+    - Minimap prefabs moved to HeadsUpDisplay/Minimap
+
+commit 056d8c38bb5da5a4480346811093dbf4e8c99df1
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Wed Feb 12 18:05:51 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Wed Feb 12 18:05:51 2025 +0000
+
+    Customer locations added for all 4 street rows
+
+commit da7dbfb2f83dc503daa65c9fa84dd75d8e4f8315
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Mon Feb 10 22:17:15 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Mon Feb 10 22:17:15 2025 +0000
+
+    Cutomer Manager and bug fixes
+    
+    - Customer Manager for managing customer spawn, score and timer
+    - fixed minimap and score locations bug
+
+commit 4d508b700b7e99e233f3e2480cec0f17e9f65863
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Mon Feb 10 21:33:39 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Mon Feb 10 21:33:39 2025 +0000
+
+    Cutomer Manager and bug fixes
+    
+    - Customer Manager for managing customer spawn, score and timer
+    - fixed minimap and score locations bug
+
+commit a6f9e6d038d709002370dea7982595d16c574412
+Author:     Ludo-sys21 <ludovico.angelini@gmail.com>
+AuthorDate: Mon Feb 10 13:03:56 2025 +0100
+Commit:     Ludo-sys21 <ludovico.angelini@gmail.com>
+CommitDate: Mon Feb 10 13:03:56 2025 +0100
+
+    Fixed Camera Jittering and Added Player movement sounds
+    
+    Camera using lerp instead of smoothDamp now.
+    Player movement now has sound!(WIP)
+
+commit 3f88b621d95e68d278a520115c7bf9ff0c1df91c
+Author:     Jedrzej <thefullresolution@gmail.com>
+AuthorDate: Sat Feb 8 08:52:03 2025 +0100
+Commit:     Jedrzej <thefullresolution@gmail.com>
+CommitDate: Sat Feb 8 08:52:03 2025 +0100
+
+    Bring Back the Weather
+
+commit 7e40fd0d3e361902ab5009dcb5ea8c33dc6e5777
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Tue Feb 4 00:23:02 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Tue Feb 4 00:23:02 2025 +0800
+
+    A semi-working delivery system, much refinement needed
+
+commit 29ddefc726e99f20cec57e802c4f746a421de1e9
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Mon Feb 3 21:11:27 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Mon Feb 3 21:11:27 2025 +0800
+
+    the daylight cycle goes from sunrise to sunset in 10 minutes' time
+
+commit 57b792d3a3f8a1bd1e5d73628bd82883c9419c20
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Mon Feb 3 21:05:56 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Mon Feb 3 21:05:56 2025 +0800
+
+    Fix CameraController and PlayerController bugs, they now work smoothly
+
+commit 558c09b2da002c0951622f4b8a4e782db4416621
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Mon Feb 3 20:25:22 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Mon Feb 3 20:25:22 2025 +0800
+
+    Camera and player moves like in RPG games
+
+commit dda2bb585a69ec19edad20a17d86ce3997bd8bf8
+Author:     WU Yue <yuewuxd@gmail.com>
+AuthorDate: Mon Feb 3 18:13:15 2025 +0800
+Commit:     WU Yue <yuewuxd@gmail.com>
+CommitDate: Mon Feb 3 18:13:15 2025 +0800
+
+    Fixed the character movement. Added box collider to all blocks.
+    
+    Now the courier can only drive on roads obeying the traffic law
+
+commit ba8d84bdd0252c317c5fa643d71b24f640d7965d
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Feb 1 22:44:18 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Feb 1 22:44:18 2025 +0000
+
+    Customer Location and Random Roadblocks
+    
+    Customer location:
+    - Customer location (3D space)
+    - Minimap icon
+    - Always show on minimap
+    
+    Road blocks:
+    - Random generation of road blocks
+    - Ability to choose respawn timer and number of spawned barriers.
+    
+    Additional changes:
+    - Ability to resize minimap customer icon and the other icons in real time (from Inspector)
+    
+    Delivery Timer added next to the minimap at the moment. Will be used for configuring score and customer logic
+
+commit 7fb6e1dce7d46aa895c132a807d5077dd14fdba2
+Author:     Jedrzej <thefullresolution@gmail.com>
+AuthorDate: Sun Jan 26 08:28:16 2025 +0100
+Commit:     Jedrzej <thefullresolution@gmail.com>
+CommitDate: Sun Jan 26 08:28:16 2025 +0100
+
+    Start With Game State
+
+commit 9f0a753d877dd1bb15bd27860484c3f8df2b39e2
+Merge: 37cf6f4 1504cb5
+Author:     Ludo-sys21 <82510961+Ludo-sys21@users.noreply.github.com>
+AuthorDate: Fri Jan 24 10:57:17 2025 +0100
+Commit:     GitHub <noreply@github.com>
+CommitDate: Fri Jan 24 10:57:17 2025 +0100
+
+    Merge pull request #2 from Ludo-sys21/main
+    
+    Daylight cycle
+
+commit 1504cb5198b212d117c2fd71b850cb624aa1b37e
+Author:     Ludo-sys21 <ludovico.angelini@gmail.com>
+AuthorDate: Thu Jan 23 15:49:46 2025 +0100
+Commit:     Ludo-sys21 <ludovico.angelini@gmail.com>
+CommitDate: Thu Jan 23 15:49:46 2025 +0100
+
+    Daylight cycle
+    
+    Daylight cycle added
+
+commit 37cf6f46c40660fe9564d2ee8b813d3510176bd5
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Mon Jan 20 02:55:19 2025 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Mon Jan 20 02:55:19 2025 +0000
+
+    Working Minimap, Score Icon, Body Temperature Bar
+    
+    Minimap
+    - Create custom minimap
+    - Show player on minimap
+    - Show power-ups on minimap
+    Body Temperature bar
+    - Show bar and emoticon
+    Score
+    - Show score icon
+
+commit 4bd406fc4568a58c0af577774a8617731aa1233b
+Author:     Ludo-sys21 <ludovico.angelini@gmail.com>
+AuthorDate: Sun Dec 22 21:45:00 2024 +0100
+Commit:     Ludo-sys21 <ludovico.angelini@gmail.com>
+CommitDate: Sun Dec 22 21:45:00 2024 +0100
+
+    Building models+Fixes
+    
+    Added new building and road models.
+    Removed the driver's ability to fly.
+    Added/updated collision boxes for buildings.
+    Added audio to UI buttons, background music for main menu and sample scene.
+
+commit 97f4e809cf999c01a735fdccf1e4c866bed89f0d
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Dec 7 16:37:00 2024 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Dec 7 16:37:00 2024 +0000
+
+    Added Restaurant/Customer location and 2 camera views
+    
+    * Restaurant location
+    * Customer Location
+    * Animated arrows
+    * Disabled Mesh coliders on location and buff items
+    * Disabled shadows on location and buff items
+    * Added Perspective and Ortographic(isomorphic) camera views
+
+commit 1b13e58fdbd52629a5d3a1d77f8a554b30ed638d
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Dec 7 02:22:18 2024 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Dec 7 02:22:18 2024 +0000
+
+    Barrier prototype added
+
+commit 41b3a80c1d408aae500017c817e50b79575e45a7
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Sat Dec 7 00:36:30 2024 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Sat Dec 7 00:36:30 2024 +0000
+
+    Prototype menu scene added
+    
+    Prototype menu with clickable buttons
+
+commit 22d6224953953607b5de6d524e6faa48097f550b
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Fri Dec 6 05:50:05 2024 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Fri Dec 6 05:50:05 2024 +0000
+
+    Added basic map scene
+    
+    Basic Map
+
+commit 1add1cd805f2684cd57b41f4e76b88b3a0e76289
+Author:     Cosmin Vlasie <cvlasie@gmail.com>
+AuthorDate: Fri Dec 6 05:41:00 2024 +0000
+Commit:     Cosmin Vlasie <cvlasie@gmail.com>
+CommitDate: Fri Dec 6 05:41:00 2024 +0000
+
+    Added extra prefabs
+    
+    prefabs for streets, blocks;
+    special prefab for player(used for centering the pivot, useful when rotating character)
+
+commit 10035f64fa6c5dcb799da78a763583269190e846
+Author:     Cosmin <civ2@student.london.ac.uk>
+AuthorDate: Fri Dec 6 05:01:48 2024 +0000
+Commit:     Cosmin <civ2@student.london.ac.uk>
+CommitDate: Fri Dec 6 05:01:48 2024 +0000
+
+    Added prototypes & basic player movement
+    
+    player, NPCs, buffs, map
+
+commit 331e2c9061b0d001e19b7c49726d79851a2ae5c4
+Author:     Cosmin <44092138+quantumgenie@users.noreply.github.com>
+AuthorDate: Fri Dec 6 04:54:10 2024 +0000
+Commit:     GitHub <noreply@github.com>
+CommitDate: Fri Dec 6 04:54:10 2024 +0000
+
+    Initial commit
