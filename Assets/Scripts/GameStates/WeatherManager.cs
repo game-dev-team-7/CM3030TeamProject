@@ -1,36 +1,44 @@
-// WeatherManager.cs
 using UnityEngine;
 using System.Collections;
 
 public class WeatherManager : MonoBehaviour
 {
+    // Updated WeatherType enum should only include Normal, Heatwave, and Snowstorm.
     public WeatherType CurrentWeather { get; private set; }
 
     // Weather Change Interval (in seconds)
     public float weatherChangeInterval = 30f;
 
-    // Coroutine reference
+    // Coroutine reference for weather cycle
     private Coroutine weatherCoroutine;
 
-    // Reference to GameFSM
+    // Reference to GameFSM (if needed)
     public GameFSM gameFSM;
 
-    // Reference to WeatherTintController
-    public WeatherTintController tintController;
+    // New effect controller references
+    public SnowEffectController snowEffectController;
+    public FogEffectController fogEffectController;
 
     void Start()
     {
-        // Ensure WeatherManager is linked to GameFSM
+        // Link to GameFSM if not already set.
         if (gameFSM == null)
         {
             gameFSM = FindObjectOfType<GameFSM>();
         }
 
-        // Ensure WeatherTintController is linked
-        if (tintController == null)
+        // Automatically find the effect controllers if not linked manually.
+        if (snowEffectController == null)
         {
-            tintController = FindObjectOfType<WeatherTintController>();
+            snowEffectController = FindObjectOfType<SnowEffectController>();
         }
+        if (fogEffectController == null)
+        {
+            fogEffectController = FindObjectOfType<FogEffectController>();
+        }
+        
+        // Start with Normal weather (no extra effects)
+        SetWeather(WeatherType.Normal);
     }
 
     public void SetWeather(WeatherType newWeather)
@@ -68,49 +76,42 @@ public class WeatherManager : MonoBehaviour
 
     public void ChangeWeather()
     {
-        // Simple example: Cycle through Mild → Normal → Heatwave → Snowstorm → Mild
-        switch (CurrentWeather)
+        // Cycle between Normal and either Heatwave or Snowstorm.
+        if (CurrentWeather == WeatherType.Normal)
         {
-            case WeatherType.Mild:
-                SetWeather(WeatherType.Normal);
-                break;
-            case WeatherType.Normal:
-                // Randomly choose between Heatwave and Snowstorm
-                if (Random.value > 0.5f)
-                    SetWeather(WeatherType.Heatwave);
-                else
-                    SetWeather(WeatherType.Snowstorm);
-                break;
-            case WeatherType.Heatwave:
-                SetWeather(WeatherType.Normal);
-                break;
-            case WeatherType.Snowstorm:
-                SetWeather(WeatherType.Normal);
-                break;
+            // Randomly choose between Heatwave and Snowstorm.
+            if (Random.value > 0.5f)
+                SetWeather(WeatherType.Heatwave);
+            else
+                SetWeather(WeatherType.Snowstorm);
+        }
+        else
+        {
+            // Return to Normal weather after a heatwave or snowstorm.
+            SetWeather(WeatherType.Normal);
         }
     }
 
     private void ApplyWeatherEffects()
     {
-        // Implement visual and gameplay effects based on CurrentWeather
-        // Instead of changing skybox, change screen tint
+        // Turn off both effects by default.
+        snowEffectController.SetVisible(false);
+        fogEffectController.SetVisible(false);
+
+        // Enable the appropriate effect based on current weather.
         switch (CurrentWeather)
         {
-            case WeatherType.Mild:
-                tintController.ChangeTint(new Color(0, 1, 1, 0.1f)); // Light Cyan
-                break;
             case WeatherType.Normal:
-                tintController.ChangeTint(new Color(0, 0, 1, 0.1f)); // Light Blue
+                // No weather effect.
                 break;
             case WeatherType.Heatwave:
-                tintController.ChangeTint(new Color(1, 0, 0, 0.3f)); // Light Red
+                // Show fog effect during a heatwave.
+                fogEffectController.SetVisible(true);
                 break;
             case WeatherType.Snowstorm:
-                tintController.ChangeTint(new Color(1, 1, 1, 0.3f)); // Light White
+                // Show snow effect during a snowstorm.
+                snowEffectController.SetVisible(true);
                 break;
         }
-
-        // Additional gameplay effects can be handled here
-        // e.g., Adjust temperature rates, spawn weather-related particles, etc.
     }
 }

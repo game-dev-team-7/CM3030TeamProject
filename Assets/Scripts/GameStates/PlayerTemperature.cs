@@ -10,17 +10,19 @@ public class PlayerTemperature : MonoBehaviour
     [Header("Temperature Change Rates")]
     public float heatwaveRate = 3f; // Increased from 1f
     public float snowstormRate = -3f; // Increased from -1f
+    private bool gameOverTriggered = false; // Ensure we only trigger game over once
 
     // Reference to WeatherManager
     private WeatherManager weatherManager;
 
-    // Reference to GameFSM (optional, if needed)
     private GameFSM gameFSM;
-
+    private GameOverManager gameOverManager;
+    
     void Start()
     {
         weatherManager = FindObjectOfType<WeatherManager>();
         gameFSM = FindObjectOfType<GameFSM>();
+        gameOverManager = FindObjectOfType<GameOverManager>();
     }
 
     void Update()
@@ -28,9 +30,6 @@ public class PlayerTemperature : MonoBehaviour
         // Adjust temperature based on current weather
         switch (weatherManager.CurrentWeather)
         {
-            case WeatherType.Mild:
-                // No change
-                break;
             case WeatherType.Heatwave:
                 bodyTemperature += heatwaveRate * Time.deltaTime;
                 break;
@@ -46,11 +45,20 @@ public class PlayerTemperature : MonoBehaviour
         bodyTemperature = Mathf.Clamp(bodyTemperature, minTemperature, maxTemperature);
 
         // Check for game over conditions
-        if (bodyTemperature <= minTemperature || bodyTemperature >= maxTemperature)
+        if (!gameOverTriggered && (bodyTemperature <= minTemperature || bodyTemperature >= maxTemperature))
         {
-            // Trigger game over
+            gameOverTriggered = true;
             Debug.Log("Player has died due to extreme temperature!");
-            // Implement game over logic here
+            // Transition the FSM to GameOverState
+            if (gameFSM != null)
+            {
+                gameFSM.TransitionToState(gameFSM.GameOverState);
+            }
+            // Show the GameOver panel
+            if (gameOverManager != null)
+            {
+                gameOverManager.ShowGameOver();
+            }
         }
 
         // Update UI (e.g., temperature bar) here

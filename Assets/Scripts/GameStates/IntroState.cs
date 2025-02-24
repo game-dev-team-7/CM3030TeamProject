@@ -10,7 +10,7 @@ public class IntroState : BaseState
     public override void Enter()
     {
         Debug.Log("Entering Intro Stage");
-        fsm.WeatherManager.SetWeather(WeatherType.Mild);
+        fsm.WeatherManager.SetWeather(WeatherType.Normal);
         fsm.StartIntroTutorial();
     }
 

@@ -8,6 +8,8 @@ public class GameFSM : MonoBehaviour
     // States
     public IntroState IntroState { get; private set; }
     public GameProperState GameProperState { get; private set; }
+    public GameOverState GameOverState { get; private set; }  // NEW
+
 
     // Weather Manager Reference
     public WeatherManager WeatherManager;
@@ -22,6 +24,7 @@ public class GameFSM : MonoBehaviour
         // Initialize states
         IntroState = new IntroState(this);
         GameProperState = new GameProperState(this);
+        GameOverState = new GameOverState(this);
 
         // Start with IntroState
         TransitionToState(IntroState);
