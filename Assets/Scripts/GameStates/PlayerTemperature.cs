@@ -12,12 +12,14 @@ public class PlayerTemperature : MonoBehaviour
     public float snowstormRate = -3f; // Increased from -1f
     private bool gameOverTriggered = false; // Ensure we only trigger game over once
 
-    // Reference to WeatherManager
+    // Reference to WeatherManager and other systems
     private WeatherManager weatherManager;
-
     private GameFSM gameFSM;
     private GameOverManager gameOverManager;
     
+    // NEW: Currently worn clothing, set externally via ApplyClothingResistance
+    public ClothingType currentClothing = ClothingType.None; // Assuming a "None" option exists
+
     void Start()
     {
         weatherManager = FindObjectOfType<WeatherManager>();
@@ -27,18 +29,20 @@ public class PlayerTemperature : MonoBehaviour
 
     void Update()
     {
-        // Adjust temperature based on current weather
-        switch (weatherManager.CurrentWeather)
+        // Adjust temperature continuously based on current weather and clothing
+        float weatherEffect = 0f;
+        WeatherType currentWeather = weatherManager.CurrentWeather;
+        
+        if (currentWeather == WeatherType.Heatwave)
+            weatherEffect = heatwaveRate;
+        else if (currentWeather == WeatherType.Snowstorm)
+            weatherEffect = snowstormRate;
+        
+        // Only modify if weather is not normal (normal implies no weather-based change)
+        if (currentWeather != WeatherType.Normal)
         {
-            case WeatherType.Heatwave:
-                bodyTemperature += heatwaveRate * Time.deltaTime;
-                break;
-            case WeatherType.Normal:
-                // No change
-                break;
-            case WeatherType.Snowstorm:
-                bodyTemperature += snowstormRate * Time.deltaTime;
-                break;
+            float multiplier = GetClothingMultiplier(currentWeather, currentClothing);
+            bodyTemperature += weatherEffect * multiplier * Time.deltaTime;
         }
 
         // Clamp temperature
@@ -49,12 +53,10 @@ public class PlayerTemperature : MonoBehaviour
         {
             gameOverTriggered = true;
             Debug.Log("Player has died due to extreme temperature!");
-            // Transition the FSM to GameOverState
             if (gameFSM != null)
             {
                 gameFSM.TransitionToState(gameFSM.GameOverState);
             }
-            // Show the GameOver panel
             if (gameOverManager != null)
             {
                 gameOverManager.ShowGameOver();
@@ -64,7 +66,34 @@ public class PlayerTemperature : MonoBehaviour
         // Update UI (e.g., temperature bar) here
     }
 
-    // Method to adjust temperature based on items (clothing, drinks)
+    // Helper method to compute a multiplier based on weather and clothing worn
+    private float GetClothingMultiplier(WeatherType weather, ClothingType clothing)
+    {
+        // Default multiplier is 1 (no change)
+        float multiplier = 1f;
+        switch(clothing)
+        {
+            case ClothingType.TShirt:
+                if (weather == WeatherType.Heatwave)
+                    multiplier = 0.5f;  // slows down the temperature increase
+                else if (weather == WeatherType.Snowstorm)
+                    multiplier = 1.5f;  // accelerates the temperature decrease
+                break;
+            case ClothingType.WinterCoat:
+                if (weather == WeatherType.Snowstorm)
+                    multiplier = 0.5f;  // slows down the temperature decrease
+                else if (weather == WeatherType.Heatwave)
+                    multiplier = 1.5f;  // accelerates the temperature increase
+                break;
+            // In case of "None" or any other clothing type, use default multiplier 1
+            default:
+                multiplier = 1f;
+                break;
+        }
+        return multiplier;
+    }
+
+    // Method to adjust temperature based on one-time effects (e.g., drinks)
     public void ModifyTemperature(float amount)
     {
         bodyTemperature += amount;
@@ -77,22 +106,13 @@ public class PlayerTemperature : MonoBehaviour
         bodyTemperature = 0f;
     }
 
-    // Example: Apply clothing resistance
+    // Modified: Set the current clothing, which now affects the weather-driven rate continuously.
     public void ApplyClothingResistance(ClothingType clothing)
     {
-        switch (clothing)
-        {
-            case ClothingType.TShirt:
-                ModifyTemperature(1f); // Mild effect
-                break;
-            case ClothingType.WinterCoat:
-                ModifyTemperature(4f); // Strong effect
-                break;
-            // Add more clothing types as needed
-        }
+        currentClothing = clothing;
     }
 
-    // Example: Apply drink effects
+    // Apply drink effects (one-time boosts remain the same)
     public void ApplyDrinkEffect(DrinkType drink)
     {
         switch (drink)
@@ -103,11 +123,10 @@ public class PlayerTemperature : MonoBehaviour
             case DrinkType.HotChocolate:
                 ModifyTemperature(20f); // Increase temperature
                 break;
-            // Add more drink types as needed
         }
     }
 
-    // Emergency Kit
+    // Emergency Kit: one-time reset effect remains unchanged
     public void UseEmergencyKit()
     {
         ResetTemperature();

@@ -1,5 +1,6 @@
 public enum ClothingType
 {
     TShirt,
-    WinterCoat
+    WinterCoat,
+    None
 }
