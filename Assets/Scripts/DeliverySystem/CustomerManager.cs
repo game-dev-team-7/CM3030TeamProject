@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI; //Required for NavMesh
 
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private float spawnHeightOffset = 2f;
     [SerializeField] private float baseTimePerUnitDistance = 0.04f;
+    [SerializeField] private GameObject navMeshObject; 
 
     private CustomerSpawner spawner;
     private DeliveryTimer deliveryTimer;
@@ -59,9 +61,57 @@ public class CustomerManager : MonoBehaviour
 
     private float CalculateDeliveryTime()
     {
-        return Vector3.Distance(spawner.GetCurrentCustomerPosition(), player.transform.position) *
-               baseTimePerUnitDistance;
+        //return Vector3.Distance(spawner.GetCurrentCustomerPosition(), player.transform.position) *
+        //       baseTimePerUnitDistance;
+        NavMeshPath path = new NavMeshPath();
+        Vector3 start = player.transform.position;
+        Vector3 end = spawner.GetCurrentCustomerPosition();
+        NavMeshHit hit;
+
+        // Ensure start position is on the NavMesh
+        if (!NavMesh.SamplePosition(start, out hit, 10f, NavMesh.AllAreas))
+        {
+            Debug.LogError("[CustomerManager] Player position is not on NavMesh!");
+            return float.MaxValue;
+        }
+        start = hit.position;
+
+        // Ensure end position is on the NavMesh
+        if (!NavMesh.SamplePosition(end, out hit, 10f, NavMesh.AllAreas))
+        {
+            Debug.LogError("[CustomerManager] Customer position is not on NavMesh!");
+            return float.MaxValue;
+        }
+        end = hit.position;
+
+        // Try calculating the path
+        if (NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path) && path.status == NavMeshPathStatus.PathComplete)
+        {
+            Debug.Log("[CustomerManager] Path successfully found!");
+            float pathDistance = GetPathLength(path);
+            return pathDistance * baseTimePerUnitDistance;
+        }
+
+        Debug.LogWarning("[CustomerManager] Path not found or incomplete.");
+        return float.MaxValue;
     }
+
+    private float GetPathLength(NavMeshPath path)
+    {
+        if (path.corners.Length < 2)
+        {
+            Debug.LogWarning("[CustomerManager] Path has insufficient corners.");
+            return float.MaxValue;
+        }
+
+        float distance = 0f;
+        for (int i = 1; i < path.corners.Length; i++)
+        {
+            distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+        }
+
+        return distance;
+    }   
 
     private void FailDelivery()
     {

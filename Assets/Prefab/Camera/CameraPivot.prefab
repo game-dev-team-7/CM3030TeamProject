@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5929933092600083496}
   - component: {fileID: 34235675758856842}
+  - component: {fileID: 4410157215101070946}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -51,6 +52,14 @@ MonoBehaviour:
   camHeight: 20
   camHorizontalAngle: 0
   camVerticalAngle: 0
+--- !u!81 &4410157215101070946
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259566413705111105}
+  m_Enabled: 1
 --- !u!1 &7266156894818191412
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,7 +70,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8708096167011257880}
   - component: {fileID: 4628240531028972902}
-  - component: {fileID: 6998008414164249830}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -135,11 +143,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6998008414164249830
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7266156894818191412}
-  m_Enabled: 1
