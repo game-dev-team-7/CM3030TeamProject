@@ -14,6 +14,7 @@ TagManager:
   - Ground
   - Streets
   - InnerBlocks
+  - RoadTile
   layers:
   - Default
   - TransparentFX

@@ -19,12 +19,18 @@ public class PickupManager : MonoBehaviour
     private PickupSpawner spawner;
     private Dictionary<string, GameObject> activePickups = new();
     private bool emergencyKitSpawned;
+    private Vector3[] roadTilePositions;
 
     private void Start()
     {
         InitializeComponents();
         spawner = new PickupSpawner(spawnHeight);
         SpawnInitialPickups();
+
+        // Cache all RoadTile positions at the start
+        roadTilePositions = GameObject.FindGameObjectsWithTag("RoadTile")
+            .Select(tile => tile.transform.position)
+            .ToArray();
     }
 
     private void InitializeComponents()
@@ -94,9 +100,22 @@ public class PickupManager : MonoBehaviour
 
     private void SpawnEmergencyKit()
     {
+         if (roadTilePositions.Length == 0)
+        {
+            Debug.LogWarning("No RoadTiles found! Emergency Kit not be able to spawn. Please check roatTile tags and/or presence of roadTile prefabs in the Scene!");
+            return;
+        }
+
         var spawnPosition = player.transform.position + player.transform.forward * emergencyKitDistance;
-        spawnPosition.y = spawner.GetSpawnPosition().y;
-        Instantiate(emergencyKitPrefab, spawnPosition, Quaternion.identity);
+        
+        // Find the closest RoadTile position
+        Vector3 closestPosition = roadTilePositions
+            .OrderBy(pos => (new Vector2(pos.x, pos.z) - new Vector2(spawnPosition.x, spawnPosition.z)).sqrMagnitude)
+            .First();
+        // Get a Y position above the road
+        closestPosition.y = spawner.GetSpawnPosition().y;
+        // Spawn the emergency kit at the closest RoadTile's position
+        Instantiate(emergencyKitPrefab, closestPosition, Quaternion.identity);
         Debug.Log("Emergency Kit spawned!");
     }
 
