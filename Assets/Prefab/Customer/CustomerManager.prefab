@@ -49,7 +49,8 @@ MonoBehaviour:
   customerPrefab: {fileID: 3766581729704874700, guid: 39db933893cee4704b4909cc641c7e8e,
     type: 3}
   spawnHeightOffset: 2
-  baseTimePerUnitDistance: 0.04
+  baseTimePerUnitDistance: 0.06
+  navMeshObject: {fileID: 0}
 --- !u!114 &3545831844572944317
 MonoBehaviour:
   m_ObjectHideFlags: 0

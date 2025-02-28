@@ -15,7 +15,7 @@ public class PlayerTemperature : MonoBehaviour
     // Reference to WeatherManager and other systems
     private WeatherManager weatherManager;
     private GameFSM gameFSM;
-    private GameOverManager gameOverManager;
+    [SerializeField] private InGameMenuManager gameOverManager;
     
     // NEW: Currently worn clothing, set externally via ApplyClothingResistance
     public ClothingType currentClothing = ClothingType.None; // Assuming a "None" option exists
@@ -24,7 +24,6 @@ public class PlayerTemperature : MonoBehaviour
     {
         weatherManager = FindObjectOfType<WeatherManager>();
         gameFSM = FindObjectOfType<GameFSM>();
-        gameOverManager = FindObjectOfType<GameOverManager>();
     }
 
     void Update()
