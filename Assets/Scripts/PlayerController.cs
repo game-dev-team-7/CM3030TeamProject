@@ -4,11 +4,16 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 30f;
     public float rotationSpeed = 10f;
-    public float decelerationRate = 15f;
+    public float decelerationRate = 3f;
 
     private Rigidbody rb;
     private Vector3 currentDirection;
     private Camera mainCamera;
+
+    [Header("Audio Settings")] public AudioSource vehicleAudioSource;
+    public AudioSource vehicleStopAudioSource;
+
+    private bool wasMoving = false;
 
     /// <summary>
     /// Initializes the player controller.
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleInput();
+        HandleEngineSound();
     }
 
 
@@ -84,17 +90,18 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleMovement()
     {
-        Vector3 targetVelocity;
-
         if (currentDirection != Vector3.zero)
-            // Calculate the desired velocity when there's input
-            targetVelocity = currentDirection * moveSpeed;
+        {
+            // Full speed immediately if there's input
+            rb.velocity = currentDirection * moveSpeed;
+        }
         else
-            // When no input, gradually reduce velocity
-            targetVelocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelerationRate * Time.fixedDeltaTime);
-
-        // Apply the velocity to the X and Z axes, preserving Y velocity for gravity
-        rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
+        {
+            // Gradual slowdown for each axis
+            float newX = Mathf.MoveTowards(rb.velocity.x, 0, decelerationRate * Time.fixedDeltaTime);
+            float newZ = Mathf.MoveTowards(rb.velocity.z, 0, decelerationRate * Time.fixedDeltaTime);
+            rb.velocity = new Vector3(newX, rb.velocity.y, newZ);
+        }
     }
 
 
@@ -112,5 +119,40 @@ public class PlayerController : MonoBehaviour
             var targetRotation = Quaternion.LookRotation(currentDirection);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
         }
+    }
+
+    /// <summary>
+    /// Checks if the player is moving. Plays the looping engine sound when moving,
+    /// stops it when not, and plays a one-time 'stop' sound if we've just come to a stop.
+    /// </summary>
+    private void HandleEngineSound()
+    {
+        // Already have velocity-based speed
+        float horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+
+        // Check if there's input 
+        bool hasInput = (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f);
+
+        // If you need velocity for partial movement, you could combine them:
+        // e.g. treat it as “moving” if there's input OR speed > some threshold:
+        bool isMoving = hasInput || (horizontalSpeed > 0.001f);
+
+        if (isMoving)
+        {
+            if (!vehicleAudioSource.isPlaying)
+                vehicleAudioSource.Play();
+        }
+        else
+        {
+            if (vehicleAudioSource.isPlaying)
+                vehicleAudioSource.Stop();
+
+            if (wasMoving && vehicleStopAudioSource != null)
+            {
+                vehicleStopAudioSource.Play();
+            }
+        }
+
+        wasMoving = isMoving;
     }
 }
