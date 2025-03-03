@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using TMPro;
+using System.Collections;
 
 public class GameFSM : MonoBehaviour
 {
@@ -8,64 +9,112 @@ public class GameFSM : MonoBehaviour
     // States
     public IntroState IntroState { get; private set; }
     public GameProperState GameProperState { get; private set; }
-    public GameOverState GameOverState { get; private set; }  // NEW
-
+    public GameOverState GameOverState { get; private set; }
 
     // Weather Manager Reference
     public WeatherManager WeatherManager;
 
-    // Tutorial and Game Timer
-    public bool IsTutorialComplete = false;
+    // Tutorial Mask References
+    public GameObject tutorialMask1;
+    public GameObject tutorialMask2;
+    public GameObject tutorialMask3;
+    public GameObject tutorialMask4;
 
-    void Start()
+    private void Start()
     {
         // Log the start for debugging purposes
         Debug.Log("GameFSM Started");
+
         // Initialize states
         IntroState = new IntroState(this);
         GameProperState = new GameProperState(this);
         GameOverState = new GameOverState(this);
 
+        // Deactivate tutorial masks
+        if (tutorialMask1 != null) tutorialMask1.SetActive(false);
+        if (tutorialMask2 != null) tutorialMask2.SetActive(false);
+        if (tutorialMask3 != null) tutorialMask3.SetActive(false);
+        if (tutorialMask4 != null) tutorialMask4.SetActive(false);
+
         // Start with IntroState
         TransitionToState(IntroState);
     }
 
-    void Update()
+    private void Update()
     {
         CurrentState?.Update();
     }
+
 
     public void TransitionToState(BaseState newState)
     {
         CurrentState?.Exit();
         CurrentState = newState;
-        CurrentState.Enter();
+        if (CurrentState is GameProperState)
+            StartCoroutine(CountdownToGameProperState());
+        else
+            CurrentState.Enter();
     }
 
-    // Example method to simulate tutorial completion
-    public void CompleteTutorial()
+    private IEnumerator CountdownToGameProperState()
     {
-        IsTutorialComplete = true;
+        var countdownText = GameObject.FindGameObjectWithTag("TutorialCountdown").GetComponent<TextMeshProUGUI>();
+
+        countdownText.text = ""; // Start with empty text
+        yield return new WaitForSeconds(1);
+
+        for (var i = 3; i > 0; i--)
+        {
+            countdownText.text = i.ToString();
+            yield return new WaitForSeconds(1);
+        }
+
+        countdownText.text = "Start"; // Show 'start' after countdown
+        yield return new WaitForSeconds(1);
+
+        countdownText.text = "";
+        GameProperState.Enter();
     }
 
-    // Placeholder methods for starting tutorial and game timer
-    public void StartIntroTutorial()
-    {
-        // Implement your tutorial logic here
-        // For simplicity, we'll simulate tutorial completion after 10 seconds
-        Invoke("CompleteTutorial", 10f);
-    }
-
-    public void StartGameTimer()
-    {
-        // Implement game timer logic here
-        // Example: 10-minute shift
-        Invoke("EndGame", 600f);
-    }
-
-    void EndGame()
+    private void EndGame()
     {
         // Handle game end logic
         Debug.Log("Game Over!");
+    }
+
+    public void StartTutorialSequence()
+    {
+        StartCoroutine(TutorialCoroutine());
+    }
+
+    private IEnumerator TutorialCoroutine()
+    {
+        // Show Movement Tutorial
+        tutorialMask1.SetActive(true);
+        yield return new WaitUntil(() =>
+            Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D));
+        yield return new WaitForSeconds(1);
+        tutorialMask1.SetActive(false);
+
+        // Show Camera Rotation Tutorial
+        tutorialMask2.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButton(1));
+        yield return new WaitForSeconds(1);
+        tutorialMask2.SetActive(false);
+
+        // Show Delivery Tutorial
+        tutorialMask3.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.anyKeyDown);
+        yield return new WaitForSeconds(1);
+        tutorialMask3.SetActive(false);
+
+        // Show Weather Tutorial
+        tutorialMask4.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.anyKeyDown);
+        yield return new WaitForSeconds(1);
+        tutorialMask4.SetActive(false);
+
+        // Transition to Game Proper State
+        TransitionToState(GameProperState);
     }
 }
