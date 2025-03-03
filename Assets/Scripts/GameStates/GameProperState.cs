@@ -10,7 +10,6 @@ public class GameProperState : BaseState
     {
         Debug.Log("Entering Game Proper Stage");
         fsm.WeatherManager.StartWeatherCycle();
-        fsm.StartGameTimer();
     }
 
     public override void Update()

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 
 public class IntroState : BaseState
 {
@@ -86,30 +86,24 @@ public class IntroState : BaseState
             isCameraRotationTutorialComplete = true;
         }
     }
-    
+
     private void showDeliveryTutorial()
     {
         Debug.Log("Complete tasks to earn the highest score");
     }
-    
+
     private void handleDeliveryInput()
     {
-        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown)
-        {
-            isDeliveryTutorialComplete = true;
-        }
+        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown) isDeliveryTutorialComplete = true;
     }
-    
+
     private void showWeatherTutorial()
     {
         Debug.Log("Pick up supplies to survive weather changes");
     }
-    
+
     private void handleWeatherInput()
     {
-        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown)
-        {
-            isWeatherTutorialComplete = true;
-        }
+        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown) isWeatherTutorialComplete = true;
     }
 }

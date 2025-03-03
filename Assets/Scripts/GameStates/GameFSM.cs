@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using TMPro;
+using System.Collections;
 
 public class GameFSM : MonoBehaviour
 {
@@ -8,16 +9,16 @@ public class GameFSM : MonoBehaviour
     // States
     public IntroState IntroState { get; private set; }
     public GameProperState GameProperState { get; private set; }
-    public GameOverState GameOverState { get; private set; }  // NEW
-
+    public GameOverState GameOverState { get; private set; }
 
     // Weather Manager Reference
     public WeatherManager WeatherManager;
 
-    void Start()
+    private void Start()
     {
         // Log the start for debugging purposes
         Debug.Log("GameFSM Started");
+
         // Initialize states
         IntroState = new IntroState(this);
         GameProperState = new GameProperState(this);
@@ -27,27 +28,43 @@ public class GameFSM : MonoBehaviour
         TransitionToState(IntroState);
     }
 
-    void Update()
+    private void Update()
     {
         CurrentState?.Update();
     }
+
 
     public void TransitionToState(BaseState newState)
     {
         CurrentState?.Exit();
         CurrentState = newState;
-        CurrentState.Enter();
+        if (CurrentState is GameProperState)
+            StartCoroutine(CountdownToGameProperState());
+        else
+            CurrentState.Enter();
     }
 
-
-    public void StartGameTimer()
+    private IEnumerator CountdownToGameProperState()
     {
-        // Implement game timer logic here
-        // Example: 10-minute shift
-        Invoke("EndGame", 600f);
+        var countdownText = GameObject.FindGameObjectWithTag("TutorialCountdown").GetComponent<TextMeshProUGUI>();
+
+        countdownText.text = ""; // Start with empty text
+        yield return new WaitForSeconds(1);
+
+        for (var i = 3; i > 0; i--)
+        {
+            countdownText.text = i.ToString();
+            yield return new WaitForSeconds(1);
+        }
+
+        countdownText.text = "Start"; // Show 'start' after countdown
+        yield return new WaitForSeconds(1);
+
+        countdownText.text = "";
+        GameProperState.Enter();
     }
 
-    void EndGame()
+    private void EndGame()
     {
         // Handle game end logic
         Debug.Log("Game Over!");
