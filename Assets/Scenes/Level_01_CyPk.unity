@@ -60885,6 +60885,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8481491333861715299, guid: ea6a26e0ad7cbc644bad5465db139a91,
         type: 3}
+      propertyPath: tutorialMask1
+      value: 
+      objectReference: {fileID: 1660812565}
+    - target: {fileID: 8481491333861715299, guid: ea6a26e0ad7cbc644bad5465db139a91,
+        type: 3}
+      propertyPath: tutorialMask2
+      value: 
+      objectReference: {fileID: 1886630152}
+    - target: {fileID: 8481491333861715299, guid: ea6a26e0ad7cbc644bad5465db139a91,
+        type: 3}
+      propertyPath: tutorialMask3
+      value: 
+      objectReference: {fileID: 517172526}
+    - target: {fileID: 8481491333861715299, guid: ea6a26e0ad7cbc644bad5465db139a91,
+        type: 3}
+      propertyPath: tutorialMask4
+      value: 
+      objectReference: {fileID: 595876574}
+    - target: {fileID: 8481491333861715299, guid: ea6a26e0ad7cbc644bad5465db139a91,
+        type: 3}
       propertyPath: WeatherManager
       value: 
       objectReference: {fileID: 1015926101}
