@@ -14,6 +14,12 @@ public class GameFSM : MonoBehaviour
     // Weather Manager Reference
     public WeatherManager WeatherManager;
 
+    // Tutorial Mask References
+    public GameObject tutorialMask1;
+    public GameObject tutorialMask2;
+    public GameObject tutorialMask3;
+    public GameObject tutorialMask4;
+
     private void Start()
     {
         // Log the start for debugging purposes
@@ -23,6 +29,12 @@ public class GameFSM : MonoBehaviour
         IntroState = new IntroState(this);
         GameProperState = new GameProperState(this);
         GameOverState = new GameOverState(this);
+
+        // Deactivate tutorial masks
+        if (tutorialMask1 != null) tutorialMask1.SetActive(false);
+        if (tutorialMask2 != null) tutorialMask2.SetActive(false);
+        if (tutorialMask3 != null) tutorialMask3.SetActive(false);
+        if (tutorialMask4 != null) tutorialMask4.SetActive(false);
 
         // Start with IntroState
         TransitionToState(IntroState);
@@ -68,5 +80,41 @@ public class GameFSM : MonoBehaviour
     {
         // Handle game end logic
         Debug.Log("Game Over!");
+    }
+
+    public void StartTutorialSequence()
+    {
+        StartCoroutine(TutorialCoroutine());
+    }
+
+    private IEnumerator TutorialCoroutine()
+    {
+        // Show Movement Tutorial
+        tutorialMask1.SetActive(true);
+        yield return new WaitUntil(() =>
+            Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D));
+        yield return new WaitForSeconds(1);
+        tutorialMask1.SetActive(false);
+
+        // Show Camera Rotation Tutorial
+        tutorialMask2.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButton(1));
+        yield return new WaitForSeconds(1);
+        tutorialMask2.SetActive(false);
+
+        // Show Delivery Tutorial
+        tutorialMask3.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.anyKeyDown);
+        yield return new WaitForSeconds(1);
+        tutorialMask3.SetActive(false);
+
+        // Show Weather Tutorial
+        tutorialMask4.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.anyKeyDown);
+        yield return new WaitForSeconds(1);
+        tutorialMask4.SetActive(false);
+
+        // Transition to Game Proper State
+        TransitionToState(GameProperState);
     }
 }
