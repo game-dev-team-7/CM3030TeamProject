@@ -16,7 +16,8 @@ public class WeatherManager : MonoBehaviour
     
     [Header("References")]
     public GameFSM gameFSM;
-    public SnowEffectController snowEffectController;
+    public GlobalSnowController globalSnowController;
+    public PlayerSnowController playerSnowController;
     public FogEffectController fogEffectController;
     
     [Header("UI Elements")]
@@ -67,9 +68,13 @@ public class WeatherManager : MonoBehaviour
         {
             gameFSM = FindObjectOfType<GameFSM>();
         }
-        if (snowEffectController == null)
+        if (globalSnowController == null)
         {
-            snowEffectController = FindObjectOfType<SnowEffectController>();
+            globalSnowController = FindObjectOfType<GlobalSnowController>();
+        }
+        if (playerSnowController == null)
+        {
+            playerSnowController = FindObjectOfType<PlayerSnowController>();
         }
         if (fogEffectController == null)
         {
@@ -221,21 +226,25 @@ public class WeatherManager : MonoBehaviour
     /// </summary>
     private void ApplyWeatherEffects()
     {
-        // Turn off both effects by default
-        if (snowEffectController) snowEffectController.SetVisible(false);
+        // Turn off adverse weather effects by default
+        if (globalSnowController) globalSnowController.SetVisible(false);
+        if (playerSnowController) playerSnowController.SetVisible(false);
         if (fogEffectController)  fogEffectController.SetVisible(false);
 
-        // Enable the one relevant effect
+        // Enable the one relevant effects
         switch (CurrentWeather)
         {
             case WeatherType.Heatwave:
+                //heatwave weather effects
                 fogEffectController?.SetVisible(true);
                 break;
             case WeatherType.Snowstorm:
-                snowEffectController?.SetVisible(true);
+                //snowstorm weather effects
+                globalSnowController?.SetVisible(true);
+                playerSnowController.SetVisible(true);
                 break;
             case WeatherType.Normal:
-                // no special effect
+                // standard weather (no effects)
                 break;
         }
     }
