@@ -160,13 +160,16 @@ public class WeatherManager : MonoBehaviour
         switch (weatherType)
         {
             case WeatherType.Normal:
-                weatherNotificationText.text = "Weather is mild";
+                weatherNotificationText.text = "Mild";
+                weatherNotificationText.color = new Color(255, 215, 0);
                 break;
             case WeatherType.Heatwave:
-                weatherNotificationText.text = "Heat wave started";
+                weatherNotificationText.text = "Heatwave";
+                weatherNotificationText.color = new Color(255, 69, 0);
                 break;
             case WeatherType.Snowstorm:
-                weatherNotificationText.text = "Snowstorm started";
+                weatherNotificationText.text = "Snowstorm";
+                weatherNotificationText.color = new Color(0, 255, 255);
                 break;
         }
 

@@ -67282,6 +67282,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_text
+      value: Weather
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 49.015625
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_wordSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_characterSpacing
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466724767879600735, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6491639332973997180, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: m_Name
@@ -67292,6 +67337,16 @@ PrefabInstance:
       propertyPath: cameraPivot
       value: 
       objectReference: {fileID: 1564812161}
+    - target: {fileID: 7755655901812834571, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7755655901812834571, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -73.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
