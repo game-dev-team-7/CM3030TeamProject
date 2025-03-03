@@ -14,9 +14,6 @@ public class GameFSM : MonoBehaviour
     // Weather Manager Reference
     public WeatherManager WeatherManager;
 
-    // Tutorial and Game Timer
-    public bool IsTutorialComplete = false;
-
     void Start()
     {
         // Log the start for debugging purposes
@@ -42,19 +39,6 @@ public class GameFSM : MonoBehaviour
         CurrentState.Enter();
     }
 
-    // Example method to simulate tutorial completion
-    public void CompleteTutorial()
-    {
-        IsTutorialComplete = true;
-    }
-
-    // Placeholder methods for starting tutorial and game timer
-    public void StartIntroTutorial()
-    {
-        // Implement your tutorial logic here
-        // For simplicity, we'll simulate tutorial completion after 10 seconds
-        Invoke("CompleteTutorial", 10f);
-    }
 
     public void StartGameTimer()
     {
