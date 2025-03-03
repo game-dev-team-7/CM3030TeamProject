@@ -1,15 +1,17 @@
 using UnityEngine;
-using System.Collections;
 
 public class IntroState : BaseState
 {
     private bool isMovementTutorialComplete = false;
-
     private bool isCameraRotationTutorialComplete = false;
-
     private bool isDeliveryTutorialComplete = false;
-
     private bool isWeatherTutorialComplete = false;
+
+    // Reference to the tutorial mask
+    private GameObject tutorialMask1;
+    private GameObject tutorialMask2;
+    private GameObject tutorialMask3;
+    private GameObject tutorialMask4;
 
     public IntroState(GameFSM fsm) : base(fsm)
     {
@@ -18,7 +20,18 @@ public class IntroState : BaseState
     public override void Enter()
     {
         Debug.Log("Entering Intro Stage");
+
         fsm.WeatherManager.SetWeather(WeatherType.Normal);
+
+        tutorialMask1 = GameObject.Find("TutorialMask1");
+        tutorialMask2 = GameObject.Find("TutorialMask2");
+        tutorialMask3 = GameObject.Find("TutorialMask3");
+        tutorialMask4 = GameObject.Find("TutorialMask4");
+
+        if (tutorialMask1 != null) tutorialMask1.SetActive(false);
+        if (tutorialMask2 != null) tutorialMask2.SetActive(false);
+        if (tutorialMask3 != null) tutorialMask3.SetActive(false);
+        if (tutorialMask4 != null) tutorialMask4.SetActive(false);
     }
 
     public override void Update()
@@ -27,23 +40,23 @@ public class IntroState : BaseState
 
         if (!isMovementTutorialComplete)
         {
-            ShowMovementTutorial();
+            if (!tutorialMask1.activeSelf) tutorialMask1.SetActive(true);
             HandleMovementInput();
         }
         else if (!isCameraRotationTutorialComplete)
         {
-            showRotationTutorial();
+            if (!tutorialMask2.activeSelf) tutorialMask2.SetActive(true);
             HandleRotationInput();
         }
         else if (!isDeliveryTutorialComplete)
         {
-            showDeliveryTutorial();
-            handleDeliveryInput();
+            if (!tutorialMask3.activeSelf) tutorialMask3.SetActive(true);
+            HandleDeliveryInput();
         }
         else if (!isWeatherTutorialComplete)
         {
-            showWeatherTutorial();
-            handleWeatherInput();
+            if (!tutorialMask4.activeSelf) tutorialMask4.SetActive(true);
+            HandleWeatherInput();
         }
         else
         {
@@ -56,54 +69,39 @@ public class IntroState : BaseState
         Debug.Log("Exiting Intro Stage");
     }
 
-    private void ShowMovementTutorial()
-    {
-        Debug.Log("Use W, A, S, and D keys to move your character in any direction");
-    }
-
-
     private void HandleMovementInput()
     {
-        // Check for WSAD input
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            Debug.Log("moved");
+            if (tutorialMask1.activeSelf) tutorialMask1.SetActive(false);
             isMovementTutorialComplete = true;
         }
     }
 
-    private void showRotationTutorial()
-    {
-        Debug.Log("Hold down the Right Mouse Button to look around and control the camera");
-    }
-
     private void HandleRotationInput()
     {
-        // Check for mouse input
         if (Input.GetMouseButton(1))
         {
-            Debug.Log("rotated");
+            if (tutorialMask2.activeSelf) tutorialMask2.SetActive(false);
             isCameraRotationTutorialComplete = true;
         }
     }
 
-    private void showDeliveryTutorial()
+    private void HandleDeliveryInput()
     {
-        Debug.Log("Complete tasks to earn the highest score");
+        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown)
+        {
+            if (tutorialMask3.activeSelf) tutorialMask3.SetActive(false);
+            isDeliveryTutorialComplete = true;
+        }
     }
 
-    private void handleDeliveryInput()
+    private void HandleWeatherInput()
     {
-        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown) isDeliveryTutorialComplete = true;
-    }
-
-    private void showWeatherTutorial()
-    {
-        Debug.Log("Pick up supplies to survive weather changes");
-    }
-
-    private void handleWeatherInput()
-    {
-        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown) isWeatherTutorialComplete = true;
+        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown)
+        {
+            if (tutorialMask4.activeSelf) tutorialMask4.SetActive(false);
+            isWeatherTutorialComplete = true;
+        }
     }
 }
