@@ -45,4 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeatherManager: {fileID: 0}
-  IsTutorialComplete: 0
+  tutorialMask1: {fileID: 0}
+  tutorialMask2: {fileID: 0}
+  tutorialMask3: {fileID: 0}
+  tutorialMask4: {fileID: 0}
