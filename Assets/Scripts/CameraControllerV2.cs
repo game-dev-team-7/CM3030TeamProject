@@ -29,7 +29,7 @@ public class CameraControllerV2 : MonoBehaviour
         {
             currentHorizontal += Input.GetAxis("Mouse X") * rotationSpeed;
             currentVertical -= Input.GetAxis("Mouse Y") * rotationSpeed;
-            currentVertical = Mathf.Clamp(currentVertical, -80f, 80f); // Clamping vertical rotation
+            currentVertical = Mathf.Clamp(currentVertical, -5f, 80f); // Clamping vertical rotation
         }
     }
 

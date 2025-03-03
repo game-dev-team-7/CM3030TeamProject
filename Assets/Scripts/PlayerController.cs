@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 currentDirection;
     private Camera mainCamera;
 
-    [Header("Audio Settings")] public AudioSource vehicleAudioSource;
+    [Header("Audio Settings")] 
+    public AudioSource vehicleAudioSource;
     public AudioSource vehicleStopAudioSource;
 
     private bool wasMoving = false;
