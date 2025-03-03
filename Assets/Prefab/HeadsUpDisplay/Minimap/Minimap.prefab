@@ -454,19 +454,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1806926641630622552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2af9f59624a5448a0f5fa33775bed3, type: 3}
+  m_Script: {fileID: 11500000, guid: d1254b551e9304b57a5dd87a13e0e702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: {x: 1200, y: 1200}
-  scrollViewRectTransform: {fileID: 1733701916528884304}
-  contentRectTransform: {fileID: 2478499865152884818}
-  minimapIconPrefab: {fileID: 5844549433415927625, guid: 8eb031508a4e28543ab94d17535fe373,
-    type: 3}
+  worldSize: {x: 0, y: 0}
+  scrollViewRectTransform: {fileID: 0}
+  contentRectTransform: {fileID: 0}
+  minimapIconPrefab: {fileID: 0}
   cameraPivot: {fileID: 0}
-  cameraDirectionLight: {fileID: 1703053093327954551}
+  cameraDirectionLight: {fileID: 0}
   generalIconScale: 1
-  customerIconScale: 4.5
-  customerIconFromPlayer: 95
+  customerIconScale: 1
 --- !u!1 &4321893602011561423
 GameObject:
   m_ObjectHideFlags: 0

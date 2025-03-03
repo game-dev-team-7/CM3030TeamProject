@@ -192,14 +192,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6480172660409663969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cdc9a4f45507db47aa8b357e94f0c25, type: 3}
+  m_Script: {fileID: 11500000, guid: e5056b9b97685408d8e7e7468ef8b327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emoticonFreeze: {fileID: 4713601098733072326}
-  emoticonSneeze: {fileID: 2259247643998038518}
-  emoticonNormal: {fileID: 1444196763049392215}
-  emoticonMelt: {fileID: 1565638029556751555}
-  emoticonOverheat: {fileID: 6716028519674374126}
+  emoticonFreeze: {fileID: 0}
+  emoticonSneeze: {fileID: 0}
+  emoticonNormal: {fileID: 0}
+  emoticonMelt: {fileID: 0}
+  emoticonOverheat: {fileID: 0}
 --- !u!1001 &3925295102148457288
 PrefabInstance:
   m_ObjectHideFlags: 0

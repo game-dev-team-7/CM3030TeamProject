@@ -5050,14 +5050,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8051169752221824961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdf764405d7397d489fd9bffcc0f9b02, type: 3}
+  m_Script: {fileID: 11500000, guid: 10559fcbb212d43c9a83dc261b582d7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 60
+  moveSpeed: 30
   rotationSpeed: 10
-  decelerationRate: 5
-  vehicleAudioSource: {fileID: 28612539100502850}
-  vehicleStopAudioSource: {fileID: 2541169925668324844}
+  decelerationRate: 3
+  vehicleAudioSource: {fileID: 0}
+  vehicleStopAudioSource: {fileID: 0}
 --- !u!54 &6327870904541752687
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5115,23 +5115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8051169752221824961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 1
-  alwaysShow: 0
-  minimapDistanceFromPlayer: 95
-  minimapIcon: {fileID: 21300000, guid: 47599052daaa350488ea43122ac27b76, type: 3}
---- !u!114 &906933854581660131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8051169752221824961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c8601da5544a478bc04374b4d6059a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d035d9db0b544e9a9e4d1f4c623f427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bodyTemperature: 0
@@ -5141,6 +5125,24 @@ MonoBehaviour:
   snowstormRate: -3
   gameOverManager: {fileID: 0}
   currentClothing: 2
+--- !u!114 &906933854581660131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051169752221824961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64a72a10a1e0334bbcdc0def2e8fff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  rotationSpeed: 3
+  camDistance: 60
+  camHeight: 20
+  camHorizontalAngle: 0
+  camVerticalAngle: 0
 --- !u!114 &5659764353569152565
 MonoBehaviour:
   m_ObjectHideFlags: 0
