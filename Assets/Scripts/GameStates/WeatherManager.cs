@@ -160,28 +160,20 @@ public class WeatherManager : MonoBehaviour
         switch (weatherType)
         {
             case WeatherType.Normal:
-                weatherNotificationText.text = "Mild";
-                weatherNotificationText.color = new Color(255, 215, 0);
+                weatherNotificationText.text = "Normal";
+                weatherNotificationText.color = new Color(0f, 1f, 0f);
                 break;
             case WeatherType.Heatwave:
                 weatherNotificationText.text = "Heatwave";
-                weatherNotificationText.color = new Color(255, 69, 0);
+                weatherNotificationText.color = new Color(1f, 0.2745098f, 0f);
                 break;
             case WeatherType.Snowstorm:
                 weatherNotificationText.text = "Snowstorm";
-                weatherNotificationText.color = new Color(0, 255, 255);
+                weatherNotificationText.color = new Color(0f, 1f, 1f);
                 break;
         }
 
-        // Stop any existing notification fade-out, then start a new one
-        if (notificationFadeCoroutine != null)
-        {
-            StopCoroutine(notificationFadeCoroutine);
-            notificationFadeCoroutine = null;
-        }
-
-        notificationFadeCoroutine = FadeOutNotification(notificationDisplayTime, fadeDurationText);
-        StartCoroutine(notificationFadeCoroutine);
+        // Keep the notification visible without fading out
     }
 
     /// <summary>
