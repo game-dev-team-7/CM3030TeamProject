@@ -578,8 +578,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6388196521852972007}
   - component: {fileID: -8808331720662374001}
-  - component: {fileID: 8074058059372904727}
   - component: {fileID: 4421642177161377697}
+  - component: {fileID: 1040547334116837780}
   m_Layer: 0
   m_Name: TargetMarker
   m_TagString: Customer
@@ -630,22 +630,6 @@ CapsuleCollider:
   m_Height: 1.7986152
   m_Direction: 1
   m_Center: {x: 0, y: 0.8945503, z: 0.00706025}
---- !u!114 &8074058059372904727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3766581729704874700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 0
-  alwaysShow: 1
-  minimapDistanceFromPlayer: 92
-  minimapIcon: {fileID: 21300000, guid: 1f524d9f21dfec6468537df6de2a4f8e, type: 3}
 --- !u!114 &4421642177161377697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,6 +642,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fafa58d730a3bbf4ba2b08f27a8d37d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1040547334116837780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766581729704874700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 92
+  minimapIcon: {fileID: 21300000, guid: 1f524d9f21dfec6468537df6de2a4f8e, type: 3}
 --- !u!1 &6149265916761349503
 GameObject:
   m_ObjectHideFlags: 0

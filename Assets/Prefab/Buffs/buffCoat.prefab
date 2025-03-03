@@ -11817,10 +11817,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7576516869966983543}
   - component: {fileID: 6556283360406803414}
-  - component: {fileID: 237298623895358955}
   - component: {fileID: 8994653374694487407}
   - component: {fileID: 5451384298586475761}
   - component: {fileID: 3528465289324819794}
+  - component: {fileID: 136742147652965616}
   m_Layer: 0
   m_Name: buffCoat
   m_TagString: Untagged
@@ -11866,22 +11866,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.3167725, y: 11.639572, z: 6.1592183}
   m_Center: {x: -0.13978577, y: 5.319786, z: -0.2487328}
---- !u!114 &237298623895358955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6782053876297219265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 0
-  alwaysShow: 1
-  minimapDistanceFromPlayer: 85
-  minimapIcon: {fileID: 21300000, guid: 3efa874150cbddf4492d4ffe806af1c6, type: 3}
 --- !u!114 &8994653374694487407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11894,7 +11878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e976a21c08d4e2bb920d046c7f6c350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coatSound: {fileID: 8300000, guid: 8b692b0a119e3ca4fb1a9066c66504b4, type: 3}
+  itemType: WinterCoat
 --- !u!54 &5451384298586475761
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11964,6 +11948,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &136742147652965616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 85
+  minimapIcon: {fileID: 21300000, guid: 3efa874150cbddf4492d4ffe806af1c6, type: 3}
 --- !u!1 &7347699005730406099
 GameObject:
   m_ObjectHideFlags: 0
@@ -12603,7 +12603,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7347699005730406099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00380e32a3766c84bad31b331ee51fe6, type: 3}
+  m_Script: {fileID: 11500000, guid: 55d64bd69082f9642960044521d2c062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   amplitude: 1
@@ -12868,7 +12868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7342172447869029663}
-  - component: {fileID: 7268218782315514494}
+  - component: {fileID: 3260327294693537254}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -12897,7 +12897,7 @@ Transform:
   - {fileID: 963833871643593642}
   m_Father: {fileID: 7576516869966983543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7268218782315514494
+--- !u!114 &3260327294693537254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12906,7 +12906,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8620524695623175589}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ec8b1426757e499bc48042024dbc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f076a0cb4de8874ab49dc325aee6b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotationAxis: {x: 0, y: 1, z: 0}

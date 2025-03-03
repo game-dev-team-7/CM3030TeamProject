@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 2349379454667176706}
   - component: {fileID: 1485257971323445172}
   - component: {fileID: -6547218215822328733}
-  - component: {fileID: -3093529924777767970}
+  - component: {fileID: 4512891606302225618}
   m_Layer: 0
   m_Name: buffEmergencyKit
   m_TagString: Untagged
@@ -895,7 +895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b1676ff8d4429bb6faf1b2f7ab5f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-3093529924777767970
+--- !u!114 &4512891606302225618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -904,7 +904,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6231642376103329385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   followObject: 0

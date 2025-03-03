@@ -12611,7 +12611,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4652169155768386493}
   - component: {fileID: 8271168587223679065}
-  - component: {fileID: 2329709004036252672}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -12647,21 +12646,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1949591499924495277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ec8b1426757e499bc48042024dbc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationAxis: {x: 0, y: 1, z: 0}
-  rotationSpeed: 50
---- !u!114 &2329709004036252672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949591499924495277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ec8b1426757e499bc48042024dbc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f076a0cb4de8874ab49dc325aee6b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotationAxis: {x: 0, y: 1, z: 0}
@@ -14067,8 +14052,8 @@ GameObject:
   - component: {fileID: 7576516869966983543}
   - component: {fileID: 1566917215798370358}
   - component: {fileID: 4442241248326143575}
-  - component: {fileID: 2067677396811945391}
   - component: {fileID: -6679190368007485888}
+  - component: {fileID: 4514525600568765604}
   m_Layer: 0
   m_Name: buffT-Shirt
   m_TagString: Untagged
@@ -14141,22 +14126,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.2330017, y: 12.622824, z: 6.0773935}
   m_Center: {x: -0.13653564, y: 5.811412, z: -0.5316019}
---- !u!114 &2067677396811945391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6782053876297219265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 0
-  alwaysShow: 1
-  minimapDistanceFromPlayer: 85
-  minimapIcon: {fileID: 21300000, guid: bec8145df9f900e42ae76e10adaa8f74, type: 3}
 --- !u!114 &-6679190368007485888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14169,6 +14138,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3543283058840d19d9e3f7b29e34178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: TShirt
+--- !u!114 &4514525600568765604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 85
+  minimapIcon: {fileID: 21300000, guid: bec8145df9f900e42ae76e10adaa8f74, type: 3}
 --- !u!1 &7347699005730406099
 GameObject:
   m_ObjectHideFlags: 0
@@ -14808,7 +14794,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7347699005730406099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00380e32a3766c84bad31b331ee51fe6, type: 3}
+  m_Script: {fileID: 11500000, guid: 55d64bd69082f9642960044521d2c062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   amplitude: 1

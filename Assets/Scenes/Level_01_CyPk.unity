@@ -605,7 +605,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 217772921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54649629f7a4458ea30da744d68d1135, type: 3}
+  m_Script: {fileID: 11500000, guid: 9112059c52cfa8a4eb4170f430bf5c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &222730297 stripped
@@ -7092,6 +7092,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2916388111195350655}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &581681222 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2764767587667994412, guid: 7fc02882db261b34c8634e1872c49b73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7518173250881842230}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &588589426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -7699,6 +7705,64 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7282226732899957602}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &728038176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8051169752221824961, guid: 04f2d74f6ca26164081dbaaaccdc5085,
+    type: 3}
+  m_PrefabInstance: {fileID: 9140045872631100048}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &728038184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728038176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31ed35b4ec53a143b396e351f495053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyTemperature: 0
+  minTemperature: -100
+  maxTemperature: 100
+  heatwaveRate: 3
+  snowstormRate: -3
+  gameOverManager: {fileID: 5289262650827421485}
+  currentClothing: 2
+--- !u!114 &728038185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728038176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 1
+  alwaysShow: 0
+  minimapDistanceFromPlayer: 0
+  minimapIcon: {fileID: 21300000, guid: 47599052daaa350488ea43122ac27b76, type: 3}
+--- !u!114 &728038186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728038176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4463b5799d8b145ba5064516282e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 60
+  rotationSpeed: 10
+  decelerationRate: 5
+  vehicleAudioSource: {fileID: 571550763}
+  vehicleStopAudioSource: {fileID: 624343829}
 --- !u!1001 &728328905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7930,6 +7994,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
     type: 3}
   m_PrefabInstance: {fileID: 9001766756442955261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &745771017 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3022830204727443211, guid: 7fc02882db261b34c8634e1872c49b73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7518173250881842230}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &746046058 stripped
 Transform:
@@ -13569,18 +13639,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3419825061434462840}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1015926101 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
-    type: 3}
-  m_PrefabInstance: {fileID: 6574951437298869876}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf44bd4c0cd94ee3a492c3e91e93967b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1018164531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -14573,6 +14631,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6436960796810718573}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1203084976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2949689041451398659, guid: 7fc02882db261b34c8634e1872c49b73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7518173250881842230}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1203084978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203084976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096aed1dbcdcdae489c07d73ea219971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSize: {x: 1200, y: 1200}
+  scrollViewRectTransform: {fileID: 745771017}
+  contentRectTransform: {fileID: 1232561691}
+  minimapIconPrefab: {fileID: 5341683838575849282, guid: 8eb031508a4e28543ab94d17535fe373,
+    type: 3}
+  cameraPivot: {fileID: 1564812161}
+  cameraDirectionLight: {fileID: 581681222}
+  generalIconScale: 1.5
+  customerIconScale: 4.5
 --- !u!4 &1204054322 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -14728,6 +14813,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95d929f8781d3e94cad2d1b5e0966418, type: 3}
+--- !u!224 &1232561691 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1412299346997482761, guid: 7fc02882db261b34c8634e1872c49b73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7518173250881842230}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1240688533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -14947,7 +15038,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1293842943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7b77baeb9fd45a38e65374154a23ccb, type: 3}
+  m_Script: {fileID: 11500000, guid: b85a212932e329b4e8aedf3a2efa7ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1294276830
@@ -20163,6 +20254,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320240407}
   m_CullTransparentMesh: 1
+--- !u!1 &1336101122 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8411688714313659152, guid: 85e7666c157481b4d865740df2452205,
+    type: 3}
+  m_PrefabInstance: {fileID: 6574951437298869876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1336101123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336101122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 718223f5fbed7f54e94666f7bd1a99a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFSM: {fileID: 283218858}
+  snowEffectController: {fileID: 1293842945}
+  fogEffectController: {fileID: 217772923}
+  weatherNotificationText: {fileID: 1275793252}
+  heatwaveClip: {fileID: 0}
+  snowstormClip: {fileID: 0}
+  backgroundSound: {fileID: 0}
+  weatherAudioSource: {fileID: 1025697234}
+  weatherChangeInterval: 30
+  notificationDisplayTime: 2
+  fadeDurationText: 2
+  fadeDurationSounds: 1
 --- !u!4 &1344693426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 295380193747070033, guid: 7fc02882db261b34c8634e1872c49b73,
@@ -61898,7 +62019,7 @@ PrefabInstance:
         type: 3}
       propertyPath: WeatherManager
       value: 
-      objectReference: {fileID: 1015926101}
+      objectReference: {fileID: 1336101123}
     - target: {fileID: 8481491333861715299, guid: ea6a26e0ad7cbc644bad5465db139a91,
         type: 3}
       propertyPath: IsTutorialComplete
@@ -65186,12 +65307,12 @@ PrefabInstance:
         type: 3}
       propertyPath: fogEffectController
       value: 
-      objectReference: {fileID: 217772923}
+      objectReference: {fileID: 0}
     - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
         type: 3}
       propertyPath: snowEffectController
       value: 
-      objectReference: {fileID: 1293842945}
+      objectReference: {fileID: 0}
     - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
         type: 3}
       propertyPath: weatherNotificationText
@@ -65252,14 +65373,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeatherManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4439026712768614791, guid: 85e7666c157481b4d865740df2452205,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1025697235}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8411688714313659152, guid: 85e7666c157481b4d865740df2452205,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1336101123}
   m_SourcePrefab: {fileID: 100100000, guid: 85e7666c157481b4d865740df2452205, type: 3}
 --- !u!1001 &6578386921478681277
 PrefabInstance:
@@ -70734,7 +70860,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -73.9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6559882577670639207, guid: 7fc02882db261b34c8634e1872c49b73, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 295380193747070033, guid: 7fc02882db261b34c8634e1872c49b73,
@@ -70749,7 +70876,11 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 405100141}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2949689041451398659, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1203084978}
   m_SourcePrefab: {fileID: 100100000, guid: 7fc02882db261b34c8634e1872c49b73, type: 3}
 --- !u!1001 &7577713127832861202
 PrefabInstance:
@@ -78718,7 +78849,10 @@ PrefabInstance:
       propertyPath: vehicleStopAudioSource
       value: 
       objectReference: {fileID: 624343829}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8097000143348777038, guid: 04f2d74f6ca26164081dbaaaccdc5085, type: 3}
+    - {fileID: 4951451026413915477, guid: 04f2d74f6ca26164081dbaaaccdc5085, type: 3}
+    - {fileID: 906933854581660131, guid: 04f2d74f6ca26164081dbaaaccdc5085, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5918265734434633906, guid: 04f2d74f6ca26164081dbaaaccdc5085,
@@ -78729,7 +78863,19 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 624343828}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8051169752221824961, guid: 04f2d74f6ca26164081dbaaaccdc5085,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 728038186}
+    - targetCorrespondingSourceObject: {fileID: 8051169752221824961, guid: 04f2d74f6ca26164081dbaaaccdc5085,
+        type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 728038185}
+    - targetCorrespondingSourceObject: {fileID: 8051169752221824961, guid: 04f2d74f6ca26164081dbaaaccdc5085,
+        type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 728038184}
   m_SourcePrefab: {fileID: 100100000, guid: 04f2d74f6ca26164081dbaaaccdc5085, type: 3}
 --- !u!1001 &9147981365913299316
 PrefabInstance:

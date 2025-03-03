@@ -2563,8 +2563,8 @@ GameObject:
   - component: {fileID: 7576516869966983543}
   - component: {fileID: 1283492600681804995}
   - component: {fileID: 174945848800464929}
-  - component: {fileID: 5459225401454609828}
   - component: {fileID: 5432014198713581400}
+  - component: {fileID: 2177406246222812958}
   m_Layer: 0
   m_Name: buffLemonade
   m_TagString: Untagged
@@ -2637,22 +2637,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.2901154, y: 12.971942, z: 6.1280212}
   m_Center: {x: -0.19982147, y: 5.985971, z: 0.0958271}
---- !u!114 &5459225401454609828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6782053876297219265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acababe7591e0634aa884c65ace91f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followObject: 0
-  alwaysShow: 1
-  minimapDistanceFromPlayer: 85
-  minimapIcon: {fileID: 21300000, guid: b89f97436e753a045932617db2ee9c2d, type: 3}
 --- !u!114 &5432014198713581400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2665,6 +2649,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8881bc2adea445090f6eab5ed820107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: Lemonade
+--- !u!114 &2177406246222812958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782053876297219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followObject: 0
+  alwaysShow: 1
+  minimapDistanceFromPlayer: 85
+  minimapIcon: {fileID: 21300000, guid: b89f97436e753a045932617db2ee9c2d, type: 3}
 --- !u!1 &7036388171913764635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2772,7 +2773,7 @@ GameObject:
   - component: {fileID: 6372044677575781050}
   - component: {fileID: 6306894924487977020}
   - component: {fileID: 1292818062781246675}
-  - component: {fileID: 2576874729745831976}
+  - component: {fileID: 2880303687845066156}
   m_Layer: 0
   m_Name: Cone
   m_TagString: Untagged
@@ -3389,7 +3390,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7347699005730406099}
   m_Mesh: {fileID: 0}
---- !u!114 &2576874729745831976
+--- !u!114 &2880303687845066156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3398,7 +3399,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7347699005730406099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00380e32a3766c84bad31b331ee51fe6, type: 3}
+  m_Script: {fileID: 11500000, guid: 55d64bd69082f9642960044521d2c062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   amplitude: 1
@@ -3414,7 +3415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256958785077312076}
-  - component: {fileID: 2706021787966478310}
+  - component: {fileID: 3192826798190066366}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -3439,7 +3440,7 @@ Transform:
   - {fileID: 4304820158417638255}
   m_Father: {fileID: 7576516869966983543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2706021787966478310
+--- !u!114 &3192826798190066366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3448,7 +3449,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8235732108355883212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718ec8b1426757e499bc48042024dbc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f076a0cb4de8874ab49dc325aee6b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotationAxis: {x: 0, y: 1, z: 0}
