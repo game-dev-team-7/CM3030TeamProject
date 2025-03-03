@@ -515,32 +515,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 728328905}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &190431085 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2949689041451398659, guid: 7fc02882db261b34c8634e1872c49b73,
-    type: 3}
-  m_PrefabInstance: {fileID: 7518173250881842230}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &190431088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190431085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1254b551e9304b57a5dd87a13e0e702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldSize: {x: 0, y: 0}
-  scrollViewRectTransform: {fileID: 392547322}
-  contentRectTransform: {fileID: 1597228990}
-  minimapIconPrefab: {fileID: 0}
-  cameraPivot: {fileID: 1564812161}
-  cameraDirectionLight: {fileID: 1189501455}
-  generalIconScale: 1
-  customerIconScale: 1
 --- !u!4 &201037565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -1241,12 +1215,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad7ec8fa8f90d754f99c5601041be46f, type: 3}
---- !u!224 &392547322 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3022830204727443211, guid: 7fc02882db261b34c8634e1872c49b73,
-    type: 3}
-  m_PrefabInstance: {fileID: 7518173250881842230}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &395212926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -6820,12 +6788,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
     type: 3}
   m_PrefabInstance: {fileID: 1733055650724609460}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &676207258 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 2541169925668324844, guid: 04f2d74f6ca26164081dbaaaccdc5085,
-    type: 3}
-  m_PrefabInstance: {fileID: 9140045872631100048}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &676500360 stripped
 Transform:
@@ -12570,12 +12532,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
     type: 3}
   m_PrefabInstance: {fileID: 9085405110094101642}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &967443045 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 28612539100502850, guid: 04f2d74f6ca26164081dbaaaccdc5085,
-    type: 3}
-  m_PrefabInstance: {fileID: 9140045872631100048}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &972728212 stripped
 Transform:
@@ -24275,12 +24231,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7003705634117845402}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1597228990 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1412299346997482761, guid: 7fc02882db261b34c8634e1872c49b73,
-    type: 3}
-  m_PrefabInstance: {fileID: 7518173250881842230}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1600834163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25102,12 +25052,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
     type: 3}
   m_PrefabInstance: {fileID: 4410524440383569925}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1845202394 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1677279284217068615, guid: 85e7666c157481b4d865740df2452205,
-    type: 3}
-  m_PrefabInstance: {fileID: 6574951437298869876}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1846025015 stripped
 Transform:
@@ -62770,26 +62714,6 @@ PrefabInstance:
       objectReference: {fileID: 283218858}
     - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
         type: 3}
-      propertyPath: heatwaveClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 25f3b0bf548ba40208d2568ce11e04bc, type: 3}
-    - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
-        type: 3}
-      propertyPath: snowstormClip
-      value: 
-      objectReference: {fileID: 8300000, guid: ec891dcf9fe504ab885515de4cd18578, type: 3}
-    - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
-        type: 3}
-      propertyPath: backgroundSound
-      value: 
-      objectReference: {fileID: 8300000, guid: a8b038645d516437097b7455e1d56372, type: 3}
-    - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
-        type: 3}
-      propertyPath: weatherAudioSource
-      value: 
-      objectReference: {fileID: 1845202394}
-    - target: {fileID: 3257213508226834344, guid: 85e7666c157481b4d865740df2452205,
-        type: 3}
       propertyPath: fogEffectController
       value: 
       objectReference: {fileID: 217772923}
@@ -68256,6 +68180,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1218351612826677614, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 9b773fbf8e9934e9a953f9ffedf76ee0, type: 2}
+    - target: {fileID: 6481259809716777645, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 23f75cdaa6466490589bcaed80a53970, type: 2}
     - target: {fileID: 6491639332973997180, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: m_Name
@@ -68266,6 +68200,21 @@ PrefabInstance:
       propertyPath: cameraPivot
       value: 
       objectReference: {fileID: 1564812161}
+    - target: {fileID: 6559882577670639207, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: worldSize.x
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559882577670639207, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: worldSize.y
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559882577670639207, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: cameraDirectionLight
+      value: 
+      objectReference: {fileID: 1189501455}
     - target: {fileID: 9063257369030493183, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: emoticonMelt
@@ -68299,11 +68248,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2949689041451398659, guid: 7fc02882db261b34c8634e1872c49b73,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 190431088}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fc02882db261b34c8634e1872c49b73, type: 3}
 --- !u!1001 &7577713127832861202
 PrefabInstance:
@@ -76212,7 +76157,7 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 906933854581660131, guid: 04f2d74f6ca26164081dbaaaccdc5085,
+    - target: {fileID: 4951451026413915477, guid: 04f2d74f6ca26164081dbaaaccdc5085,
         type: 3}
       propertyPath: gameOverManager
       value: 
@@ -76225,7 +76170,7 @@ PrefabInstance:
     - target: {fileID: 5918265734434633906, guid: 04f2d74f6ca26164081dbaaaccdc5085,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.46
+      value: 4.76
       objectReference: {fileID: 0}
     - target: {fileID: 5918265734434633906, guid: 04f2d74f6ca26164081dbaaaccdc5085,
         type: 3}
@@ -76272,16 +76217,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8097000143348777038, guid: 04f2d74f6ca26164081dbaaaccdc5085,
-        type: 3}
-      propertyPath: vehicleAudioSource
-      value: 
-      objectReference: {fileID: 967443045}
-    - target: {fileID: 8097000143348777038, guid: 04f2d74f6ca26164081dbaaaccdc5085,
-        type: 3}
-      propertyPath: vehicleStopAudioSource
-      value: 
-      objectReference: {fileID: 676207258}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

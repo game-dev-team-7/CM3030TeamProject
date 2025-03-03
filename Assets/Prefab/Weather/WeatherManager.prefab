@@ -177,10 +177,10 @@ MonoBehaviour:
   snowEffectController: {fileID: 0}
   fogEffectController: {fileID: 0}
   weatherNotificationText: {fileID: 0}
-  heatwaveClip: {fileID: 0}
-  snowstormClip: {fileID: 0}
-  backgroundSound: {fileID: 0}
-  weatherAudioSource: {fileID: 0}
+  heatwaveClip: {fileID: 8300000, guid: 25f3b0bf548ba40208d2568ce11e04bc, type: 3}
+  snowstormClip: {fileID: 8300000, guid: ec891dcf9fe504ab885515de4cd18578, type: 3}
+  backgroundSound: {fileID: 8300000, guid: a8b038645d516437097b7455e1d56372, type: 3}
+  weatherAudioSource: {fileID: 1677279284217068615}
   weatherChangeInterval: 30
   notificationDisplayTime: 2
   fadeDurationText: 2
