@@ -12646,7 +12646,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1949591499924495277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e6f486f17ed4ccc84b9feeb231ac83, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f076a0cb4de8874ab49dc325aee6b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotationAxis: {x: 0, y: 1, z: 0}
@@ -14135,12 +14135,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6782053876297219265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a791740b46bc44489b77b3d31359c3ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 17b4ec028caead04ea25463a0c5ad0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   followObject: 0
   alwaysShow: 1
-  minimapDistanceFromPlayer: 90
+  minimapDistanceFromPlayer: 85
   minimapIcon: {fileID: 21300000, guid: bec8145df9f900e42ae76e10adaa8f74, type: 3}
 --- !u!114 &-6679190368007485888
 MonoBehaviour:
@@ -14794,13 +14794,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7347699005730406099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 897e96b27ad054925a80726501bdb66e, type: 3}
+  m_Script: {fileID: 11500000, guid: 55d64bd69082f9642960044521d2c062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   amplitude: 1
-  speed: 2
-  minEmission: 0
-  maxEmission: 3
+  speed: 3
+  minEmission: 1
+  maxEmission: 0
 --- !u!1 &7706102618787299619
 GameObject:
   m_ObjectHideFlags: 0

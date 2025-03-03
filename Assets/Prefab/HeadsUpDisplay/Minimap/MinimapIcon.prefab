@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8010064333683089299}
   - component: {fileID: 560520644583324414}
-  - component: {fileID: 5844549433415927625}
+  - component: {fileID: 9193706263105408712}
   m_Layer: 5
   m_Name: MinimapIcon
   m_TagString: Untagged
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4555312799380514848}
   m_CullTransparentMesh: 1
---- !u!114 &5844549433415927625
+--- !u!114 &9193706263105408712
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4555312799380514848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efef36afb7e39c8429534c26daaba51c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ff2914ca6e35844b8aeda921832c5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Image: {fileID: 8914978908296080301}
