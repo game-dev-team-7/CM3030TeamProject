@@ -1,9 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TemperatureBarManager : MonoBehaviour
 {
+    [SerializeField] private float pulseMultiplier = 1f; // Adjust pulsation speed
+    [SerializeField] private AudioClip heartbeatSound; // Assign heartbeat sound
+    [SerializeField] private float minHeartbeatPitch = 0.75f; // Slowest pitch
+    [SerializeField] private float maxHeartbeatPitch = 1.5f; // Fastest pitch
+
+    private AudioSource audioSource;
+    private bool heartbeatPlayed =false; // Prevent multiple plays per cycle
+
+    public Outline temperatureBarOutline; //Outline for temperature bar glow effect
     public Transform emoticonFreeze;    // For freezing cold
     public Transform emoticonSneeze;    // For cold
     public Transform emoticonNormal;    // Default emoticon
@@ -30,6 +40,11 @@ public class TemperatureBarManager : MonoBehaviour
         }
 
         ShowEmoticon(emoticonNormal);
+
+        // Setup AudioSource component
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.clip = heartbeatSound;
     }
 
     void Update()
@@ -37,13 +52,8 @@ public class TemperatureBarManager : MonoBehaviour
         if (playerTemp == null) return;
 
         float currentTemp = playerTemp.bodyTemperature; // Get the body temperature
-        //Debug.Log("Player's Body Temperature: " + currentTemp);
-
-        // Normalize bodyTemperature to range (0 to 1)
-        float normalizedTemp = (currentTemp - minTemperature) / (maxTemperature - minTemperature);
-
-        // Map to X-axis range
-        float newX = Mathf.Lerp(minX, maxX, normalizedTemp);
+        float normalizedTemp = (currentTemp - minTemperature) / (maxTemperature - minTemperature); // Normalize bodyTemperature to range (0 to 1)
+        float newX = Mathf.Lerp(minX, maxX, normalizedTemp); // Map to X-axis range
 
         // Move only the currently visible emoticon
         Transform activeEmoticon = GetActiveEmoticon();
@@ -53,7 +63,14 @@ public class TemperatureBarManager : MonoBehaviour
             activeEmoticon.localPosition = new Vector3(newX, activeEmoticon.localPosition.y, activeEmoticon.localPosition.z);
         }
 
-        // Handle which emoticon is shown
+        
+        HandleEmoticons(normalizedTemp);
+        UpdateOutlineGlow(currentTemp);
+    }
+
+    // Handle which emoticon is shown
+    void HandleEmoticons(float normalizedTemp)
+    {
         if (normalizedTemp < 0.2f)
         {
             ShowEmoticon(emoticonFreeze);
@@ -94,5 +111,47 @@ public class TemperatureBarManager : MonoBehaviour
         if (emoticonMelt.gameObject.activeSelf) return emoticonMelt;
         if (emoticonOverheat.gameObject.activeSelf) return emoticonOverheat;
         return emoticonNormal;
+    }
+
+    void UpdateOutlineGlow(float currentTemp)
+    {
+        if (temperatureBarOutline == null || playerTemp == null) return;
+        
+        Color outlineColor = temperatureBarOutline.effectColor;
+        currentTemp = Mathf.Abs(currentTemp);
+
+        if (currentTemp > 30f)
+        {
+            float changeRate = Mathf.Abs(playerTemp.bodyTemperature / 60f); // Get the absolute temperature rate per second
+            float pulseSpeed = Mathf.Clamp(changeRate * pulseMultiplier, 0.5f, 5f); // Ensure the pulse speed is within a reasonable range
+
+            // Adjust heartbeat pitch based on pulse speed
+            audioSource.pitch = Mathf.Lerp(minHeartbeatPitch, maxHeartbeatPitch, (pulseSpeed - 0.5f) / (5f - 0.5f));
+
+            // float alpha = (Mathf.Sin(Time.time * pulseSpeed) + 1) / 2; // Calculate alpha pulsing effect
+            float alpha = Mathf.PingPong(Time.time * pulseSpeed, 1); // Calculate alpha pulsing effect
+            float alphaValue  = Mathf.Lerp(0, 1, alpha); // Convert to Unity's 0-1 range
+
+             // Play heartbeat sound when alpha reaches max (1.0)
+            if (alphaValue >= 0.25f && !heartbeatPlayed)
+            {
+                if (heartbeatSound != null && audioSource != null)
+                {
+                    audioSource.Play();
+                }
+                heartbeatPlayed = true; // Ensure it plays only once per pulse
+            }
+            else if (alphaValue < 0.25f)
+            {
+                heartbeatPlayed = false; // Reset when the pulse fades
+            }
+
+            // Apply new alpha to the outline color
+            temperatureBarOutline.effectColor = new Color(outlineColor.r, outlineColor.g, outlineColor.b, alphaValue);
+        }
+        else {
+            temperatureBarOutline.effectColor = new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0);
+        }
+
     }
 }
