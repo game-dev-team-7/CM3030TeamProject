@@ -38670,7 +38670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &1058898071439843070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52523,7 +52523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4056257687643962145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79544,7 +79544,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gameOverManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 198558509}
     - target: {fileID: 3063872136589528574, guid: 04f2d74f6ca26164081dbaaaccdc5085,
         type: 3}
       propertyPath: m_Radius
