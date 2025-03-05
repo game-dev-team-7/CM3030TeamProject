@@ -18,6 +18,8 @@ public class InGameMenuManager : MonoBehaviour
     private bool isPaused = false;
     private bool hasGameOverBeenShown = false;
 
+    private bool isStopped = false;//Tracks whether the game audio has been stopped, and initialises it as false.
+
     private void Start()
     {
         // Find references if not assigned in inspector
@@ -71,6 +73,8 @@ public class InGameMenuManager : MonoBehaviour
         // Show game over panel
         gameOverPanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
+        //Mutes all sounds except UI
+        ToggleGameSounds();
     }
 
     // Update game over information with detailed temperature and weather data
@@ -114,5 +118,24 @@ public class InGameMenuManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");//Returns to main menu
+    }
+
+    public void ToggleGameSounds()
+    {
+        isStopped = !isStopped;
+        //Finds all audio sources in the scene
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+
+        foreach (AudioSource audioSource in allAudioSources)
+        {
+            //Checks to disregard sounds with the appropriate tag.
+            if (audioSource.gameObject.CompareTag("UISounds"))
+            {
+                continue;
+            }
+
+            //Stops and mutes all other sounds.
+            audioSource.Stop();
+        }
     }
 }
