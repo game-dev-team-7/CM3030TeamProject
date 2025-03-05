@@ -69,7 +69,7 @@ public class CustomerManager : MonoBehaviour
         NavMeshHit hit;
 
         // Ensure start position is on the NavMesh
-        if (!NavMesh.SamplePosition(start, out hit, 10f, NavMesh.AllAreas))
+        if (!NavMesh.SamplePosition(start, out hit, 80f, NavMesh.AllAreas))
         {
             Debug.LogError("[CustomerManager] Player position is not on NavMesh!");
             return float.MaxValue;
