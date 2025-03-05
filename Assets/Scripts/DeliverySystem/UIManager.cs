@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     public void ResetTimer()
     {
-        if (timerText != null) timerText.text = "";
+        if (timerText != null) timerText.text = "Timer: -";
     }
     
     public void UpdateScore(int score)
