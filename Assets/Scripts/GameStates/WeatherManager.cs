@@ -355,15 +355,15 @@ public class WeatherManager : MonoBehaviour
         if (weatherNotificationText == null) return;
 
         // Stop any existing fade-out
-        if (notificationFadeCoroutine != null)
-        {
-            StopCoroutine(notificationFadeCoroutine);
-            notificationFadeCoroutine = null;
-        }
+        // if (notificationFadeCoroutine != null)
+        // {
+        //     StopCoroutine(notificationFadeCoroutine);
+        //     notificationFadeCoroutine = null;
+        // }
 
         // Reset notification text alpha to fully visible
-        var color = weatherNotificationText.color;
-        weatherNotificationText.color = new Color(color.r, color.g, color.b, 1f);
+        // var color = weatherNotificationText.color;
+        // weatherNotificationText.color = new Color(color.r, color.g, color.b, 1f);
 
         // Set message and color based on weather type
         switch (weatherType)
@@ -373,22 +373,22 @@ public class WeatherManager : MonoBehaviour
                 weatherNotificationText.color = new Color(0f, 1f, 0f);
                 break;
             case WeatherType.Heatwave:
-                weatherNotificationText.text = "HEATWAVE WARNING!";
+                weatherNotificationText.text = "HEATWAVE WARNING";
                 weatherNotificationText.color = new Color(1f, 0.2745098f, 0f);
                 break;
             case WeatherType.Snowstorm:
-                weatherNotificationText.text = "SNOWSTORM WARNING!";
+                weatherNotificationText.text = "SNOWSTORM WARNING";
                 weatherNotificationText.color = new Color(0f, 1f, 1f);
                 break;
         }
 
         // Make notification visible
-        weatherNotificationText.gameObject.SetActive(true);
-        weatherNotificationBackground.gameObject.SetActive(true);
+        // weatherNotificationText.gameObject.SetActive(true);
+        // weatherNotificationBackground.gameObject.SetActive(true);
         
         // Start fade out after a delay
-        notificationFadeCoroutine = FadeOutNotification(notificationDisplayTime, fadeDurationText);
-        StartCoroutine(notificationFadeCoroutine);
+        // notificationFadeCoroutine = FadeOutNotification(notificationDisplayTime, fadeDurationText);
+        // StartCoroutine(notificationFadeCoroutine);
     }
 
     /// <summary>
@@ -502,38 +502,38 @@ public class WeatherManager : MonoBehaviour
     /// <summary>
     /// Fades out the notification text (alpha from 1 to 0) after a short delay.
     /// </summary>
-    private IEnumerator FadeOutNotification(float delay, float duration)
-    {
-        // Wait before starting fade
-        yield return new WaitForSeconds(delay);
-
-        float elapsed = 0f;
-        Color originalColor = weatherNotificationText.color;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-            weatherNotificationText.color = new Color(
-                originalColor.r,
-                originalColor.g,
-                originalColor.b,
-                alpha
-            );
-            weatherNotificationBackground.GetComponent<Image>().color = new Color(
-                0.05f,
-                0.08f,
-                0.05f,
-                alpha
-            );
-            yield return null;
-        }
+    // private IEnumerator FadeOutNotification(float delay, float duration)
+    // {
+    //     // Wait before starting fade
+    //     yield return new WaitForSeconds(delay);
+    //
+    //     float elapsed = 0f;
+    //     Color originalColor = weatherNotificationText.color;
+    //
+    //     while (elapsed < duration)
+    //     {
+    //         elapsed += Time.deltaTime;
+    //         float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+    //         weatherNotificationText.color = new Color(
+    //             originalColor.r,
+    //             originalColor.g,
+    //             originalColor.b,
+    //             alpha
+    //         );
+    //         weatherNotificationBackground.GetComponent<Image>().color = new Color(
+    //             0.05f,
+    //             0.08f,
+    //             0.05f,
+    //             alpha
+    //         );
+    //         yield return null;
+    //     }
 
         // Hide notification
-        weatherNotificationText.gameObject.SetActive(false);
-        weatherNotificationBackground.gameObject.SetActive(false);
-        notificationFadeCoroutine = null;
-    }
+    //     weatherNotificationText.gameObject.SetActive(false);
+    //     weatherNotificationBackground.gameObject.SetActive(false);
+    //     notificationFadeCoroutine = null;
+    // }
 
     /// <summary>
     /// Gradually fades an AudioSource from 0 up to full volume over 'duration' seconds.
