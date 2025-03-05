@@ -12,13 +12,13 @@ public class PlayerPickupSounds : MonoBehaviour
 
     void Start()
     {
-        // Get the AudioSource component on the player
+        //Gets the AudioSource component on the player
         audioSource = GetComponent<AudioSource>();
     }
 
     public void PlayPickupSound(string itemType)
     {
-        // Based on the item picked up, play the appropriate sound
+        //Based on the item picked up, this plays the appropriate sound
         switch (itemType)
         {
             case "WinterCoat":

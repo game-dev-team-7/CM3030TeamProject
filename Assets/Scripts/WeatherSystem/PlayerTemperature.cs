@@ -11,29 +11,29 @@ public class PlayerTemperature : MonoBehaviour
     public float minTemperature = -100f;
     public float maxTemperature = 100f;
 
-    // Temperature change rates per second (significantly increased)
+    //Temperature change rates per second depending on weather event
     [Header("Temperature Change Rates")]
-    public float baseHeatwaveRate = 5f;     // Increased for more urgency
-    public float baseSnowstormRate = -5f;   // Increased for more urgency
+    public float baseHeatwaveRate = 2f; //Both rates give an increased urgency feeling
+    public float baseSnowstormRate = -2f;
     
-    // Additional rate multipliers for inappropriate clothing
+    //Additional rate multipliers for inappropriate clothing
     [Header("Clothing Penalty Multipliers")]
-    public float inappropriateClothingMultiplier = 2.5f; // Higher penalties for wrong clothing
+    public float inappropriateClothingMultiplier = 1.5f; // Higher penalties for wrong clothing
     
-    // Internal variables
+    //Internal variables
     private bool gameOverTriggered = false;
     private float lastTemperatureUpdate = 0f;
-    private float temperatureUpdateInterval = 0.1f; // Update more frequently
+    private float temperatureUpdateInterval = 0.1f; //Updates more frequently
 
-    // Reference to WeatherManager and other systems
+    //Reference to WeatherManager and other systems
     private WeatherManager weatherManager;
     private GameFSM gameFSM;
     [SerializeField] private InGameMenuManager gameOverManager;
     
-    // Currently worn clothing
+    //Currently worn clothing
     public ClothingType currentClothing = ClothingType.None;
 
-    // Event for other systems to listen to temperature changes
+    //Event for other systems to listen to temperature changes
     public delegate void TemperatureChangeHandler();
     public event TemperatureChangeHandler OnTemperatureChanged;
 

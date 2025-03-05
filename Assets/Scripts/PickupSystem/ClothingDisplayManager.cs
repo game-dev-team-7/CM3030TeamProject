@@ -87,7 +87,7 @@ public class ClothingDisplayManager : MonoBehaviour
                 if (currentWeather == WeatherType.Heatwave)
                 {
                     isInappropriateClothing = true;
-                    tipMessage = "Take off the winter coat!";
+                    tipMessage = "Put on a t-shirt!";
                 }
                 break;
         }

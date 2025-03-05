@@ -3,7 +3,12 @@ guid: f378fa7cf1ae34804b5434b2c680eed7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - timerText: {instanceID: 0}
+  - scoreText: {instanceID: 0}
+  - streakText: {instanceID: 0}
+  - successSound: {fileID: 8300000, guid: a1a25462bb01df44286321a29b56464b, type: 3}
+  - failSound: {fileID: 8300000, guid: 6471e783945c9e148864b8c2b70ca071, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

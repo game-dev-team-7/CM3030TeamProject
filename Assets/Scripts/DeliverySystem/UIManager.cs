@@ -7,9 +7,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI streakText;
 
+    private DeliveryNotificationSounds deliveryNotificationSounds;
+
+
+
     private void Start()
     {
         InitializeUIReferences();
+        deliveryNotificationSounds = FindObjectOfType<DeliveryNotificationSounds>();
     }
 
     private void InitializeUIReferences()
@@ -47,6 +52,11 @@ public class UIManager : MonoBehaviour
             streakText.text = "+" + streak;
             Invoke(nameof(ResetStreakText), 1.5f);
         }
+
+        if (deliveryNotificationSounds != null)
+        {
+            deliveryNotificationSounds.PlaySuccessSound();
+        }
     }
 
     public void ShowFailureMessage()
@@ -55,6 +65,11 @@ public class UIManager : MonoBehaviour
         {
             streakText.text = "Task Failed";
             Invoke(nameof(ResetStreakText), 1.5f);
+        }
+
+        if (deliveryNotificationSounds != null)
+        {
+            deliveryNotificationSounds.PlayFailureSound();
         }
     }
 

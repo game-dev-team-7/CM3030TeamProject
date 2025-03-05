@@ -93,7 +93,7 @@ public class InGameMenuManager : MonoBehaviour
                 mainMessage = "You died from heatstroke!";
             }
 
-            // Update main game over text
+            //Updates main game over text
             if (gameOverText != null)
             {
                 gameOverText.text = mainMessage;
@@ -105,7 +105,7 @@ public class InGameMenuManager : MonoBehaviour
     // Restart the game
     public void RestartGame()
     {
-        Time.timeScale = 1f; // Reset time scale
+        Time.timeScale = 1f;//Resets time scale
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -113,6 +113,6 @@ public class InGameMenuManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // Change to match your main menu scene name
+        SceneManager.LoadScene("MainMenu");//Returns to main menu
     }
 }
