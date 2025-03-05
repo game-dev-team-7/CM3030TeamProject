@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
-using UnityEngine.UI;
 
 /// <summary>
 /// Manages different weather states (Normal, Heatwave, Snowstorm).
@@ -369,15 +368,15 @@ public class WeatherManager : MonoBehaviour
         switch (weatherType)
         {
             case WeatherType.Normal:
-                weatherNotificationText.text = "Normal Weather";
+                weatherNotificationText.text = "Normal";
                 weatherNotificationText.color = new Color(0f, 1f, 0f);
                 break;
             case WeatherType.Heatwave:
-                weatherNotificationText.text = "HEATWAVE WARNING";
+                weatherNotificationText.text = "Heatwave";
                 weatherNotificationText.color = new Color(1f, 0.2745098f, 0f);
                 break;
             case WeatherType.Snowstorm:
-                weatherNotificationText.text = "SNOWSTORM WARNING";
+                weatherNotificationText.text = "Snowstorm";
                 weatherNotificationText.color = new Color(0f, 1f, 1f);
                 break;
         }
