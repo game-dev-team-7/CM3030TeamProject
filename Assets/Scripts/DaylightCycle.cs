@@ -7,8 +7,8 @@ public class DaylightCycle : MonoBehaviour
     // Total rotation from sunrise to sunset (typically 180 degrees)
     private static float totalRotation = 180.0f;
 
-    // Time for complete rotation in seconds (2.5 minutes = 150 seconds)
-    private static float totalTime = 150.0f;
+    // Time for complete rotation in seconds 
+    private static float totalTime = 180.0f;
 
     // Calculate degrees per second
     private static float degpersec = totalRotation / totalTime;
