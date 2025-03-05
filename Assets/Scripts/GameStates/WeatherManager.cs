@@ -4,7 +4,8 @@ using TMPro;
 
 /// <summary>
 /// Manages different weather states (Normal, Heatwave, Snowstorm).
-/// Controls visual effects, weather cycle, notifications, and audio transitions.
+/// Implements game theory principles to create dynamic weather challenges that
+/// respond strategically to player adaptation.
 /// </summary>
 public class WeatherManager : MonoBehaviour
 {
@@ -34,9 +35,42 @@ public class WeatherManager : MonoBehaviour
     // =================== Weather Cycle Settings ===================
     
     [Header("Weather Cycle")]
-    [Tooltip("Time in seconds before weather changes automatically.")]
-    public float weatherChangeInterval = 30f;
+    [Tooltip("Base time in seconds before weather changes automatically.")]
+    public float baseWeatherChangeInterval = 30f;
+    
+    [Tooltip("Minimum time in seconds for weather changes.")]
+    public float minWeatherChangeInterval = 15f;
+    
+    [Tooltip("Maximum time in seconds for weather changes.")]
+    public float maxWeatherChangeInterval = 45f;
+    
+    [Tooltip("How much the weather favors challenging the player (0-1).")]
+    [Range(0f, 1f)]
+    public float adversityFactor = 0.7f;
+    
+    [Tooltip("Chance of giving the player a relaxation period.")]
+    [Range(0f, 1f)]
+    public float relaxationChance = 0.2f;
+    
+    [Tooltip("Duration multiplier for relaxation periods.")]
+    public float relaxationDurationMultiplier = 1.5f;
+    
+    [Tooltip("Maximum times the same weather type can occur consecutively.")]
+    public int maxSameWeatherCount = 2;
+    
     private Coroutine weatherCoroutine;
+    private float nextWeatherChangeTime;
+    private int consecutiveAdverseWeatherCount = 0;
+    private int maxConsecutiveAdverseWeather = 3; // Max number of consecutive adverse weather events
+    private int sameWeatherTypeCount = 0;
+    private WeatherType lastWeatherType;
+
+    // =================== Player Monitoring ===================
+    [Header("Player Monitoring")]
+    public PlayerTemperature playerTemperature;
+    private ClothingType lastPlayerClothing = ClothingType.None;
+    private float playerAdaptationScore = 0f;
+    private float adaptationThreshold = 0.7f; // Threshold to consider player well-adapted
 
     // =================== Notification Fade Settings ===================
     
@@ -80,9 +114,29 @@ public class WeatherManager : MonoBehaviour
         {
             fogEffectController = FindObjectOfType<FogEffectController>();
         }
+        if (playerTemperature == null)
+        {
+            playerTemperature = FindObjectOfType<PlayerTemperature>();
+        }
 
         // Initialize the weather to Normal at startup
         SetWeather(WeatherType.Normal);
+        
+        // Store initial weather type
+        lastWeatherType = WeatherType.Normal;
+        sameWeatherTypeCount = 1;
+        
+        // Initialize next weather change time
+        nextWeatherChangeTime = Time.time + baseWeatherChangeInterval;
+    }
+    
+    private void Update()
+    {
+        // Monitor player adaptation to weather
+        if (playerTemperature != null)
+        {
+            MonitorPlayerAdaptation();
+        }
     }
 
     // =================== Public Methods ===================
@@ -92,22 +146,43 @@ public class WeatherManager : MonoBehaviour
     /// </summary>
     public void SetWeather(WeatherType newWeather)
     {
+        // Check if we're setting the same weather type
+        if (newWeather == CurrentWeather)
+        {
+            sameWeatherTypeCount++;
+        }
+        else
+        {
+            sameWeatherTypeCount = 1;
+            lastWeatherType = CurrentWeather;
+        }
+        
         CurrentWeather = newWeather;
         ApplyWeatherEffects();
         DisplayWeatherNotification(newWeather);
         PlayWeatherSound(newWeather);
 
-        Debug.Log("Weather set to: " + newWeather);
+        // Track consecutive adverse weather events
+        if (newWeather != WeatherType.Normal)
+        {
+            consecutiveAdverseWeatherCount++;
+        }
+        else
+        {
+            consecutiveAdverseWeatherCount = 0;
+        }
+
+        Debug.Log("Weather set to: " + newWeather + " (Same type count: " + sameWeatherTypeCount + ")");
     }
 
     /// <summary>
-    /// Begins automatic weather cycling on a set interval.
+    /// Begins adaptive weather cycling that responds to player behavior.
     /// </summary>
     public void StartWeatherCycle()
     {
         if (weatherCoroutine == null)
         {
-            weatherCoroutine = StartCoroutine(WeatherCycle());
+            weatherCoroutine = StartCoroutine(AdaptiveWeatherCycle());
         }
     }
 
@@ -124,31 +199,151 @@ public class WeatherManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Immediately cycles the weather state:
-    /// Normal -> (Heatwave or Snowstorm), then returns back to Normal.
+    /// Intelligently selects the next weather based on player adaptation and game theory principles.
     /// </summary>
-    public void ChangeWeather()
+    public void StrategicWeatherChange()
     {
-        if (CurrentWeather == WeatherType.Normal)
+        // Force a change if we've had the same weather type for too long
+        if (sameWeatherTypeCount >= maxSameWeatherCount)
         {
-            // 50/50 chance for Heatwave vs Snowstorm
-            if (Random.value > 0.5f)
+            Debug.Log("Forcing weather change after " + sameWeatherTypeCount + " cycles of the same weather");
+            
+            // If we're in normal weather too long, switch to an adverse weather
+            if (CurrentWeather == WeatherType.Normal)
             {
-                SetWeather(WeatherType.Heatwave);
+                // Randomly choose between Heatwave and Snowstorm
+                SetWeather(Random.value > 0.5f ? WeatherType.Heatwave : WeatherType.Snowstorm);
+                return;
             }
+            // If we're in the same adverse weather too long, switch to normal or opposite
             else
             {
-                SetWeather(WeatherType.Snowstorm);
+                // 70% chance to go back to normal, 30% to opposite extreme
+                if (Random.value < 0.7f)
+                {
+                    SetWeather(WeatherType.Normal);
+                }
+                else
+                {
+                    // Switch to the opposite adverse weather
+                    SetWeather(CurrentWeather == WeatherType.Heatwave ? 
+                              WeatherType.Snowstorm : WeatherType.Heatwave);
+                }
+                return;
+            }
+        }
+        
+        // Force normal weather if we've had too many consecutive adverse events
+        if (consecutiveAdverseWeatherCount >= maxConsecutiveAdverseWeather)
+        {
+            SetWeather(WeatherType.Normal);
+            return;
+        }
+        
+        // Check if we should provide a relaxation period
+        if (Random.value < relaxationChance && CurrentWeather != WeatherType.Normal)
+        {
+            SetWeather(WeatherType.Normal);
+            // Extend the normal weather duration
+            nextWeatherChangeTime = Time.time + (baseWeatherChangeInterval * relaxationDurationMultiplier);
+            return;
+        }
+        
+        if (CurrentWeather == WeatherType.Normal)
+        {
+            // If player is wearing winter clothing, challenge with heatwave
+            if (playerTemperature != null && playerTemperature.currentClothing == ClothingType.WinterCoat)
+            {
+                // Higher chance of heatwave (80%) if player is well-adapted to cold
+                float heatwaveChance = (playerAdaptationScore > adaptationThreshold) ? 0.8f : 0.5f;
+                
+                if (Random.value < heatwaveChance)
+                {
+                    SetWeather(WeatherType.Heatwave);
+                }
+                else
+                {
+                    SetWeather(WeatherType.Snowstorm);
+                }
+            }
+            // If player is wearing summer clothing, challenge with snowstorm
+            else if (playerTemperature != null && playerTemperature.currentClothing == ClothingType.TShirt)
+            {
+                // Higher chance of snowstorm (80%) if player is well-adapted to heat
+                float snowstormChance = (playerAdaptationScore > adaptationThreshold) ? 0.8f : 0.5f;
+                
+                if (Random.value < snowstormChance)
+                {
+                    SetWeather(WeatherType.Snowstorm);
+                }
+                else
+                {
+                    SetWeather(WeatherType.Heatwave);
+                }
+            }
+            // If no specific clothing or we don't know, use standard randomization
+            else
+            {
+                // 50/50 chance for Heatwave vs Snowstorm
+                if (Random.value > 0.5f)
+                {
+                    SetWeather(WeatherType.Heatwave);
+                }
+                else
+                {
+                    SetWeather(WeatherType.Snowstorm);
+                }
             }
         }
         else
         {
-            // Return to Normal after any extreme weather
-            SetWeather(WeatherType.Normal);
+            // Decide whether to return to normal or switch to the opposite extreme
+            float randomValue = Random.value;
+            
+            // Most of the time, return to normal (70%)
+            if (randomValue < 0.7f)
+            {
+                SetWeather(WeatherType.Normal);
+            }
+            // Sometimes, switch to the opposite extreme (30%)
+            else
+            {
+                if (CurrentWeather == WeatherType.Heatwave)
+                {
+                    SetWeather(WeatherType.Snowstorm);
+                }
+                else
+                {
+                    SetWeather(WeatherType.Heatwave);
+                }
+            }
         }
     }
 
     // =================== Private Methods ===================
+
+    /// <summary>
+    /// Monitors how well the player is adapting to current weather conditions.
+    /// </summary>
+    private void MonitorPlayerAdaptation()
+    {
+        // Track when clothing changes
+        if (lastPlayerClothing != playerTemperature.currentClothing)
+        {
+            lastPlayerClothing = playerTemperature.currentClothing;
+        }
+        
+        // Calculate adaptation score (0-1) based on how close to neutral temperature
+        float temperatureRange = playerTemperature.maxTemperature - playerTemperature.minTemperature;
+        float optimalTemperature = 0f; // Assuming 0 is neutral
+        
+        // Calculate how far from optimal (normalized 0-1, where 0 is perfect)
+        float deviationFromOptimal = Mathf.Abs(playerTemperature.bodyTemperature - optimalTemperature) / 
+                                    (temperatureRange * 0.5f);
+        
+        // Invert so 1 is perfect adaptation, 0 is poor adaptation
+        playerAdaptationScore = 1f - Mathf.Clamp01(deviationFromOptimal);
+    }
 
     /// <summary>
     /// Displays weather notification text and starts a fade-out after a delay.
@@ -157,28 +352,40 @@ public class WeatherManager : MonoBehaviour
     {
         if (weatherNotificationText == null) return;
 
+        // Stop any existing fade-out
+        if (notificationFadeCoroutine != null)
+        {
+            StopCoroutine(notificationFadeCoroutine);
+            notificationFadeCoroutine = null;
+        }
+
         // Reset notification text alpha to fully visible
         var color = weatherNotificationText.color;
         weatherNotificationText.color = new Color(color.r, color.g, color.b, 1f);
 
-        // Set message
+        // Set message and color based on weather type
         switch (weatherType)
         {
             case WeatherType.Normal:
-                weatherNotificationText.text = "Normal";
+                weatherNotificationText.text = "Normal Weather";
                 weatherNotificationText.color = new Color(0f, 1f, 0f);
                 break;
             case WeatherType.Heatwave:
-                weatherNotificationText.text = "Heatwave";
+                weatherNotificationText.text = "HEATWAVE WARNING!";
                 weatherNotificationText.color = new Color(1f, 0.2745098f, 0f);
                 break;
             case WeatherType.Snowstorm:
-                weatherNotificationText.text = "Snowstorm";
+                weatherNotificationText.text = "SNOWSTORM WARNING!";
                 weatherNotificationText.color = new Color(0f, 1f, 1f);
                 break;
         }
 
-        // Keep the notification visible without fading out
+        // Make notification visible
+        weatherNotificationText.gameObject.SetActive(true);
+        
+        // Start fade out after a delay
+        notificationFadeCoroutine = FadeOutNotification(notificationDisplayTime, fadeDurationText);
+        StartCoroutine(notificationFadeCoroutine);
     }
 
     /// <summary>
@@ -241,7 +448,7 @@ public class WeatherManager : MonoBehaviour
             case WeatherType.Snowstorm:
                 //snowstorm weather effects
                 globalSnowController?.SetVisible(true);
-                playerSnowController.SetVisible(true);
+                playerSnowController?.SetVisible(true);
                 break;
             case WeatherType.Normal:
                 // standard weather (no effects)
@@ -250,14 +457,40 @@ public class WeatherManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Repeatedly waits for weatherChangeInterval, then auto-changes weather.
+    /// Dynamically adjusts weather based on player's adaptive choices.
+    /// Uses game theory principles to provide challenging but fair weather patterns.
     /// </summary>
-    private IEnumerator WeatherCycle()
+    private IEnumerator AdaptiveWeatherCycle()
     {
         while (true)
         {
-            yield return new WaitForSeconds(weatherChangeInterval);
-            ChangeWeather();
+            // Wait until next scheduled weather change
+            while (Time.time < nextWeatherChangeTime)
+            {
+                yield return null;
+            }
+            
+            // Change weather strategically
+            StrategicWeatherChange();
+            
+            // Calculate next change time with variability
+            float interval = baseWeatherChangeInterval;
+            
+            // More frequent changes if player is adapting well (to increase challenge)
+            if (playerAdaptationScore > adaptationThreshold)
+            {
+                interval *= 0.8f;
+            }
+            
+            // Add randomness to prevent predictable patterns
+            float randomVariance = Random.Range(-5f, 10f);
+            interval += randomVariance;
+            
+            // Ensure within min/max bounds
+            interval = Mathf.Clamp(interval, minWeatherChangeInterval, maxWeatherChangeInterval);
+            
+            // Set next change time
+            nextWeatherChangeTime = Time.time + interval;
         }
     }
 
@@ -287,8 +520,9 @@ public class WeatherManager : MonoBehaviour
             yield return null;
         }
 
-        // Optionally clear the text
-        weatherNotificationText.text = "";
+        // Hide notification
+        weatherNotificationText.gameObject.SetActive(false);
+        notificationFadeCoroutine = null;
     }
 
     /// <summary>
@@ -309,5 +543,6 @@ public class WeatherManager : MonoBehaviour
 
         // Ensure we end fully at volume = 1
         weatherAudioSource.volume = 1f;
+        soundFadeCoroutine = null;
     }
 }

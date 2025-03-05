@@ -1,57 +1,113 @@
 using UnityEngine;
 
+/// <summary>
+/// Manages player's body temperature in response to weather conditions.
+/// Implements strategic temperature changes with non-linear progression and 
+/// clothing-based modifiers to create dynamic gameplay challenge.
+/// </summary>
 public class PlayerTemperature : MonoBehaviour
 {
     public float bodyTemperature = 0f; // Starts at 0
     public float minTemperature = -100f;
     public float maxTemperature = 100f;
 
-    // Temperature change rates per second (adjustable in Inspector)
+    // Temperature change rates per second (significantly increased)
     [Header("Temperature Change Rates")]
-    public float heatwaveRate = 3f; // Increased from 1f
-    public float snowstormRate = -3f; // Increased from -1f
-    private bool gameOverTriggered = false; // Ensure we only trigger game over once
+    public float baseHeatwaveRate = 5f;     // Increased for more urgency
+    public float baseSnowstormRate = -5f;   // Increased for more urgency
+    
+    // Additional rate multipliers for inappropriate clothing
+    [Header("Clothing Penalty Multipliers")]
+    public float inappropriateClothingMultiplier = 2.5f; // Higher penalties for wrong clothing
+    
+    // Internal variables
+    private bool gameOverTriggered = false;
+    private float lastTemperatureUpdate = 0f;
+    private float temperatureUpdateInterval = 0.1f; // Update more frequently
 
     // Reference to WeatherManager and other systems
     private WeatherManager weatherManager;
     private GameFSM gameFSM;
     [SerializeField] private InGameMenuManager gameOverManager;
     
-    // NEW: Currently worn clothing, set externally via ApplyClothingResistance
-    public ClothingType currentClothing = ClothingType.None; // Assuming a "None" option exists
+    // Currently worn clothing
+    public ClothingType currentClothing = ClothingType.None;
+
+    // Event for other systems to listen to temperature changes
+    public delegate void TemperatureChangeHandler();
+    public event TemperatureChangeHandler OnTemperatureChanged;
 
     void Start()
     {
         weatherManager = FindObjectOfType<WeatherManager>();
         gameFSM = FindObjectOfType<GameFSM>();
+        
+        // Initialize UI
+        UpdateTemperatureUI();
     }
 
     void Update()
     {
-        // Adjust temperature continuously based on current weather and clothing
-        float weatherEffect = 0f;
+        // Only update temperature at specific intervals (performance optimization)
+        if (Time.time >= lastTemperatureUpdate + temperatureUpdateInterval)
+        {
+            lastTemperatureUpdate = Time.time;
+            UpdatePlayerTemperature();
+        }
+    }
+    
+    /// <summary>
+    /// Updates player temperature based on weather conditions and clothing.
+    /// Implements non-linear progression where extreme temperatures change faster.
+    /// </summary>
+    void UpdatePlayerTemperature()
+    {
+        // Get current weather from manager
         WeatherType currentWeather = weatherManager.CurrentWeather;
         
-        if (currentWeather == WeatherType.Heatwave)
-            weatherEffect = heatwaveRate;
-        else if (currentWeather == WeatherType.Snowstorm)
-            weatherEffect = snowstormRate;
+        // Base temperature change based on weather
+        float weatherEffect = 0f;
         
-        // Only modify if weather is not normal (normal implies no weather-based change)
+        if (currentWeather == WeatherType.Heatwave)
+            weatherEffect = baseHeatwaveRate;
+        else if (currentWeather == WeatherType.Snowstorm)
+            weatherEffect = baseSnowstormRate;
+        
+        // Apply clothing effects (more severe penalties for inappropriate clothing)
+        float multiplier = GetEnhancedClothingMultiplier(currentWeather, currentClothing);
+        
+        // Calculate final temperature change
+        float temperatureChange = weatherEffect * multiplier * temperatureUpdateInterval;
+        
+        // Apply temperature change if not in normal weather
         if (currentWeather != WeatherType.Normal)
         {
-            float multiplier = GetClothingMultiplier(currentWeather, currentClothing);
-            bodyTemperature += weatherEffect * multiplier * Time.deltaTime;
+            bodyTemperature += temperatureChange;
+        }
+        else
+        {
+            // In normal weather, slowly return to neutral (0)
+            if (Mathf.Abs(bodyTemperature) > 0.1f)
+            {
+                // Move towards 0 at a moderate rate
+                float recoveryRate = 2f * temperatureUpdateInterval;
+                bodyTemperature = Mathf.MoveTowards(bodyTemperature, 0f, recoveryRate);
+            }
         }
 
         // Clamp temperature
         bodyTemperature = Mathf.Clamp(bodyTemperature, minTemperature, maxTemperature);
+        
+        // Update UI display
+        UpdateTemperatureUI();
 
         // Check for game over conditions
         if (!gameOverTriggered && (bodyTemperature <= minTemperature || bodyTemperature >= maxTemperature))
         {
             gameOverTriggered = true;
-            Debug.Log("Player has died due to extreme temperature!");
+            string deathCause = bodyTemperature <= minTemperature ? "hypothermia" : "hyperthermia";
+            Debug.Log($"Player has died due to extreme {deathCause}!");
+            
             if (gameFSM != null)
             {
                 gameFSM.TransitionToState(gameFSM.GameOverState);
@@ -59,75 +115,167 @@ public class PlayerTemperature : MonoBehaviour
             if (gameOverManager != null)
             {
                 gameOverManager.ShowGameOver();
+                
+                // Set more specific game over message based on death cause
+                if (gameOverManager.gameOverText != null)
+                {
+                    if (deathCause == "hypothermia")
+                    {
+                        gameOverManager.gameOverText.text = "You froze to death!";
+                    }
+                    else
+                    {
+                        gameOverManager.gameOverText.text = "You died from heatstroke!";
+                    }
+                }
             }
         }
-
-        // Update UI (e.g., temperature bar) here
     }
-
-    // Helper method to compute a multiplier based on weather and clothing worn
-    private float GetClothingMultiplier(WeatherType weather, ClothingType clothing)
+    
+    /// <summary>
+    /// Calculates clothing multiplier with enhanced penalties for inappropriate choices.
+    /// Implements non-linear effects where extreme temperatures amplify clothing penalties.
+    /// </summary>
+    private float GetEnhancedClothingMultiplier(WeatherType weather, ClothingType clothing)
     {
         // Default multiplier is 1 (no change)
         float multiplier = 1f;
+        
         switch(clothing)
         {
             case ClothingType.TShirt:
                 if (weather == WeatherType.Heatwave)
-                    multiplier = 0.5f;  // slows down the temperature increase
+                    multiplier = 0.6f;  // Some benefit in heat
                 else if (weather == WeatherType.Snowstorm)
-                    multiplier = 1.5f;  // accelerates the temperature decrease
+                    multiplier = inappropriateClothingMultiplier;  // Severe penalty in cold
                 break;
+                
             case ClothingType.WinterCoat:
                 if (weather == WeatherType.Snowstorm)
-                    multiplier = 0.5f;  // slows down the temperature decrease
+                    multiplier = 0.6f;  // Some benefit in cold
                 else if (weather == WeatherType.Heatwave)
-                    multiplier = 1.5f;  // accelerates the temperature increase
+                    multiplier = inappropriateClothingMultiplier;  // Severe penalty in heat
                 break;
-            // In case of "None" or any other clothing type, use default multiplier 1
+                
+            // In case of "None" or any other clothing type, slightly worse than proper clothing
             default:
-                multiplier = 1f;
+                multiplier = 1.2f;
                 break;
         }
+        
+        // Apply additional multiplier based on current temperature
+        // This creates a non-linear effect - the more extreme your temperature,
+        // the faster it gets worse (simulating body struggling to regulate)
+        
+        // Get normalized temperature (-1 to 1 range)
+        float normalizedTemp = bodyTemperature / maxTemperature;
+        
+        // If temperature is already extreme in the same direction as the weather effect
+        if ((normalizedTemp > 0.6f && weather == WeatherType.Heatwave) || 
+            (normalizedTemp < -0.6f && weather == WeatherType.Snowstorm))
+        {
+            // Add up to 50% extra penalty based on how extreme current temperature is
+            float extremityMultiplier = 1f + (Mathf.Abs(normalizedTemp) * 0.5f);
+            multiplier *= extremityMultiplier;
+        }
+        
         return multiplier;
     }
+    
+    /// <summary>
+    /// Notifies other systems about temperature changes.
+    /// </summary>
+    private void UpdateTemperatureUI()
+    {
+        // We're not updating UI directly as TemperatureBarManager handles this
+        // This method remains for API compatibility but with minimal implementation
+        
+        // Notify other systems that temperature has changed
+        if (OnTemperatureChanged != null)
+        {
+            OnTemperatureChanged.Invoke();
+        }
+    }
 
-    // Method to adjust temperature based on one-time effects (e.g., drinks)
+    /// <summary>
+    /// Instantly modifies player temperature (for consumable items).
+    /// </summary>
     public void ModifyTemperature(float amount)
     {
         bodyTemperature += amount;
         bodyTemperature = Mathf.Clamp(bodyTemperature, minTemperature, maxTemperature);
+        UpdateTemperatureUI();
     }
 
-    // Optional: Reset temperature
+    /// <summary>
+    /// Resets temperature to neutral (0).
+    /// </summary>
     public void ResetTemperature()
     {
         bodyTemperature = 0f;
+        UpdateTemperatureUI();
     }
 
-    // Modified: Set the current clothing, which now affects the weather-driven rate continuously.
+    /// <summary>
+    /// Sets the current clothing type and notifies listeners.
+    /// </summary>
     public void ApplyClothingResistance(ClothingType clothing)
     {
         currentClothing = clothing;
+        
+        // Notify listeners about the change
+        if (OnTemperatureChanged != null)
+        {
+            OnTemperatureChanged.Invoke();
+        }
     }
 
-    // Apply drink effects (one-time boosts remain the same)
+    /// <summary>
+    /// Applies immediate cooling or warming effect from drinks.
+    /// Enhanced values for more significant gameplay impact.
+    /// </summary>
     public void ApplyDrinkEffect(DrinkType drink)
     {
         switch (drink)
         {
             case DrinkType.Lemonade:
-                ModifyTemperature(-20f); // Decrease temperature
+                ModifyTemperature(-30f); // Significant immediate cooling
                 break;
             case DrinkType.HotChocolate:
-                ModifyTemperature(20f); // Increase temperature
+                ModifyTemperature(30f); // Significant immediate warming
                 break;
         }
     }
 
-    // Emergency Kit: one-time reset effect remains unchanged
+    /// <summary>
+    /// Emergency kit: resets temperature and provides temporary resistance.
+    /// </summary>
     public void UseEmergencyKit()
     {
         ResetTemperature();
+        
+        // Provide temporary resistance to extreme temperatures
+        StartCoroutine(TemporaryTemperatureResistance(15f)); // 15 seconds of resistance
+    }
+    
+    /// <summary>
+    /// Provides temporary resistance to temperature changes after emergency kit use.
+    /// </summary>
+    private System.Collections.IEnumerator TemporaryTemperatureResistance(float duration)
+    {
+        // Store original rates
+        float originalHeatwaveRate = baseHeatwaveRate;
+        float originalSnowstormRate = baseSnowstormRate;
+        
+        // Reduce rates by 75%
+        baseHeatwaveRate *= 0.25f;
+        baseSnowstormRate *= 0.25f;
+        
+        // Wait for duration
+        yield return new WaitForSeconds(duration);
+        
+        // Restore original rates
+        baseHeatwaveRate = originalHeatwaveRate;
+        baseSnowstormRate = originalSnowstormRate;
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class InGameMenuManager : MonoBehaviour
 {
@@ -8,8 +9,31 @@ public class InGameMenuManager : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject gameOverPanel;
 
+    [Header("Game Over Text")]
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI temperatureInfoText;
+    public TextMeshProUGUI weatherInfoText;
+
+    [Header("Weather References")]
+    public WeatherManager weatherManager;
+    public PlayerTemperature playerTemperature;
+
     private bool isPaused = false;
     private bool hasGameOverBeenShown = false;
+
+    private void Start()
+    {
+        // Find references if not assigned in inspector
+        if (weatherManager == null)
+        {
+            weatherManager = FindObjectOfType<WeatherManager>();
+        }
+
+        if (playerTemperature == null)
+        {
+            playerTemperature = FindObjectOfType<PlayerTemperature>();
+        }
+    }
 
     void Update()
     {
@@ -36,15 +60,89 @@ public class InGameMenuManager : MonoBehaviour
         TogglePause();
     }
 
-    // Show Game Over Screen
+    // Show Game Over Screen with detailed information
     public void ShowGameOver()
     {
         if (hasGameOverBeenShown) return; // Prevent multiple activations
         hasGameOverBeenShown = true;
 
         Debug.Log("Game Over");
+        
+        // Setup game over text
+        UpdateGameOverInfo();
+        
+        // Show game over panel
         gameOverPanel.SetActive(true);
         Time.timeScale = 0f;  // Pause the game
+    }
+
+    // Update game over information with detailed temperature and weather data
+    private void UpdateGameOverInfo()
+    {
+        // Default message if we can't determine the cause
+        string mainMessage = "Game Over!";
+        
+        // Get temperature-specific info if available
+        if (playerTemperature != null)
+        {
+            float bodyTemp = playerTemperature.bodyTemperature;
+            
+            if (bodyTemp <= playerTemperature.minTemperature)
+            {
+                mainMessage = "You froze to death!";
+                
+                // Add more detail to temperature info text
+                if (temperatureInfoText != null)
+                {
+                    temperatureInfoText.text = $"Body Temperature: {bodyTemp:F1}°\nYou died of hypothermia when your body couldn't withstand the extreme cold.";
+                }
+            }
+            else if (bodyTemp >= playerTemperature.maxTemperature)
+            {
+                mainMessage = "You died from heatstroke!";
+                
+                // Add more detail to temperature info text
+                if (temperatureInfoText != null)
+                {
+                    temperatureInfoText.text = $"Body Temperature: {bodyTemp:F1}°\nYou died of hyperthermia when your body couldn't withstand the extreme heat.";
+                }
+            }
+            
+            // Update main game over text
+            if (gameOverText != null)
+            {
+                gameOverText.text = mainMessage;
+            }
+        }
+        
+        // Add weather information if available
+        if (weatherManager != null && weatherInfoText != null)
+        {
+            string weatherInfo = "Last weather condition: ";
+            
+            switch (weatherManager.CurrentWeather)
+            {
+                case WeatherType.Normal:
+                    weatherInfo += "Normal";
+                    break;
+                case WeatherType.Heatwave:
+                    weatherInfo += "Heatwave";
+                    if (playerTemperature != null && playerTemperature.currentClothing == ClothingType.WinterCoat)
+                    {
+                        weatherInfo += "\nWearing a winter coat during a heatwave significantly accelerates overheating!";
+                    }
+                    break;
+                case WeatherType.Snowstorm:
+                    weatherInfo += "Snowstorm";
+                    if (playerTemperature != null && playerTemperature.currentClothing == ClothingType.TShirt)
+                    {
+                        weatherInfo += "\nWearing only a t-shirt during a snowstorm significantly accelerates freezing!";
+                    }
+                    break;
+            }
+            
+            weatherInfoText.text = weatherInfo;
+        }
     }
 
     // Restart the game
