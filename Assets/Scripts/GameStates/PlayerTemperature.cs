@@ -174,8 +174,8 @@ public class PlayerTemperature : MonoBehaviour
         if ((normalizedTemp > 0.6f && weather == WeatherType.Heatwave) || 
             (normalizedTemp < -0.6f && weather == WeatherType.Snowstorm))
         {
-            // Add up to 30% extra penalty based on how extreme current temperature is
-            float extremityMultiplier = 1f + (Mathf.Abs(normalizedTemp) * 0.3f);
+            // Add up to 20% extra penalty based on how extreme current temperature is
+            float extremityMultiplier = 1f + (Mathf.Abs(normalizedTemp) * 0.2f);
             multiplier *= extremityMultiplier;
         }
         
