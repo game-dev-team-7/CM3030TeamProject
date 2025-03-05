@@ -12,8 +12,8 @@ public class IntroState : BaseState
     public override void Enter()
     {
         Debug.Log("Entering Intro Stage");
-
-        fsm.WeatherManager.SetWeather(WeatherType.Normal);
+        fsm.WeatherManager.StopWeatherCycle();
+        fsm.customerManager.DisableManager();
 
         // Check if this is the first launch
         if (IsFirstLaunch())

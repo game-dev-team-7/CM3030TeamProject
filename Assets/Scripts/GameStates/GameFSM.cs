@@ -13,6 +13,8 @@ public class GameFSM : MonoBehaviour
 
     // Weather Manager Reference
     public WeatherManager WeatherManager;
+    // Reference to CustomerManager
+    public CustomerManager customerManager;
 
     // Tutorial Mask References
     public GameObject tutorialMask1;
@@ -93,25 +95,25 @@ public class GameFSM : MonoBehaviour
         tutorialMask1.SetActive(true);
         yield return new WaitUntil(() =>
             Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D));
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         tutorialMask1.SetActive(false);
 
         // Show Camera Rotation Tutorial
         tutorialMask2.SetActive(true);
         yield return new WaitUntil(() => Input.GetMouseButton(1));
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         tutorialMask2.SetActive(false);
 
         // Show Delivery Tutorial
         tutorialMask3.SetActive(true);
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.anyKeyDown);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         tutorialMask3.SetActive(false);
 
         // Show Weather Tutorial
         tutorialMask4.SetActive(true);
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0) || Input.anyKeyDown);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         tutorialMask4.SetActive(false);
 
         // Transition to Game Proper State

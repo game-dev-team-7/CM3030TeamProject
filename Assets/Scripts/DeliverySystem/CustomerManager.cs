@@ -127,4 +127,16 @@ public class CustomerManager : MonoBehaviour
         uiManager.UpdateScore(scoreManager.CurrentScore);
         StartNewDelivery();
     }
+
+    public void EnableManager()
+    {
+        enabled = true;
+        Debug.Log("CustomerManager has been enabled.");
+    }
+
+    public void DisableManager()
+    {
+        enabled = false;
+        Debug.Log("CustomerManager has been disabled.");
+    }
 }
