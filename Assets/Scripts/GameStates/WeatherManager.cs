@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
 /// Manages different weather states (Normal, Heatwave, Snowstorm).
@@ -23,6 +24,7 @@ public class WeatherManager : MonoBehaviour
     
     [Header("UI Elements")]
     public TextMeshProUGUI weatherNotificationText;
+    public GameObject weatherNotificationBackground;
 
     [Header("Audio Clips")]
     public AudioClip heatwaveClip;
@@ -382,6 +384,7 @@ public class WeatherManager : MonoBehaviour
 
         // Make notification visible
         weatherNotificationText.gameObject.SetActive(true);
+        weatherNotificationBackground.gameObject.SetActive(true);
         
         // Start fade out after a delay
         notificationFadeCoroutine = FadeOutNotification(notificationDisplayTime, fadeDurationText);
@@ -517,11 +520,18 @@ public class WeatherManager : MonoBehaviour
                 originalColor.b,
                 alpha
             );
+            weatherNotificationBackground.GetComponent<Image>().color = new Color(
+                0.05f,
+                0.08f,
+                0.05f,
+                alpha
+            );
             yield return null;
         }
 
         // Hide notification
         weatherNotificationText.gameObject.SetActive(false);
+        weatherNotificationBackground.gameObject.SetActive(false);
         notificationFadeCoroutine = null;
     }
 

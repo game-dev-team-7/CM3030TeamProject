@@ -90,8 +90,8 @@ public class PickupManager : MonoBehaviour
         if (emergencyKitSpawned) return;
 
         var temp = playerTemperature.bodyTemperature;
-        if (temp < playerTemperature.minTemperature * 0.95f ||
-            temp > playerTemperature.maxTemperature * 0.95f)
+        if (temp < playerTemperature.minTemperature * 0.9f ||
+            temp > playerTemperature.maxTemperature * 0.9f)
         {
             SpawnEmergencyKit();
             emergencyKitSpawned = true;
