@@ -19390,7 +19390,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -78771,12 +78771,12 @@ PrefabInstance:
     - target: {fileID: 295380193747070033, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 334.62036
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 295380193747070033, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 473.5809
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 295380193747070033, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
@@ -78823,6 +78823,11 @@ PrefabInstance:
       propertyPath: m_UiScaleMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1125093600959789292, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1551323414626161599, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -78868,6 +78873,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UiScaleMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855529638648833521, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5233652383346696571, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
@@ -78929,6 +78939,16 @@ PrefabInstance:
       propertyPath: cameraPivot
       value: 
       objectReference: {fileID: 1564812161}
+    - target: {fileID: 6559882577670639207, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: generalIconScale
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559882577670639207, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: customerIconScale
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7001539201569992558, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
       propertyPath: m_text
@@ -78943,6 +78963,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UiScaleMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7063978964287959711, guid: 7fc02882db261b34c8634e1872c49b73,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7106456175074552965, guid: 7fc02882db261b34c8634e1872c49b73,
         type: 3}
