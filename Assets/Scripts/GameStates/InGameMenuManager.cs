@@ -15,6 +15,9 @@ public class InGameMenuManager : MonoBehaviour
     [Header("Weather References")] public WeatherManager weatherManager;
     public PlayerTemperature playerTemperature;
 
+    [Header("Score Text")]
+    [SerializeField] private TextMeshProUGUI scoreText; 
+
     private bool isPaused = false;
     private bool hasGameOverBeenShown = false;
 
@@ -116,6 +119,9 @@ public class InGameMenuManager : MonoBehaviour
     // Return to Main Menu
     public void ReturnToMainMenu()
     {
+        //Save Score as High Score (unless it is less than current High Score)
+        FindObjectOfType<HighScoreManager>().SaveHighScore(int.Parse(scoreText.text));
+
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");//Returns to main menu
     }
