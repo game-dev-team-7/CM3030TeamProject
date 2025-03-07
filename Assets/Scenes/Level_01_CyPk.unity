@@ -56051,6 +56051,11 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 697213876}
+    - target: {fileID: 34235675758856842, guid: 84514ada61d1a7342b9353e303bec21b,
+        type: 3}
+      propertyPath: smoothTime
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 1259566413705111105, guid: 84514ada61d1a7342b9353e303bec21b,
         type: 3}
       propertyPath: m_Name
