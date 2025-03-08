@@ -12,13 +12,12 @@ public class PlayerTemperature : MonoBehaviour
     public float maxTemperature = 100f;
 
     //Temperature change rates per second depending on weather event
-    [Header("Temperature Change Rates")]
-    public float baseHeatwaveRate = 2f; //Both rates give an increased urgency feeling
-    public float baseSnowstormRate = -2f;
+    private float baseHeatwaveRate = 2f; //Both rates give an increased urgency feeling
+    private float baseSnowstormRate = -2f;
     
     //Additional rate multipliers for inappropriate clothing
-    [Header("Clothing Penalty Multipliers")]
-    public float inappropriateClothingMultiplier = 1.5f; // Higher penalties for wrong clothing
+    private float inappropriateClothingMultiplier = 8f; // Higher penalties for wrong clothing
+    private float correctClothingMultiplier = 0.3f; 
     
     //Internal variables
     private bool gameOverTriggered = false;
@@ -84,13 +83,13 @@ public class PlayerTemperature : MonoBehaviour
         {
             bodyTemperature += temperatureChange;
         }
-        else
+        else if (currentClothing == ClothingType.None)
         {
             // In normal weather, slowly return to neutral (0)
             if (Mathf.Abs(bodyTemperature) > 0.1f)
             {
                 // Move towards 0 at a moderate rate
-                float recoveryRate = 2f * temperatureUpdateInterval;
+                float recoveryRate = 1f * temperatureUpdateInterval;
                 bodyTemperature = Mathf.MoveTowards(bodyTemperature, 0f, recoveryRate);
             }
         }
@@ -145,40 +144,24 @@ public class PlayerTemperature : MonoBehaviour
         {
             case ClothingType.TShirt:
                 if (weather == WeatherType.Heatwave)
-                    multiplier = 0.6f;  // Some benefit in heat
+                    multiplier = correctClothingMultiplier;
                 else if (weather == WeatherType.Snowstorm)
                     multiplier = inappropriateClothingMultiplier;  // Severe penalty in cold
                 break;
                 
             case ClothingType.WinterCoat:
                 if (weather == WeatherType.Snowstorm)
-                    multiplier = 0.6f;  // Some benefit in cold
+                    multiplier = correctClothingMultiplier;
                 else if (weather == WeatherType.Heatwave)
                     multiplier = inappropriateClothingMultiplier;  // Severe penalty in heat
                 break;
                 
             // In case of "None" or any other clothing type, slightly worse than proper clothing
             default:
-                multiplier = 1.2f;
+                multiplier = 1.5f;
                 break;
         }
-        
-        // Apply additional multiplier based on current temperature
-        // This creates a non-linear effect - the more extreme your temperature,
-        // the faster it gets worse (simulating body struggling to regulate)
-        
-        // Get normalized temperature (-1 to 1 range)
-        float normalizedTemp = bodyTemperature / maxTemperature;
-        
-        // If temperature is already extreme in the same direction as the weather effect
-        if ((normalizedTemp > 0.6f && weather == WeatherType.Heatwave) || 
-            (normalizedTemp < -0.6f && weather == WeatherType.Snowstorm))
-        {
-            // Add up to 20% extra penalty based on how extreme current temperature is
-            float extremityMultiplier = 1f + (Mathf.Abs(normalizedTemp) * 0.2f);
-            multiplier *= extremityMultiplier;
-        }
-        
+
         return multiplier;
     }
     
