@@ -25,3 +25,8 @@
 - **Jedrzej Lewandowski**: Game mechanics, weather system, temperature logic
 - **Ludovico Angelini**: Audio-visual aspects, day-night cycle, weather effects
 
+## Asset sourcing
+
+- All audio assets are royalty-free and were sourced(and in some cases edited) from: https://pixabay.com/
+- Buildings prefabs are from the pack: https://kenney.nl/assets/city-kit-commercial
+- Materials pack is from: https://assetstore.unity.com/packages/2d/textures-materials/cyberpunk-material-pack-six-high-quality-materials-188067
