@@ -1,58 +1,106 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Animates a buff cone object with vertical movement and pulsing emission.
+///     Creates a floating effect with synchronized material emission changes.
+/// </summary>
 public class BuffConeAnimation : MonoBehaviour
 {
-    [SerializeField]
-    private float amplitude = 1f; // Height of the movement
-    [SerializeField]
-    private float speed = 2f;     // Speed of the movement
-
-    [SerializeField]
-    private float minEmission = 0f;  // Minimum emission intensity
-    [SerializeField]
-    private float maxEmission = 3f;  // Maximum emission intensity
-
-    private Vector3 startPosition;
-    private Material objectMaterial;
+    /// <summary>
+    ///     Property name for accessing the emission color in the shader.
+    /// </summary>
     private static readonly string emissionProperty = "_EmissionColor";
 
-    void Start()
+    /// <summary>
+    ///     Height of the vertical movement in units.
+    /// </summary>
+    [SerializeField] private float amplitude = 1f;
+
+    /// <summary>
+    ///     Speed of the vertical movement cycle.
+    /// </summary>
+    [SerializeField] private float speed = 2f;
+
+    /// <summary>
+    ///     Minimum emission intensity for the pulsing effect.
+    /// </summary>
+    [SerializeField] private float minEmission;
+
+    /// <summary>
+    ///     Maximum emission intensity for the pulsing effect.
+    /// </summary>
+    [SerializeField] private float maxEmission = 3f;
+
+    /// <summary>
+    ///     Reference to the object's material for emission control.
+    /// </summary>
+    private Material objectMaterial;
+
+    /// <summary>
+    ///     The initial position of the object when the script starts.
+    /// </summary>
+    private Vector3 startPosition;
+
+    /// <summary>
+    ///     Called when the script instance is being loaded.
+    ///     Initializes starting position and material references.
+    /// </summary>
+    private void Start()
     {
         // Store the starting position of the object
         startPosition = transform.position;
 
         // Get the object's material
-        Renderer renderer = GetComponent<Renderer>();
+        var renderer = GetComponent<Renderer>();
         if (renderer != null)
         {
             objectMaterial = renderer.material;
-            objectMaterial.EnableKeyword("_EMISSION"); // Ensure emission is enabled
+
+            // Ensure emission is enabled on the material
+            objectMaterial.EnableKeyword("_EMISSION");
+        }
+        else
+        {
+            Debug.LogWarning("No Renderer component found on " + gameObject.name + ". Emission effects will not work.");
         }
     }
 
-    void Update()
+    /// <summary>
+    ///     Called once per frame. Updates the object's position and emission intensity.
+    /// </summary>
+    private void Update()
     {
         // Calculate new Y position based on sine wave
-        float newY = startPosition.y + Mathf.Sin(Time.time * speed) * amplitude;
+        var newY = startPosition.y + Mathf.Sin(Time.time * speed) * amplitude;
         transform.position = new Vector3(startPosition.x, newY, startPosition.z);
 
         // Dynamically calculate min and max Y based on amplitude
-        float minY = startPosition.y - amplitude;
-        float maxY = startPosition.y + amplitude;
+        var minY = startPosition.y - amplitude;
+        var maxY = startPosition.y + amplitude;
 
-        // Normalize Y position to a 0-1 range
-        float normalizedY = Mathf.InverseLerp(minY, maxY, newY);
+        // Normalize Y position to a 0-1 range for emission control
+        var normalizedY = Mathf.InverseLerp(minY, maxY, newY);
 
-        // Calculate new emission intensity
-        float emissionIntensity = Mathf.Lerp(minEmission, maxEmission, normalizedY);
+        // Calculate new emission intensity based on the normalized position
+        var emissionIntensity = Mathf.Lerp(minEmission, maxEmission, normalizedY);
 
         // Apply the emission intensity to the material
         if (objectMaterial != null)
         {
-            Color baseEmissionColor = Color.white; // You can change this color
+            var baseEmissionColor = Color.white; // Base emission color
             objectMaterial.SetColor(emissionProperty, baseEmissionColor * emissionIntensity);
         }
+    }
+
+    /// <summary>
+    ///     Called when the script is being destroyed.
+    ///     Ensures proper cleanup of material resources.
+    /// </summary>
+    private void OnDestroy()
+    {
+        // If we created a material instance, we should clean it up
+        if (objectMaterial != null && !Application.isPlaying)
+            // In edit mode, destroy the material instance to prevent leaks
+            DestroyImmediate(objectMaterial);
     }
 }
