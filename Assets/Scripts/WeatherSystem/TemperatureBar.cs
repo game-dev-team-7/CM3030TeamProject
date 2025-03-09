@@ -1,24 +1,31 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
+/// <summary>
+///     Manages the temperature UI bar that visualizes player temperature status.
+///     This component handles the UI representation of the player's current body temperature.
+/// </summary>
 public class TemperatureBar : MonoBehaviour
 {
-    [Header("UI Components")]
-    public RectTransform coldFill;  // Left Side (Expands as it gets colder)
+    [Header("UI Components")] public RectTransform coldFill; // Left Side (Expands as it gets colder)
+
     public RectTransform normalFill; // Middle (Safe Zone)
-    public RectTransform hotFill;   // Right Side (Expands as it gets hotter)
+    public RectTransform hotFill; // Right Side (Expands as it gets hotter)
     public TextMeshProUGUI statusText;
 
     [Header("Temperature Settings")]
-    public float minTemperature = -100f;
-    public float maxTemperature = 100f;
-    private float neutralRange = 20f; // Defines the "safe zone"
+    public float minTemperature = -100f; // Minimum possible temperature (corresponds to full cold bar)
+
+    public float maxTemperature = 100f; // Maximum possible temperature (corresponds to full hot bar)
+    private readonly float barWidth = 400f; // The total width of the bar in pixels
+    private readonly float neutralRange = 20f; // Defines the "safe zone" temperature range
 
     private PlayerTemperature playerTemp;
-    private float barWidth = 400f; // The total width of the bar
 
-    void Start()
+    /// <summary>
+    ///     Initializes the temperature bar by finding the player temperature component.
+    /// </summary>
+    private void Start()
     {
         playerTemp = FindObjectOfType<PlayerTemperature>();
         if (playerTemp == null)
@@ -26,25 +33,30 @@ public class TemperatureBar : MonoBehaviour
             Debug.LogError("PlayerTemperature component not found!");
             return;
         }
+
         UpdateTemperatureBar();
     }
 
-    void Update()
+    /// <summary>
+    ///     Updates the temperature bar every frame to reflect the current player temperature.
+    /// </summary>
+    private void Update()
     {
-        if (playerTemp != null)
-        {
-            UpdateTemperatureBar();
-        }
+        if (playerTemp != null) UpdateTemperatureBar();
     }
 
-    void UpdateTemperatureBar()
+    /// <summary>
+    ///     Updates the temperature bar UI elements based on the current temperature value.
+    ///     Calculates the proportions of cold, normal, and hot sections.
+    /// </summary>
+    private void UpdateTemperatureBar()
     {
-        float temperature = playerTemp.bodyTemperature;
+        var temperature = playerTemp.bodyTemperature;
 
         // Calculate proportions based on temperature
-        float coldRatio = Mathf.Clamp01(Mathf.InverseLerp(0, minTemperature, temperature));
-        float hotRatio = Mathf.Clamp01(Mathf.InverseLerp(0, maxTemperature, temperature));
-        float normalRatio = 1f - (coldRatio + hotRatio);
+        var coldRatio = Mathf.Clamp01(Mathf.InverseLerp(0, minTemperature, temperature));
+        var hotRatio = Mathf.Clamp01(Mathf.InverseLerp(0, maxTemperature, temperature));
+        var normalRatio = 1f - (coldRatio + hotRatio);
 
         // Set width of UI elements
         coldFill.sizeDelta = new Vector2(barWidth * coldRatio, coldFill.sizeDelta.y);
@@ -55,7 +67,12 @@ public class TemperatureBar : MonoBehaviour
         UpdateStatusText(temperature);
     }
 
-    void UpdateStatusText(float temperature)
+    /// <summary>
+    ///     Updates the status text and color based on the current temperature value.
+    ///     Provides visual feedback to the player about their temperature status.
+    /// </summary>
+    /// <param name="temperature">The current player temperature value</param>
+    private void UpdateStatusText(float temperature)
     {
         if (statusText == null)
         {
@@ -92,6 +109,5 @@ public class TemperatureBar : MonoBehaviour
             statusText.color = Color.green;
             statusText.transform.SetAsLastSibling(); // Force it to be on top
         }
-
     }
 }
