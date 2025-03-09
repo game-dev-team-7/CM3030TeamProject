@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.029087335, g: 0.0298977, b: 0.029896773, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: bb23416fde0133442bc2377d3e79b029,
+  m_LightingDataAsset: {fileID: 112000000, guid: 2403ea55f4b55f744988bac1d65af03b,
     type: 2}
   m_LightingSettings: {fileID: 278284566}
 --- !u!196 &4
@@ -1889,6 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54649629f7a4458ea30da744d68d1135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleOnStart: 0
 --- !u!4 &222730297 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1361369874749230042, guid: 031d5ab50ac822b4086cc3a11b9bce1f,
@@ -2113,6 +2114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0540ff41adce54391d770add3a5861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleOnStart: 1
 --- !u!850595691 &278284566
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -19995,6 +19997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b77baeb9fd45a38e65374154a23ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleOnStart: 0
 --- !u!1001 &1294276830
 PrefabInstance:
   m_ObjectHideFlags: 0
