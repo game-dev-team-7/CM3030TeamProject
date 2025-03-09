@@ -1,10 +1,11 @@
-using UnityEngine;
-using UnityEngine.AI; //Required for NavMesh
 using System.Collections;
+using UnityEngine;
+using UnityEngine.AI;
+//Required for NavMesh
 
 /// <summary>
-/// Manages the customer delivery gameplay loop including spawning customers,
-/// tracking delivery time, and handling success/failure conditions.
+///     Manages the customer delivery gameplay loop including spawning customers,
+///     tracking delivery time, and handling success/failure conditions.
 /// </summary>
 public class CustomerManager : MonoBehaviour
 {
@@ -12,15 +13,15 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float spawnHeightOffset = 2f;
     [SerializeField] private float baseTimePerUnitDistance = 0.04f;
     [SerializeField] private GameObject navMeshObject;
+    private DeliveryTimer deliveryTimer;
+    private GameObject player;
+    private ScoreManager scoreManager;
 
     private CustomerSpawner spawner;
-    private DeliveryTimer deliveryTimer;
-    private ScoreManager scoreManager;
     private UIManager uiManager;
-    private GameObject player;
 
     /// <summary>
-    /// Initializes component references and creates helper objects.
+    ///     Initializes component references and creates helper objects.
     /// </summary>
     private void Awake()
     {
@@ -38,17 +39,7 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to find required game objects and validates initialization.
-    /// </summary>
-    /// <returns>True if initialization was successful, false otherwise</returns>
-    private bool TryInitialize()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        return player != null;
-    }
-
-    /// <summary>
-    /// Begins the initial delivery once the scene is loaded.
+    ///     Begins the initial delivery once the scene is loaded.
     /// </summary>
     private void Start()
     {
@@ -56,7 +47,7 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the delivery timer and checks for expiration.
+    ///     Updates the delivery timer and checks for expiration.
     /// </summary>
     private void Update()
     {
@@ -71,7 +62,17 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns a new customer and starts the delivery timer.
+    ///     Attempts to find required game objects and validates initialization.
+    /// </summary>
+    /// <returns>True if initialization was successful, false otherwise</returns>
+    private bool TryInitialize()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        return player != null;
+    }
+
+    /// <summary>
+    ///     Spawns a new customer and starts the delivery timer.
     /// </summary>
     private void StartNewDelivery()
     {
@@ -82,16 +83,16 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Calculates the delivery time based on the NavMesh path distance between player and customer.
+    ///     Calculates the delivery time based on the NavMesh path distance between player and customer.
     /// </summary>
     /// <returns>The calculated time limit for the delivery in seconds</returns>
     private float CalculateDeliveryTime()
     {
         //return Vector3.Distance(spawner.GetCurrentCustomerPosition(), player.transform.position) *
         //       baseTimePerUnitDistance;
-        NavMeshPath path = new NavMeshPath();
-        Vector3 start = player.transform.position;
-        Vector3 end = spawner.GetCurrentCustomerPosition();
+        var path = new NavMeshPath();
+        var start = player.transform.position;
+        var end = spawner.GetCurrentCustomerPosition();
         NavMeshHit hit;
 
         // Ensure start position is on the NavMesh
@@ -116,7 +117,7 @@ public class CustomerManager : MonoBehaviour
         if (NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path) && path.status == NavMeshPathStatus.PathComplete)
         {
             Debug.Log("[CustomerManager] Path successfully found!");
-            float pathDistance = GetPathLength(path);
+            var pathDistance = GetPathLength(path);
             return pathDistance * baseTimePerUnitDistance;
         }
 
@@ -125,7 +126,7 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Calculates the total length of a NavMesh path by summing distances between its corners.
+    ///     Calculates the total length of a NavMesh path by summing distances between its corners.
     /// </summary>
     /// <param name="path">The NavMesh path to measure</param>
     /// <returns>The total length of the path</returns>
@@ -137,17 +138,15 @@ public class CustomerManager : MonoBehaviour
             return float.MaxValue;
         }
 
-        float distance = 0f;
-        for (int i = 1; i < path.corners.Length; i++)
-        {
+        var distance = 0f;
+        for (var i = 1; i < path.corners.Length; i++)
             distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
-        }
 
         return distance;
     }
 
     /// <summary>
-    /// Handles delivery failure logic, including UI updates and score penalties.
+    ///     Handles delivery failure logic, including UI updates and score penalties.
     /// </summary>
     private void FailDelivery()
     {
@@ -159,8 +158,8 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles successful delivery logic, including score updates and UI notifications.
-    /// Called by CustomerCollision when player reaches the customer.
+    ///     Handles successful delivery logic, including score updates and UI notifications.
+    ///     Called by CustomerCollision when player reaches the customer.
     /// </summary>
     public void CompleteDelivery()
     {
@@ -173,7 +172,7 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Waits for a short period before starting a new delivery.
+    ///     Waits for a short period before starting a new delivery.
     /// </summary>
     /// <returns>IEnumerator for the coroutine</returns>
     private IEnumerator StartNewDeliveryWithDelay()
@@ -183,7 +182,7 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Enables the customer manager functionality.
+    ///     Enables the customer manager functionality.
     /// </summary>
     public void EnableManager()
     {
@@ -192,7 +191,7 @@ public class CustomerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Disables the customer manager functionality.
+    ///     Disables the customer manager functionality.
     /// </summary>
     public void DisableManager()
     {

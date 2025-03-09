@@ -1,14 +1,14 @@
 using UnityEngine;
 
 /// <summary>
-/// Handles collision detection between the player and customer for delivery completion.
+///     Handles collision detection between the player and customer for delivery completion.
 /// </summary>
 public class CustomerCollision : MonoBehaviour
 {
     private CustomerManager customerManager;
 
     /// <summary>
-    /// Initializes references to required components.
+    ///     Initializes references to required components.
     /// </summary>
     private void Start()
     {
@@ -17,7 +17,7 @@ public class CustomerCollision : MonoBehaviour
     }
 
     /// <summary>
-    /// Detects when player enters the customer's trigger collider and completes the delivery.
+    ///     Detects when player enters the customer's trigger collider and completes the delivery.
     /// </summary>
     /// <param name="other">The collider that entered this trigger</param>
     private void OnTriggerEnter(Collider other)

@@ -1,51 +1,97 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+///     Manages in-game menus including pause functionality and game over screens.
+///     Handles UI transitions, game state pausing, and scene management.
+/// </summary>
 public class InGameMenuManager : MonoBehaviour
 {
-    [Header("UI Panels")] public GameObject pauseMenuUI;
+    [Header("UI Panels")]
+    /// <summary>
+    /// Reference to the pause menu UI panel.
+    /// </summary>
+    public GameObject pauseMenuUI;
+
+    /// <summary>
+    ///     Reference to the game over UI panel.
+    /// </summary>
     public GameObject gameOverPanel;
 
-    [Header("Game Over Text")] public TextMeshProUGUI gameOverText;
+    [Header("Game Over Text")]
+    /// <summary>
+    /// Main text displayed on the game over screen.
+    /// </summary>
+    public TextMeshProUGUI gameOverText;
+
+    /// <summary>
+    ///     Text displaying temperature-related information on game over.
+    /// </summary>
     public TextMeshProUGUI temperatureInfoText;
+
+    /// <summary>
+    ///     Text displaying weather-related information on game over.
+    /// </summary>
     public TextMeshProUGUI weatherInfoText;
 
-    [Header("Weather References")] public WeatherManager weatherManager;
+    [Header("Weather References")]
+    /// <summary>
+    /// Reference to the weather manager for accessing weather state.
+    /// </summary>
+    public WeatherManager weatherManager;
+
+    /// <summary>
+    ///     Reference to the player temperature system for accessing temperature state.
+    /// </summary>
     public PlayerTemperature playerTemperature;
 
     [Header("Score Text")]
-    [SerializeField] private TextMeshProUGUI scoreText; 
+    /// <summary>
+    /// Reference to the score text for accessing final score on game over.
+    /// </summary>
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
 
-    private bool isPaused = false;
-    private bool hasGameOverBeenShown = false;
+    /// <summary>
+    ///     Prevents the game over screen from being displayed multiple times.
+    /// </summary>
+    private bool hasGameOverBeenShown;
 
-    private bool isStopped = false;//Tracks whether the game audio has been stopped, and initialises it as false.
+    /// <summary>
+    ///     Tracks whether the game is currently paused.
+    /// </summary>
+    private bool isPaused;
 
+    /// <summary>
+    ///     Tracks whether the game audio has been stopped.
+    /// </summary>
+    private bool isStopped;
+
+    /// <summary>
+    ///     Initializes component references if not set in the inspector.
+    /// </summary>
     private void Start()
     {
         // Find references if not assigned in inspector
-        if (weatherManager == null)
-        {
-            weatherManager = FindObjectOfType<WeatherManager>();
-        }
+        if (weatherManager == null) weatherManager = FindObjectOfType<WeatherManager>();
 
-        if (playerTemperature == null)
-        {
-            playerTemperature = FindObjectOfType<PlayerTemperature>();
-        }
+        if (playerTemperature == null) playerTemperature = FindObjectOfType<PlayerTemperature>();
     }
 
-    void Update()
+    /// <summary>
+    ///     Checks for pause key input and toggles the pause state.
+    /// </summary>
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !hasGameOverBeenShown)
-        {
-            TogglePause();
-        }
+        if (Input.GetKeyDown(KeyCode.Escape) && !hasGameOverBeenShown) TogglePause();
     }
 
-    // Toggle Pause Menu
+    /// <summary>
+    ///     Toggles the game between paused and unpaused states.
+    ///     Updates UI visibility and time scale accordingly.
+    /// </summary>
     public void TogglePause()
     {
         isPaused = !isPaused;
@@ -56,13 +102,18 @@ public class InGameMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // Continue Game from Pause Menu
+    /// <summary>
+    ///     Continues the game from the paused state.
+    /// </summary>
     public void ContinueGame()
     {
         TogglePause();
     }
 
-    // Show Game Over Screen with detailed information
+    /// <summary>
+    ///     Displays the game over screen with detailed information about the player's demise.
+    ///     Called when game-ending conditions are met.
+    /// </summary>
     public void ShowGameOver()
     {
         if (hasGameOverBeenShown) return; // Prevent multiple activations
@@ -80,65 +131,62 @@ public class InGameMenuManager : MonoBehaviour
         ToggleGameSounds();
     }
 
-    // Update game over information with detailed temperature and weather data
+    /// <summary>
+    ///     Updates the game over screen with specific information about how the player died.
+    /// </summary>
     private void UpdateGameOverInfo()
     {
         // Default message if we can't determine the cause
-        string mainMessage = "Game Over!";
+        var mainMessage = "Game Over!";
 
         // Get temperature-specific info if available
         if (playerTemperature != null)
         {
-            float bodyTemp = playerTemperature.bodyTemperature;
+            var bodyTemp = playerTemperature.bodyTemperature;
 
             if (bodyTemp <= playerTemperature.minTemperature)
-            {
                 mainMessage = "You froze to death!";
-            }
-            else if (bodyTemp >= playerTemperature.maxTemperature)
-            {
-                mainMessage = "You died from heatstroke!";
-            }
+            else if (bodyTemp >= playerTemperature.maxTemperature) mainMessage = "You died from heatstroke!";
 
             //Updates main game over text
-            if (gameOverText != null)
-            {
-                gameOverText.text = mainMessage;
-            }
+            if (gameOverText != null) gameOverText.text = mainMessage;
         }
     }
 
-
-    // Restart the game
+    /// <summary>
+    ///     Restarts the current game scene.
+    /// </summary>
     public void RestartGame()
     {
-        Time.timeScale = 1f;//Resets time scale
+        Time.timeScale = 1f; //Resets time scale
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // Return to Main Menu
+    /// <summary>
+    ///     Returns to the main menu and saves high score.
+    /// </summary>
     public void ReturnToMainMenu()
     {
         //Save Score as High Score (unless it is less than current High Score)
         FindObjectOfType<HighScoreManager>().SaveHighScore(int.Parse(scoreText.text));
 
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");//Returns to main menu
+        SceneManager.LoadScene("MainMenu"); //Returns to main menu
     }
 
+    /// <summary>
+    ///     Toggles game sounds on and off, except for UI sounds.
+    /// </summary>
     public void ToggleGameSounds()
     {
         isStopped = !isStopped;
         //Finds all audio sources in the scene
-        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+        var allAudioSources = FindObjectsOfType<AudioSource>();
 
-        foreach (AudioSource audioSource in allAudioSources)
+        foreach (var audioSource in allAudioSources)
         {
             //Checks to disregard sounds with the appropriate tag.
-            if (audioSource.gameObject.CompareTag("UISounds"))
-            {
-                continue;
-            }
+            if (audioSource.gameObject.CompareTag("UISounds")) continue;
 
             //Stops and mutes all other sounds.
             audioSource.Stop();

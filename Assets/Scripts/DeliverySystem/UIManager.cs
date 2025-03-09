@@ -1,10 +1,10 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 /// <summary>
-/// Manages all UI elements related to the delivery gameplay system.
-/// Handles updates for timer display, score, streak notifications,
-/// and success/failure messages.
+///     Manages all UI elements related to the delivery gameplay system.
+///     Handles updates for timer display, score, streak notifications,
+///     and success/failure messages.
 /// </summary>
 public class UIManager : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     private DeliveryNotificationSounds deliveryNotificationSounds;
 
     /// <summary>
-    /// Initializes UI references and sound components.
+    ///     Initializes UI references and sound components.
     /// </summary>
     private void Start()
     {
@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Finds and caches references to UI text components by tag.
+    ///     Finds and caches references to UI text components by tag.
     /// </summary>
     private void InitializeUIReferences()
     {
@@ -34,8 +34,8 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the delivery timer display.
-    /// Uses different formatting for urgent (<=5 seconds) and normal times.
+    ///     Updates the delivery timer display.
+    ///     Uses different formatting for urgent (<=5 seconds) and normal times.
     /// </summary>
     /// <param name="seconds">Remaining time in seconds</param>
     public void UpdateTimer(float seconds)
@@ -43,14 +43,14 @@ public class UIManager : MonoBehaviour
         if (timerText != null)
         {
             if (seconds > 5)
-                timerText.text = "Timer: " + Mathf.FloorToInt(seconds).ToString();
+                timerText.text = "Timer: " + Mathf.FloorToInt(seconds);
             else
                 timerText.text = "Timer: " + seconds.ToString("F1");
         }
     }
 
     /// <summary>
-    /// Resets the timer display when no delivery is active.
+    ///     Resets the timer display when no delivery is active.
     /// </summary>
     public void ResetTimer()
     {
@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the score display with the current score.
+    ///     Updates the score display with the current score.
     /// </summary>
     /// <param name="score">The current total score</param>
     public void UpdateScore(int score)
@@ -67,8 +67,8 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Displays a success message with the current streak value
-    /// and plays the corresponding sound effect.
+    ///     Displays a success message with the current streak value
+    ///     and plays the corresponding sound effect.
     /// </summary>
     /// <param name="streak">The current streak count</param>
     public void ShowSuccessMessage(int streak)
@@ -79,15 +79,12 @@ public class UIManager : MonoBehaviour
             Invoke(nameof(ResetStreakText), 1.5f);
         }
 
-        if (deliveryNotificationSounds != null)
-        {
-            deliveryNotificationSounds.PlaySuccessSound();
-        }
+        if (deliveryNotificationSounds != null) deliveryNotificationSounds.PlaySuccessSound();
     }
 
     /// <summary>
-    /// Displays a failure message when a delivery times out
-    /// and plays the corresponding sound effect.
+    ///     Displays a failure message when a delivery times out
+    ///     and plays the corresponding sound effect.
     /// </summary>
     public void ShowFailureMessage()
     {
@@ -97,14 +94,11 @@ public class UIManager : MonoBehaviour
             Invoke(nameof(ResetStreakText), 1.5f);
         }
 
-        if (deliveryNotificationSounds != null)
-        {
-            deliveryNotificationSounds.PlayFailureSound();
-        }
+        if (deliveryNotificationSounds != null) deliveryNotificationSounds.PlayFailureSound();
     }
 
     /// <summary>
-    /// Clears the streak text after displaying a notification.
+    ///     Clears the streak text after displaying a notification.
     /// </summary>
     private void ResetStreakText()
     {
