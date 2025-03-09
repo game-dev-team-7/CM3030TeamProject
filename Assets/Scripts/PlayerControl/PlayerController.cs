@@ -6,22 +6,21 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 10f;
     public float decelerationRate = 3f;
 
-    private Rigidbody rb;
+    [Header("Audio Settings")] public AudioSource vehicleAudioSource;
+
+    public AudioSource vehicleStopAudioSource;
     private Vector3 currentDirection;
     private Camera mainCamera;
 
-    [Header("Audio Settings")] 
-    public AudioSource vehicleAudioSource;
-    public AudioSource vehicleStopAudioSource;
+    private Rigidbody rb;
 
-    private bool wasMoving = false;
+    private bool wasMoving;
 
     /// <summary>
-    /// Initializes the player controller.
-    /// 
-    /// Retrieves the rigidbody and main camera components. Also sets the rigidbody's
-    /// freezeRotation property to true so that the player's rotation is not changed
-    /// by physics.
+    ///     Initializes the player controller.
+    ///     Retrieves the rigidbody and main camera components. Also sets the rigidbody's
+    ///     freezeRotation property to true so that the player's rotation is not changed
+    ///     by physics.
     /// </summary>
     private void Start()
     {
@@ -32,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Called once per frame. Updates the game logic and the player's movement.
+    ///     Called once per frame. Updates the game logic and the player's movement.
     /// </summary>
     private void Update()
     {
@@ -42,9 +41,8 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Called every fixed framerate frame, should be used for physics related updates.
-    /// 
-    /// Handles player movement and rotation.
+    ///     Called every fixed framerate frame, should be used for physics related updates.
+    ///     Handles player movement and rotation.
     /// </summary>
     private void FixedUpdate()
     {
@@ -54,13 +52,12 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Handles input for the player.
-    /// 
-    /// Listens for horizontal and vertical input, and uses it to calculate the
-    /// direction the player should move in. The direction is calculated by
-    /// taking the forward and right vectors of the main camera, and multiplying
-    /// them by the vertical and horizontal inputs, respectively. The resulting
-    /// vector is then normalized.
+    ///     Handles input for the player.
+    ///     Listens for horizontal and vertical input, and uses it to calculate the
+    ///     direction the player should move in. The direction is calculated by
+    ///     taking the forward and right vectors of the main camera, and multiplying
+    ///     them by the vertical and horizontal inputs, respectively. The resulting
+    ///     vector is then normalized.
     /// </summary>
     private void HandleInput()
     {
@@ -81,13 +78,12 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Handles the movement of the player.
-    /// 
-    /// Calculates the target velocity of the player based on the current direction
-    /// and the move speed. If the current direction is zero (i.e. no input), the
-    /// target velocity will be the current velocity, but with a deceleration effect
-    /// applied. Then, the target velocity is applied to the rigidbody, preserving
-    /// the Y velocity for gravity.
+    ///     Handles the movement of the player.
+    ///     Calculates the target velocity of the player based on the current direction
+    ///     and the move speed. If the current direction is zero (i.e. no input), the
+    ///     target velocity will be the current velocity, but with a deceleration effect
+    ///     applied. Then, the target velocity is applied to the rigidbody, preserving
+    ///     the Y velocity for gravity.
     /// </summary>
     private void HandleMovement()
     {
@@ -99,19 +95,18 @@ public class PlayerController : MonoBehaviour
         else
         {
             // Gradual slowdown for each axis
-            float newX = Mathf.MoveTowards(rb.velocity.x, 0, decelerationRate * Time.fixedDeltaTime);
-            float newZ = Mathf.MoveTowards(rb.velocity.z, 0, decelerationRate * Time.fixedDeltaTime);
+            var newX = Mathf.MoveTowards(rb.velocity.x, 0, decelerationRate * Time.fixedDeltaTime);
+            var newZ = Mathf.MoveTowards(rb.velocity.z, 0, decelerationRate * Time.fixedDeltaTime);
             rb.velocity = new Vector3(newX, rb.velocity.y, newZ);
         }
     }
 
 
     /// <summary>
-    /// Handles the rotation of the player.
-    /// 
-    /// If the current direction is not zero (i.e. there is input), the player's
-    /// rotation is smoothly changed to face the target direction using
-    /// Quaternion.LookRotation and Quaternion.Slerp.
+    ///     Handles the rotation of the player.
+    ///     If the current direction is not zero (i.e. there is input), the player's
+    ///     rotation is smoothly changed to face the target direction using
+    ///     Quaternion.LookRotation and Quaternion.Slerp.
     /// </summary>
     private void HandleRotation()
     {
@@ -123,20 +118,20 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if the player is moving. Plays the looping engine sound when moving,
-    /// stops it when not, and plays a one-time 'stop' sound if we've just come to a stop.
+    ///     Checks if the player is moving. Plays the looping engine sound when moving,
+    ///     stops it when not, and plays a one-time 'stop' sound if we've just come to a stop.
     /// </summary>
     private void HandleEngineSound()
     {
         // Already have velocity-based speed
-        float horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+        var horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
 
         // Check if there's input 
-        bool hasInput = (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f);
+        var hasInput = Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f;
 
         // If you need velocity for partial movement, you could combine them:
         // e.g. treat it as “moving” if there's input OR speed > some threshold:
-        bool isMoving = hasInput || (horizontalSpeed > 0.001f);
+        var isMoving = hasInput || horizontalSpeed > 0.001f;
 
         if (isMoving)
         {
@@ -148,10 +143,7 @@ public class PlayerController : MonoBehaviour
             if (vehicleAudioSource.isPlaying)
                 vehicleAudioSource.Stop();
 
-            if (wasMoving && vehicleStopAudioSource != null)
-            {
-                vehicleStopAudioSource.Play();
-            }
+            if (wasMoving && vehicleStopAudioSource != null) vehicleStopAudioSource.Play();
         }
 
         wasMoving = isMoving;

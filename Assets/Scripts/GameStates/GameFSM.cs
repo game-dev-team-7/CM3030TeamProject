@@ -1,34 +1,75 @@
-using System;
-using UnityEngine;
-using TMPro;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
+/// <summary>
+///     Manages the game's finite state machine (FSM), controlling transitions between
+///     different game states and orchestrating the game flow from intro to gameplay to game over.
+/// </summary>
 public class GameFSM : MonoBehaviour
 {
-    public BaseState CurrentState { get; private set; }
-
-    // States
-    public IntroState IntroState { get; private set; }
-    public GameProperState GameProperState { get; private set; }
-    public GameOverState GameOverState { get; private set; }
-
-    // Weather Manager Reference
+    /// <summary>
+    ///     Reference to the weather system manager.
+    /// </summary>
     public WeatherManager WeatherManager;
-    // Reference to CustomerManager
+
+    /// <summary>
+    ///     Reference to the customer delivery system manager.
+    /// </summary>
     public CustomerManager customerManager;
 
     // Tutorial Mask References
+    /// <summary>
+    ///     UI mask for the movement tutorial step.
+    /// </summary>
     public GameObject tutorialMask1;
+
+    /// <summary>
+    ///     UI mask for the camera rotation tutorial step.
+    /// </summary>
     public GameObject tutorialMask2;
+
+    /// <summary>
+    ///     UI mask for the delivery tutorial step.
+    /// </summary>
     public GameObject tutorialMask3;
+
+    /// <summary>
+    ///     UI mask for the weather tutorial step.
+    /// </summary>
     public GameObject tutorialMask4;
 
-    private Canvas scoreCanvas;
-    private Canvas timerCanvas;
-    private Canvas temperatureBarCanvas;
-    private Canvas weatherCanvas;
     private Canvas miniMapCanvas;
 
+    private Canvas scoreCanvas;
+    private Canvas temperatureBarCanvas;
+    private Canvas timerCanvas;
+    private Canvas weatherCanvas;
+
+    /// <summary>
+    ///     The currently active game state.
+    /// </summary>
+    public BaseState CurrentState { get; private set; }
+
+    // States
+    /// <summary>
+    ///     The intro/tutorial state that runs at the beginning of the game.
+    /// </summary>
+    public IntroState IntroState { get; private set; }
+
+    /// <summary>
+    ///     The main gameplay state where core game mechanics are active.
+    /// </summary>
+    public GameProperState GameProperState { get; private set; }
+
+    /// <summary>
+    ///     The game over state that handles end-of-game logic.
+    /// </summary>
+    public GameOverState GameOverState { get; private set; }
+
+    /// <summary>
+    ///     Initializes the FSM, creates all game states, and sets up tutorial UI components.
+    /// </summary>
     private void Start()
     {
         // Log the start for debugging purposes
@@ -46,66 +87,53 @@ public class GameFSM : MonoBehaviour
         if (tutorialMask4 != null) tutorialMask4.SetActive(false);
 
         // Find and assign the canvases
-        GameObject scoreObject = GameObject.Find("Score");
+        var scoreObject = GameObject.Find("Score");
         if (scoreObject != null)
-        {
             scoreCanvas = scoreObject.GetComponent<Canvas>();
-        }
         else
-        {
             Debug.LogError("Score GameObject not found!");
-        }
-        
-        GameObject timerObject = GameObject.Find("CustomerTimer");
+
+        var timerObject = GameObject.Find("CustomerTimer");
         if (timerObject != null)
-        {
             timerCanvas = timerObject.GetComponent<Canvas>();
-        }
         else
-        {
             Debug.LogError("Timer GameObject not found!");
-        }
 
-        GameObject temperatureBarObject = GameObject.Find("TemperatureBar");
+        var temperatureBarObject = GameObject.Find("TemperatureBar");
         if (temperatureBarObject != null)
-        {
             temperatureBarCanvas = temperatureBarObject.GetComponent<Canvas>();
-        }
         else
-        {
             Debug.LogError("TemperatureBar GameObject not found!");
-        }
-        
-        GameObject weatherObject = GameObject.Find("WeatherChangeNotifier");
-        if (weatherObject != null)
-        {
-            weatherCanvas = weatherObject.GetComponent<Canvas>();
-        }
-        else
-        {
-            Debug.LogError("Weather GameObject not found!");
-        }
 
-        GameObject miniMapObject = GameObject.Find("MiniMapCanvas");
-        if (miniMapObject != null)
-        {
-            miniMapCanvas = miniMapObject.GetComponent<Canvas>();
-        }
+        var weatherObject = GameObject.Find("WeatherChangeNotifier");
+        if (weatherObject != null)
+            weatherCanvas = weatherObject.GetComponent<Canvas>();
         else
-        {
+            Debug.LogError("Weather GameObject not found!");
+
+        var miniMapObject = GameObject.Find("MiniMapCanvas");
+        if (miniMapObject != null)
+            miniMapCanvas = miniMapObject.GetComponent<Canvas>();
+        else
             Debug.LogError("MiniMap GameObject not found!");
-        }
-        
+
         // Start with IntroState
         TransitionToState(IntroState);
     }
 
+    /// <summary>
+    ///     Updates the current state each frame.
+    /// </summary>
     private void Update()
     {
         CurrentState?.Update();
     }
 
-
+    /// <summary>
+    ///     Transitions the game from the current state to a new state.
+    ///     Handles proper exit and entry logic for both states.
+    /// </summary>
+    /// <param name="newState">The state to transition to</param>
     public void TransitionToState(BaseState newState)
     {
         CurrentState?.Exit();
@@ -116,6 +144,11 @@ public class GameFSM : MonoBehaviour
             CurrentState.Enter();
     }
 
+    /// <summary>
+    ///     Handles the countdown transition into the main gameplay state.
+    ///     Displays a visual countdown from 3 to prepare the player.
+    /// </summary>
+    /// <returns>IEnumerator for the coroutine</returns>
     private IEnumerator CountdownToGameProperState()
     {
         var countdownText = GameObject.FindGameObjectWithTag("TutorialCountdown").GetComponent<TextMeshProUGUI>();
@@ -136,17 +169,27 @@ public class GameFSM : MonoBehaviour
         GameProperState.Enter();
     }
 
+    /// <summary>
+    ///     Handles end-of-game logic.
+    /// </summary>
     private void EndGame()
     {
         // Handle game end logic
         Debug.Log("Game Over!");
     }
 
+    /// <summary>
+    ///     Initiates the tutorial sequence for first-time players.
+    /// </summary>
     public void StartTutorialSequence()
     {
         StartCoroutine(TutorialCoroutine());
     }
 
+    /// <summary>
+    ///     Manages the sequential tutorial steps, waiting for player input at each stage.
+    /// </summary>
+    /// <returns>IEnumerator for the coroutine</returns>
     private IEnumerator TutorialCoroutine()
     {
         // Show Movement Tutorial
@@ -172,7 +215,7 @@ public class GameFSM : MonoBehaviour
         tutorialMask3.SetActive(false);
         scoreCanvas.sortingOrder = 0;
         timerCanvas.sortingOrder = 0;
-       
+
 
         // Show Weather Tutorial
         tutorialMask4.SetActive(true);

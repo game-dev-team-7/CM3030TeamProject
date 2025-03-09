@@ -1,46 +1,91 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Controls the minimap system, handling registration, positioning and scaling of icons.
+///     Acts as a singleton for easy access from other scripts.
+/// </summary>
 public class MinimapController : MonoBehaviour
 {
+    /// <summary>
+    ///     Singleton instance of the MinimapController.
+    /// </summary>
     public static MinimapController Instance;
 
-    [SerializeField]
-    Vector2 worldSize;
+    /// <summary>
+    ///     Size of the game world in world units (width, height).
+    /// </summary>
+    [SerializeField] private Vector2 worldSize;
 
-    [SerializeField]
-    RectTransform scrollViewRectTransform;
+    /// <summary>
+    ///     Reference to the scroll view containing the minimap.
+    /// </summary>
+    [SerializeField] private RectTransform scrollViewRectTransform;
 
-    [SerializeField]
-    RectTransform contentRectTransform;
+    /// <summary>
+    ///     Reference to the content area within the scroll view that contains the minimap icons.
+    /// </summary>
+    [SerializeField] private RectTransform contentRectTransform;
 
-    [SerializeField]
-    MinimapIcon minimapIconPrefab;
-    
-    [SerializeField]
-    Transform cameraPivot;
+    /// <summary>
+    ///     Prefab used to instantiate new minimap icons.
+    /// </summary>
+    [SerializeField] private MinimapIcon minimapIconPrefab;
 
-    [SerializeField]
-    RectTransform cameraDirectionLight;
+    /// <summary>
+    ///     Reference to the camera pivot for determining view direction.
+    /// </summary>
+    [SerializeField] private Transform cameraPivot;
 
-    [SerializeField]
-    float generalIconScale = 1f;
+    /// <summary>
+    ///     UI element representing the camera's direction on the minimap.
+    /// </summary>
+    [SerializeField] private RectTransform cameraDirectionLight;
 
-    [SerializeField]
-    float customerIconScale = 1f;
+    /// <summary>
+    ///     Scale factor for general minimap icons.
+    /// </summary>
+    [SerializeField] private float generalIconScale = 1f;
 
-    Matrix4x4 transformationMatrix;
+    /// <summary>
+    ///     Scale factor for customer minimap icons.
+    /// </summary>
+    [SerializeField] private float customerIconScale = 1f;
 
+    /// <summary>
+    ///     The icon that the minimap is currently centered on.
+    /// </summary>
     private MinimapIcon followIcon;
-    private Vector2 scrollViewDefaultSize;
+
+    /// <summary>
+    ///     Dictionary mapping world objects to their corresponding minimap icons.
+    /// </summary>
+    private readonly Dictionary<MinimapWorldObject, MinimapIcon> miniMapWorldObjectsLookup = new();
+
+    /// <summary>
+    ///     Default position of the scroll view.
+    /// </summary>
     private Vector2 scrollViewDefaultPosition;
-    private Dictionary<MinimapWorldObject, MinimapIcon> miniMapWorldObjectsLookup = new Dictionary<MinimapWorldObject, MinimapIcon>();
-    
-    // Public getter to access the lookup dictionary
+
+    /// <summary>
+    ///     Default size of the scroll view.
+    /// </summary>
+    private Vector2 scrollViewDefaultSize;
+
+    /// <summary>
+    ///     Matrix used to transform world coordinates to minimap coordinates.
+    /// </summary>
+    private Matrix4x4 transformationMatrix;
+
+    /// <summary>
+    ///     Public getter to access the lookup dictionary of world objects to minimap icons.
+    /// </summary>
     public Dictionary<MinimapWorldObject, MinimapIcon> MiniMapWorldObjectsLookup => miniMapWorldObjectsLookup;
 
-    // Called when the script instance is being loaded
+    /// <summary>
+    ///     Called when the script instance is being loaded.
+    ///     Initializes the singleton instance and stores default UI values.
+    /// </summary>
     private void Awake()
     {
         // Set this instance as the singleton
@@ -51,14 +96,20 @@ public class MinimapController : MonoBehaviour
         scrollViewDefaultPosition = scrollViewRectTransform.anchoredPosition;
     }
 
-    // Called before the first frame update
+    /// <summary>
+    ///     Called before the first frame update.
+    ///     Calculates the world-to-minimap transformation matrix.
+    /// </summary>
     private void Start()
     {
         // Calculate the transformation matrix for world-to-map position mapping
         CalculateTransformationMatrix();
     }
 
-    // Called once per frame
+    /// <summary>
+    ///     Called once per frame.
+    ///     Updates minimap icon positions and centers the map if needed.
+    /// </summary>
     private void Update()
     {
         // Update minimap icons' positions and rotations
@@ -68,7 +119,11 @@ public class MinimapController : MonoBehaviour
         CenterMapOnIcon();
     }
 
-    // Registers a world object to appear on the minimap
+    /// <summary>
+    ///     Registers a world object to appear on the minimap.
+    /// </summary>
+    /// <param name="miniMapWorldObject">The world object to register.</param>
+    /// <param name="followObject">Whether the minimap should follow this object.</param>
     public void RegisterMinimapWorldObject(MinimapWorldObject miniMapWorldObject, bool followObject = false)
     {
         // Create a minimap icon for the world object
@@ -84,53 +139,56 @@ public class MinimapController : MonoBehaviour
             followIcon = minimapIcon;
     }
 
-    // Removes a world object from the minimap
+    /// <summary>
+    ///     Removes a world object from the minimap.
+    /// </summary>
+    /// <param name="minimapWorldObject">The world object to remove.</param>
     public void RemoveMinimapWorldObject(MinimapWorldObject minimapWorldObject)
     {
         // Check if the object is in the lookup dictionary
-        if (miniMapWorldObjectsLookup.TryGetValue(minimapWorldObject, out MinimapIcon icon))
+        if (miniMapWorldObjectsLookup.TryGetValue(minimapWorldObject, out var icon))
         {
             // Remove the object and destroy its associated icon
-            if (icon != null && icon.gameObject != null)
-            {
-                Destroy(icon.gameObject);
-            }
+            if (icon != null && icon.gameObject != null) Destroy(icon.gameObject);
             miniMapWorldObjectsLookup.Remove(minimapWorldObject);
         }
     }
 
-    // Centers the minimap on the currently followed icon
+    /// <summary>
+    ///     Centers the minimap on the currently followed icon.
+    /// </summary>
     private void CenterMapOnIcon()
     {
         if (followIcon != null)
         {
-            float mapScale = contentRectTransform.transform.localScale.x;
+            var mapScale = contentRectTransform.transform.localScale.x;
 
             // Move the map opposite to the followed icon's position, scaled by the map's scale
-            contentRectTransform.anchoredPosition = (-followIcon.RectTransform.anchoredPosition * mapScale);
+            contentRectTransform.anchoredPosition = -followIcon.RectTransform.anchoredPosition * mapScale;
         }
     }
 
-    // Updates the positions, rotations, and scales of all minimap icons
+    /// <summary>
+    ///     Updates the positions, rotations, and scales of all minimap icons.
+    /// </summary>
     private void UpdateMiniMapIcons()
-    {   
-
+    {
         // Find the player's world position
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        var player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return; // Exit if no player is found
-        Vector2 playerMapPosition = WorldPositionToMapPosition(player.transform.position);
+        var playerMapPosition = WorldPositionToMapPosition(player.transform.position);
 
         // Update cameraDirectionLight's position and rotation
         if (cameraDirectionLight != null && cameraPivot != null)
         {
-            RectTransform cameraDirectionRect = cameraDirectionLight.GetComponent<RectTransform>();
+            var cameraDirectionRect = cameraDirectionLight.GetComponent<RectTransform>();
             if (cameraDirectionRect != null)
             {
                 // Set the position to the player's minimap position
                 cameraDirectionRect.anchoredPosition = playerMapPosition;
 
                 // Get Y-axis rotation from cameraPivot
-                float cameraPivotYRotation = cameraPivot.transform.eulerAngles.y;
+                var cameraPivotYRotation = cameraPivot.transform.eulerAngles.y;
 
                 // Apply rotation (negate it to match minimap's 2D Z-axis)
                 cameraDirectionRect.localRotation = Quaternion.Euler(0, 0, -cameraPivotYRotation);
@@ -143,28 +201,24 @@ public class MinimapController : MonoBehaviour
             var miniMapIcon = kvp.Value;
 
             // Convert world position to minimap position
-            Vector2 objectMapPosition = WorldPositionToMapPosition(miniMapWorldObject.transform.position);
+            var objectMapPosition = WorldPositionToMapPosition(miniMapWorldObject.transform.position);
 
-            // Distance beteen player and object
-            float distancePlayerToObject = Vector2.Distance(playerMapPosition, objectMapPosition);
+            // Distance between player and object
+            var distancePlayerToObject = Vector2.Distance(playerMapPosition, objectMapPosition);
 
             if (miniMapWorldObject.alwaysShow && distancePlayerToObject > miniMapWorldObject.minimapDistanceFromPlayer)
             {
-        
                 // Calculate player to object direction
-                Vector2 direction = (objectMapPosition - playerMapPosition).normalized;
-        
+                var direction = (objectMapPosition - playerMapPosition).normalized;
+
                 // Adjust minimap distance from player to customer
-                Vector2 adjustedPosition = objectMapPosition;
-                adjustedPosition = playerMapPosition + direction * miniMapWorldObject.minimapDistanceFromPlayer;
+                var adjustedPosition = playerMapPosition + direction * miniMapWorldObject.minimapDistanceFromPlayer;
 
                 // Update the icon's minimap position
                 miniMapIcon.RectTransform.anchoredPosition = adjustedPosition;
 
                 // Rotate icon to point toward object
                 miniMapIcon.IconRectTransform.localRotation = Quaternion.FromToRotation(Vector2.up, -direction);
-
-
             }
             else
             {
@@ -172,36 +226,38 @@ public class MinimapController : MonoBehaviour
                 miniMapIcon.RectTransform.anchoredPosition = objectMapPosition;
                 var rotation = miniMapWorldObject.transform.rotation.eulerAngles;
                 miniMapIcon.IconRectTransform.localRotation = Quaternion.AngleAxis(-rotation.y, Vector3.forward);
-             
             }
 
             // Scale the icon
-            if (miniMapWorldObject.tag == "Customer")
+            if (miniMapWorldObject.CompareTag("Customer"))
             {
                 // Scale icons inversely to the map scale to maintain consistent size
-                float iconScale = customerIconScale / contentRectTransform.transform.localScale.x;            
+                var iconScale = customerIconScale / contentRectTransform.transform.localScale.x;
                 miniMapIcon.IconRectTransform.localScale = Vector3.one * iconScale;
-
             }
             else
             {
                 // Scale icons inversely to the map scale to maintain consistent size
-                float iconScale = generalIconScale / contentRectTransform.transform.localScale.x;
+                var iconScale = generalIconScale / contentRectTransform.transform.localScale.x;
                 miniMapIcon.IconRectTransform.localScale = Vector3.one * iconScale;
             }
-
-
         }
     }
 
-    // Converts a world position to a minimap position
+    /// <summary>
+    ///     Converts a world position to a minimap position.
+    /// </summary>
+    /// <param name="worldPos">The position in world space.</param>
+    /// <returns>The corresponding position on the minimap.</returns>
     private Vector2 WorldPositionToMapPosition(Vector3 worldPos)
     {
         var pos = new Vector2(worldPos.x, worldPos.z);
         return transformationMatrix.MultiplyPoint3x4(pos);
     }
 
-    // Calculates the transformation matrix for mapping world positions to minimap positions
+    /// <summary>
+    ///     Calculates the transformation matrix for mapping world positions to minimap positions.
+    /// </summary>
     private void CalculateTransformationMatrix()
     {
         // Get the size of the minimap and the world
@@ -209,7 +265,7 @@ public class MinimapController : MonoBehaviour
         var worldSize = new Vector2(this.worldSize.x, this.worldSize.y);
 
         // Calculate the translation and scale ratio for the transformation
-        var translation = new Vector2(0,0);
+        var translation = new Vector2(0, 0);
         var scaleRatio = minimapSize / worldSize;
 
         // Create the transformation matrix using translation, rotation (identity), and scale
