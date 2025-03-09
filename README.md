@@ -30,3 +30,4 @@
 - All audio assets are royalty-free and were sourced(and in some cases edited) from: https://pixabay.com/
 - Buildings prefabs are from the pack: https://kenney.nl/assets/city-kit-commercial
 - Materials pack is from: https://assetstore.unity.com/packages/2d/textures-materials/cyberpunk-material-pack-six-high-quality-materials-188067
+- Skybox asset: https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633?srsltid=AfmBOop8fMCVY8EEAkyyW99zTd0yFefvc_MpNyZN5kC9f5_nxlMlHtE4
