@@ -1,8 +1,14 @@
 # Chill & Thrill: Delivery Dash
 
+![Game Menu](./readme_menu_pic.png)
+
 ## Overview
 
 "Chill & Thrill: Delivery Dash" is a cyberpunk delivery game set in a dystopian future where players must navigate an ever-changing city while managing extreme weather conditions. Make deliveries to earn points while strategically collecting items to survive harsh temperature changes.
+
+## Play Online
+
+Play the game directly in your browser: [https://chill-and-thrill.vercel.app](https://chill-and-thrill.vercel.app)
 
 ## Game Features
 
