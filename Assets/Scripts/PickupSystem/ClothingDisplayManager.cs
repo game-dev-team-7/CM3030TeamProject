@@ -44,34 +44,15 @@ public class ClothingDisplayManager : MonoBehaviour
     /// <summary>The player's current clothing type</summary>
     private ClothingType currentClothing = ClothingType.None;
 
-    /// <summary>Flag indicating if the current clothing is inappropriate for the weather</summary>
-    private bool isInappropriateClothing;
+    // Cache the current weather to avoid repeated lookups
+    private WeatherType currentWeather;
 
     /// <summary>
     ///     Initializes the component and validates required references.
     /// </summary>
     private void Start()
     {
-        if (playerTemp == null)
-        {
-            Debug.LogError("[ClothingDisplayManager] PlayerTemperature script not found!");
-            return;
-        }
-
-        if (weatherManager == null)
-        {
-            Debug.LogError("[ClothingDisplayManager] WeatherManager script not found!");
-            return;
-        }
-
-        if (playerPickupSounds == null)
-        {
-            Debug.LogError("[ClothingDisplayManager] PlayerPickupSounds script not found!");
-            return;
-        }
-
-        // Ensure text component is not null
-        if (clothingTipText == null) Debug.LogError("[ClothingDisplayManager] Clothing tip text is not assigned!");
+        ValidateReferences();
     }
 
     /// <summary>
@@ -79,13 +60,15 @@ public class ClothingDisplayManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        // Update current clothing
+        // Skip processing if essential components are missing
+        if (playerTemp == null || weatherManager == null) return;
+
+        // Update current clothing and weather (cached to avoid repeated lookups)
         currentClothing = playerTemp.currentClothing;
+        currentWeather = weatherManager.CurrentWeather;
 
-        // Check for inappropriate clothing
+        // Check for inappropriate clothing and update display
         CheckClothingAppropriate();
-
-        // Display clothing and update UI
         DisplayCurrentClothing(currentClothing);
 
         // Handle Tab key for removing clothing
@@ -93,31 +76,45 @@ public class ClothingDisplayManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     Checks if the current clothing is appropriate for the weather conditions.
+    ///     Validates that all required references are set.
+    /// </summary>
+    private void ValidateReferences()
+    {
+        if (playerTemp == null) Debug.LogError("[ClothingDisplayManager] PlayerTemperature script not found!");
+
+        if (weatherManager == null) Debug.LogError("[ClothingDisplayManager] WeatherManager script not found!");
+
+        if (playerPickupSounds == null) Debug.LogError("[ClothingDisplayManager] PlayerPickupSounds script not found!");
+
+        if (clothingTipText == null) Debug.LogError("[ClothingDisplayManager] Clothing tip text is not assigned!");
+    }
+
+    /// <summary>
+    ///     Checks if the current clothing is appropriate for the weather conditions and updates tip text.
     /// </summary>
     private void CheckClothingAppropriate()
     {
-        var currentWeather = weatherManager.CurrentWeather;
-        isInappropriateClothing = false;
         var tipMessage = "";
 
+        // Determine appropriate tip message based on clothing and weather combination
         switch (currentClothing)
         {
             case ClothingType.TShirt:
                 if (currentWeather == WeatherType.Snowstorm)
-                {
-                    isInappropriateClothing = true;
-                    tipMessage = "Put on a winter coat!";
-                }
-
+                    tipMessage = "Press Tab to remove!";
+                else if (currentWeather == WeatherType.Normal) tipMessage = "Press Tab to remove";
                 break;
+
             case ClothingType.WinterCoat:
                 if (currentWeather == WeatherType.Heatwave)
-                {
-                    isInappropriateClothing = true;
-                    tipMessage = "Put on a t-shirt!";
-                }
+                    tipMessage = "Press Tab to remove!";
+                else if (currentWeather == WeatherType.Normal) tipMessage = "Press Tab to remove";
+                break;
 
+            case ClothingType.None:
+                if (currentWeather == WeatherType.Snowstorm)
+                    tipMessage = "Put on a Winter Coat!";
+                else if (currentWeather == WeatherType.Heatwave) tipMessage = "Put on a T-Shirt!";
                 break;
         }
 
@@ -128,35 +125,31 @@ public class ClothingDisplayManager : MonoBehaviour
     /// <summary>
     ///     Updates the display of the clothing models based on the current clothing type.
     /// </summary>
-    /// <param name="currentClothing">The player's current clothing type</param>
-    private void DisplayCurrentClothing(ClothingType currentClothing)
+    /// <param name="clothingType">The player's current clothing type</param>
+    private void DisplayCurrentClothing(ClothingType clothingType)
     {
-        // Show/hide clothing models
-        switch (currentClothing)
+        // Hide all clothing models by default
+        var showTShirt = false;
+        var showWinterCoat = false;
+
+        // Determine which clothing to show based on type
+        switch (clothingType)
         {
-            case ClothingType.None:
-                tShirt.gameObject.SetActive(false);
-                winterCoat.gameObject.SetActive(false);
-                break;
             case ClothingType.TShirt:
-                ShowClothing(tShirt);
-                ApplyPulsingEffect(tShirtOutline, currentClothing);
+                showTShirt = true;
+                if (tShirtOutline != null) ApplyPulsingEffect(tShirtOutline, clothingType);
                 break;
+
             case ClothingType.WinterCoat:
-                ShowClothing(winterCoat);
-                ApplyPulsingEffect(winterCoatOutline, currentClothing);
+                showWinterCoat = true;
+                if (winterCoatOutline != null) ApplyPulsingEffect(winterCoatOutline, clothingType);
                 break;
         }
-    }
 
-    /// <summary>
-    ///     Shows the specified clothing model and hides others.
-    /// </summary>
-    /// <param name="clothingToShow">The transform of the clothing model to show</param>
-    private void ShowClothing(Transform clothingToShow)
-    {
-        tShirt.gameObject.SetActive(clothingToShow == tShirt);
-        winterCoat.gameObject.SetActive(clothingToShow == winterCoat);
+        // Update visibility state (only do SetActive calls when necessary)
+        if (tShirt.gameObject.activeSelf != showTShirt) tShirt.gameObject.SetActive(showTShirt);
+
+        if (winterCoat.gameObject.activeSelf != showWinterCoat) winterCoat.gameObject.SetActive(showWinterCoat);
     }
 
     /// <summary>
@@ -166,30 +159,20 @@ public class ClothingDisplayManager : MonoBehaviour
     /// <param name="clothingType">The current clothing type</param>
     private void ApplyPulsingEffect(Outline outlineComponent, ClothingType clothingType)
     {
-        if (outlineComponent == null) return;
+        // Determine if this clothing type should pulse based on current weather
+        var shouldPulse = (clothingType == ClothingType.TShirt && currentWeather == WeatherType.Snowstorm) ||
+                          (clothingType == ClothingType.WinterCoat && currentWeather == WeatherType.Heatwave);
 
-        // Check if pulsing should occur
-        var shouldPulse = false;
-        var currentWeather = weatherManager.CurrentWeather;
+        // Apply appropriate effect to the outline
+        var outlineColor = outlineComponent.effectColor;
 
-        switch (clothingType)
-        {
-            case ClothingType.TShirt:
-                shouldPulse = currentWeather == WeatherType.Snowstorm;
-                break;
-            case ClothingType.WinterCoat:
-                shouldPulse = currentWeather == WeatherType.Heatwave;
-                break;
-        }
-
-        // Apply pulsing effect
         if (shouldPulse)
         {
-            // Calculate pulsing alpha
+            // Calculate pulsing alpha using PingPong
             var alpha = Mathf.PingPong(Time.time * pulseSpeed, pulseIntensity);
 
-            // Set outline color with pulsing effect
-            outlineComponent.effectColor = new Color(
+            // Apply warning color with pulsing alpha
+            outlineColor = new Color(
                 warningPulseColor.r,
                 warningPulseColor.g,
                 warningPulseColor.b,
@@ -198,14 +181,12 @@ public class ClothingDisplayManager : MonoBehaviour
         }
         else
         {
-            // Reset outline when no pulsing is needed
-            outlineComponent.effectColor = new Color(
-                outlineComponent.effectColor.r,
-                outlineComponent.effectColor.g,
-                outlineComponent.effectColor.b,
-                0
-            );
+            // Reset outline to be invisible when no warning needed
+            outlineColor.a = 0;
         }
+
+        // Only update the color if it changed to avoid unnecessary operations
+        if (outlineComponent.effectColor != outlineColor) outlineComponent.effectColor = outlineColor;
     }
 
     /// <summary>
@@ -216,10 +197,11 @@ public class ClothingDisplayManager : MonoBehaviour
     {
         if (clothingTipText == null) return;
 
-        // If no inappropriate clothing and no specific message, show default
+        // If no specific message and player has clothing, show default removal message
         if (string.IsNullOrEmpty(message) && currentClothing != ClothingType.None) message = "Press Tab to remove";
 
-        clothingTipText.text = message;
+        // Only update the text component if the message has changed
+        if (clothingTipText.text != message) clothingTipText.text = message;
     }
 
     /// <summary>
@@ -228,18 +210,11 @@ public class ClothingDisplayManager : MonoBehaviour
     private void HandleClothingRemoval()
     {
         // Check for Tab key press to remove clothing
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && currentClothing != ClothingType.None && playerPickupSounds != null)
         {
-            // Play sound based on current clothing before removing
-            switch (currentClothing)
-            {
-                case ClothingType.TShirt:
-                    playerPickupSounds.PlayPickupSound("TShirt");
-                    break;
-                case ClothingType.WinterCoat:
-                    playerPickupSounds.PlayPickupSound("WinterCoat");
-                    break;
-            }
+            // Play sound based on current clothing
+            var soundName = currentClothing == ClothingType.TShirt ? "TShirt" : "WinterCoat";
+            playerPickupSounds.PlayPickupSound(soundName);
 
             // Reset clothing to None
             playerTemp.ApplyClothingResistance(ClothingType.None);

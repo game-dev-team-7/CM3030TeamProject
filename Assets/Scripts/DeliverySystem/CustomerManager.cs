@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+
 //Required for NavMesh
 
 /// <summary>
